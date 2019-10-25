@@ -17,7 +17,6 @@ module.exports = {
       '/banner': {
         // target: 'http://localhost:3000/mock/11'
         target: 'http://127.0.0.1:7777'
-
       },
       '/api/cms': {
         target: 'http://localhost:31001',
