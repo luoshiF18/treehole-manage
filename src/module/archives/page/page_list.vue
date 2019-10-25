@@ -31,16 +31,18 @@
         </el-table-column>
         <el-table-column prop="scaleName" label="量表名称" width="120">
         </el-table-column>
-        <el-table-column prop="userId" label="用户id" width="120">
-        </el-table-column>
-        <el-table-column prop="user_nickname" label="user_nickname" width="120">
-        </el-table-column>
         <el-table-column label="操作" width="300">
           <template slot-scope="page">
-            <el-button
-              size="small"type="text"
-              @click="edit(page.row.pageId)">编辑
-            </el-button>
+            <router-link tag="span" :to="{path:'/archives/page/detail',query:{
+                         userId:page.row.userId,
+                         scaleName:page.row.scaleName
+                         }}">
+              <el-button
+                size="small"type="text"
+                @click="look(page.row.userId,page.row.scaleName)">详情
+              </el-button>
+            </router-link>
+
             <!--
               slot-scope="page"
               slot-scope是一个插槽,拿外面的数据,就是一行的数据
@@ -53,14 +55,6 @@
             <el-button
               size="small"type="text"
               @click="del(page.row.pageId)">删除
-            </el-button>
-            <el-button
-              @click="preview(page.row.pageId)"
-              type="text"
-              size="small">页面预览
-            </el-button>
-            <el-button
-              size="small" type="primary" plain @click="postPage(page.row.pageId)">发布
             </el-button>
           </template>
         </el-table-column>
@@ -89,7 +83,7 @@
         total: 0,
         params: {  //这里和上面的查询表单做了双向绑定
           page:1,
-          size:10,
+          size:8,
           userId: '2',
           scaleName: '生活事件量表'
         },
@@ -103,12 +97,9 @@
       query:function () {  //查询页面列表
         // alert('查询')
         //调用服务端的接口
-
         archivesApi.page_list(this.params.page,this.params.size,this.reque).then((res)=>{
-          alert("123")
             //将res结果数据赋值给数据模型对象
             this.list = res.queryResult.list;
-            alert(this.list)
             this.total = res.queryResult.total;
         })
       },
@@ -124,8 +115,10 @@
         //调用query方法
         this.query();
       },
-      //页面修改
-      edit:function (pageId) {
+      //档案查看
+      look:function (userId,scaleName) {
+        alert(userId)
+        alert(scaleName)
         //打开修改页面
         this.$router.push({
           path: '/cms/page/edit/'+pageId
@@ -145,26 +138,6 @@
             }
           })
         })
-      },
-      //页面预览
-      preview:function (pageId) {
-        //打开浏览器窗口
-        window.open("http://www.xuecheng.com/cms/preview/"+pageId);
-      },
-      postPage:function (pageId) {
-        this.$confirm('确认发布该页面吗?', '提示', {
-        }).then(() => {
-          cmsApi.page_postPage(pageId).then((res) => {
-            if(res.success){
-              console.log('发布页面id='+pageId);
-              this.$message.success('发布成功，请稍后查看结果');
-            }else{
-              this.$message.error('发布失败');
-            }
-          });
-        }).catch(() => {
-
-        });
       }
     },
     created(){
@@ -174,9 +147,7 @@
     },
     mounted() {
       //当dom元素全部渲染完成后,调用query
-      alert("456")
       this.query();
-      alert("789")
       //this.querySite();
     }
   }
