@@ -22,7 +22,9 @@
         </el-col>
       </el-form>
 
-
+      <el-form>
+        <el-button type="primary">查询按钮</el-button>
+      </el-form>
 
       <el-table style="width: 100%">
         <el-table-column type="selection" width="55"></el-table-column>
