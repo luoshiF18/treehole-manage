@@ -5,7 +5,7 @@
 const path = require('path')
 var proxyConfig = require('./proxyConfig')
 let sysConfig = require('./sysConfig')
-let xcApiUrl = sysConfig.xcApiUrl
+let xcApiUrl = sysConfig.thApiUrlPre
 module.exports = {
   dev: {
 
@@ -17,7 +17,6 @@ module.exports = {
       '/banner': {
         // target: 'http://localhost:3000/mock/11'
         target: 'http://127.0.0.1:7777'
-
       },
       '/api/cms': {
         target: 'http://localhost:31001',
@@ -26,7 +25,15 @@ module.exports = {
         }
         //target: 'http://127.0.0.1:50201'
 
+      },
+      '/api/archives': {
+      target: 'http://localhost:40100',
+        pathRewrite: {
+        '^/api': ''  //将/api转换成''空字符串
       }
+        //target: 'http://127.0.0.1:50201'
+
+      },
       /*,
       '/ucenter': {
         // target: 'http://localhost:3000/mock/11'
