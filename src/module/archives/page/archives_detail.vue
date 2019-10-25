@@ -3,8 +3,6 @@
       <h1><{{}}>测评档案</h1>
       <div></div>
     </div>
-
-
 </template>
 
 
