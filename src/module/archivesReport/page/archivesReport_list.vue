@@ -29,13 +29,20 @@
         style="width: 100%">
         <el-table-column type="index" width="60">
         </el-table-column>
+        <el-table-column prop="user_nickname" label="登录名" width="120">
+        </el-table-column>
+        <el-table-column prop="userName" label="姓名" width="120">
+        </el-table-column>
+        <el-table-column prop="role_name" label="用户类型" width="120">
+        </el-table-column>
         <el-table-column prop="scaleName" label="量表名称" width="120">
+        </el-table-column>
+        <el-table-column prop="create_date" label="提交时间" width="120">
         </el-table-column>
         <el-table-column label="操作" width="300">
           <template slot-scope="page">
-            <router-link tag="span" :to="{path:'/archives/page/detail',query:{
-                         userId:page.row.userId,
-                         scaleName:page.row.scaleName
+            <router-link tag="span" :to="{path:'/archivesReport/page/detail',query:{
+                         resultId:page.row.id
                          }}">
               <el-button
                 size="small"type="text">详情
@@ -72,7 +79,7 @@
 
 </template>
 <script>
-  import * as archivesApi from '../api/archives.js'
+  import * as archivesReportApi from '../api/archivesReport.js'
 
   export default {
     data() {
@@ -96,31 +103,18 @@
       query:function () {  //查询页面列表
         // alert('查询')
         //调用服务端的接口
-        archivesApi.archivesList_list(this.params.page,this.params.size,this.reque).then((res)=>{
-            //将res结果数据赋值给数据模型对象
-            this.list = res.queryResult.list;
-            this.total = res.queryResult.total;
+        archivesReportApi.archivesReport_list(this.params.page,this.params.size).then((res)=>{
+          //将res结果数据赋值给数据模型对象
+          this.list = res.queryResult.list;
+          this.total = res.queryResult.total;
         })
-      },
-      querySite:function(){  //查询站点
-        cmsApi.page_site().then((res)=>{
-          //将res结果数据赋值给模型对象
-          this.siteList = res.queryResult.list;
-        })
-      },
-      changePage:function (currentPage) {  //形参就是当前页码
-        //
-        this.params.page = currentPage;
-        //调用query方法
-        this.query();
       },
       //档案查看
-      look:function (userId,scaleName) {
-        alert(userId)
-        alert(scaleName)
+      look:function (resultId) {
+        alert(resultId);
         //打开修改页面
         this.$router.push({
-          path: '/cms/page/edit/'+pageId
+          path: '/archivesReport/page/detail/'+resultId
         })
       },
       //页面删除
