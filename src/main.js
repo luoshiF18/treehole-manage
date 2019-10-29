@@ -12,9 +12,12 @@ import Vuex from 'vuex'
 import utilApi from './common/utils';
 // import Mock from './mock'
 // Mock.bootstrap();
+import echarts from 'echarts'
 
 
 Vue.config.productionTip = false
+
+Vue.prototype.$echarts = echarts
 
 // 在Vue中全局使用mintui
 Vue.use(ElementUI)
