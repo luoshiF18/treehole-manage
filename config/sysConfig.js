@@ -4,6 +4,7 @@ var sysConfig = {
     imgUrl:'http://img.xuecheng.com/',
     videoUrl:'http://video.xuecheng.com/',
     archiveUrl:'http://localhost:40100',
+    warningUrl: 'http://localhost:40200',
     thApiUrlPre: '/api',
     openAuthenticate:true,
     openAuthorize:true
