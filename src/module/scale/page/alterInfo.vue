@@ -112,20 +112,22 @@
           </el-form-item>
           <el-form-item>
             <!--            <el-button type="primary" @click="onSubmit">提交</el-button>-->
-            <el-button type="primary" @click.native="onSubmit" :loading="addLoading">创建量表</el-button>
+            <el-button type="primary" @click.native="onSubmit" :loading="addLoading">修改量表</el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-card>
   </div>
 </template>
+
 <script>
     import * as scaleApi from '../api/scaleApi'
 
     export default {
-        name: 'add',
+        name: 'alterInfo',
         data() {
             return {
+                scaleId: '',
                 addLoading: false,//加载效果标记
                 type: [],
                 params: {
@@ -178,6 +180,11 @@
             }
         },
         methods: {
+            queryDetail: function () {
+                scaleApi.scale_detail(this.scaleId).then((res) => {
+                    this.params = res.scaleDetail;
+                })
+            },
             queryTypeName: function () {
                 //查询搜有分类
                 scaleApi.type_list().then((res) => {
@@ -206,17 +213,16 @@
                 this.$refs.params.validate((valid) => {
                     if (valid) {
                         //确认提示
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                        this.$confirm('确认修改吗？', '提示', {}).then(() => {
                             this.addLoading = true;
                             setTimeout(this.timeOut, 8000)
-                            scaleApi.scale_create(this.params).then((res) => {
+                            scaleApi.scale_alterInfo(this.params).then((res) => {
                                 this.addLoading = false;
                                 //    解析响应内容
                                 if (res.success) {
                                     this.$message.success('提交成功！');
                                     //进行下一步，添加问题和选项
                                     // this.next2();
-                                    setTimeout(this.next2, 1000)
                                 } else {
                                     this.$message.error(res.message);
                                 }
@@ -233,33 +239,14 @@
                     path: '/scale/page/list'
                 });
             },
-            //添加新量表
-            next1: function () {
-                this.$confirm('新增量表中途退出将删除已添加内容。', '提示', {
-                    cancelButtonText: '取消',
-                    confirmButtonText: '确定',
-                    type: 'info'
-                }).then(() => {
-                    this.$notify.info({
-                        title: '提示',
-                        message: '开始新增量表',
-                        showClose: false,
-                    });
-                }).catch(() => {
-                    //返回列表页面
-                    this.$router.push({
-                        path: '/scale/page/list/'
-                    })
-                });
-            },
         },
         mounted() {
             //查询所有分类
             this.queryTypeName();
         },
         created() {
-            //    调用提示
-            this.next1();
+            this.scaleId = this.$route.query.scaleId;
+            this.queryDetail();
         }
     }
 </script>
