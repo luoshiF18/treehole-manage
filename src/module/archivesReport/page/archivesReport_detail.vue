@@ -1,7 +1,7 @@
 <template>
   <div class="wid">
 
-    <h1>《{{resultExt.scaleName}}》测评报告</h1>
+    <h1>《<span v-text="resultExt.scaleName"> </span>》测评报告</h1>
     <div class="piece">
       <table>
         <tr>
@@ -74,14 +74,14 @@
     <div class="piece">
       <h3>三.原始答卷</h3>
       <el-table
-        :data="resultTinies"
+        :data="resuAnswers"
         stripe
         style="width: 100%">
-        <el-table-column type="index" width="60">
+        <el-table-column prop="sort" label="题号" width="100">
         </el-table-column>
-        <el-table-column prop="scaleName" label="问题" width="120">
+        <el-table-column prop="question" label="问题" width="300">
         </el-table-column>
-        <el-table-column prop="scaleName" label="用户答案" width="120">
+        <el-table-column prop="answer" label="用户答案" width="800">
         </el-table-column>
       </el-table>
     </div>
@@ -93,16 +93,21 @@
 
 <script>
   import * as archivesApi from '../api/archivesReport.js'
-
+  import { Loading } from 'element-ui';
 
   export default {
     data() {
       return {
-        resultTinies: [], //历次作答记录
+        resuAnswers: [], //历次作答记录
         resultExt: {},
         reque:{
           resultId: '',
-        }
+        },
+        echartData:{
+          xData: ['总评'],
+          yData: [null]
+        },
+        fullscreen: true
       }
     },
     methods:{
@@ -112,60 +117,70 @@
         archivesApi.query_archivesExt(this.reque.resultId).then((res)=>{
           //将res结果数据赋值给数据模型对象
           this.resultExt = res;
-          console.log(this.archivesExt);
+          this.echartData.yData[0] = this.resultExt.score;
+          this.resuAnswers = res.questionAndOption;
+
+          //分数数组
+          // for (var i= 1;i<=this.resultExt)
+
+          const myLine = this.$echarts.init(this.$refs.myLine);
+          myLine.setOption(
+            {
+              title: {
+                text: '',   //图表顶部的标题
+                subtext: '分数'    //副标题
+              },
+              tooltip: {   //鼠标悬浮框的提示文字
+                trigger: 'axis'
+              },
+              legend: {
+                data: [ '总分']
+              },
+              xAxis: [{  //x轴坐标数据
+                type: 'category',
+                boundaryGap: false,
+                data: this.echartData.xData
+              }],
+              yAxis: [{   //y轴坐标数据
+                type: 'value',
+                axisLabel: {
+                  formatter: '{value} '
+                }
+              }],
+              series: [  //驱动图表生成的数据内容数组，几条折现，数组中就会有几个对应对象，来表示对应的折线
+                {
+                  name: "总分",
+                  type: "line",  //pie->饼状图  line->折线图  bar->柱状图
+                  itemStyle : {
+                    normal : {
+                      lineStyle:{
+                        color:'#000000'
+                      }
+                    }
+                  },
+                  data: this.echartData.yData,
+                }
+              ]
+            }
+          );
+
         })
+        this.fullscreen = false;
+        let loadingInstance = Loading.service(this.fullscreen);
+        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+          loadingInstance.close();
+        });
       },
     },
     created(){
       //取出路由中的参数,赋值给数据对象
       this.reque.resultId = this.$route.query.resultId || '';
+
     },
     mounted() {
-
+      Loading.service(this.fullscreen);
       //当dom元素全部渲染完成后,调用query
       this.queryArchivesExt();
-      //this.querySite();
-      //以下三步即可完成echarts的初始化使用,代码注释的详解别忘了看看
-      const myLine = this.$echarts.init(this.$refs.myLine);
-      myLine.setOption(
-        {
-          title: {
-            text: '生活事件量表',   //图表顶部的标题
-            subtext: '纯属虚构'    //副标题
-          },
-          tooltip: {   //鼠标悬浮框的提示文字
-            trigger: 'axis'
-          },
-          legend: {
-            data: [ '总分']
-          },
-          xAxis: [{  //x轴坐标数据
-            type: 'category',
-            boundaryGap: false,
-            data: ['第一次', '第二次']
-          }],
-          yAxis: [{   //y轴坐标数据
-            type: 'value',
-            axisLabel: {
-              formatter: '{value} '
-            }
-          }],
-          series: [  //驱动图表生成的数据内容数组，几条折现，数组中就会有几个对应对象，来表示对应的折线
-            {
-              name: "总分",
-              type: "line",  //pie->饼状图  line->折线图  bar->柱状图
-              itemStyle : {
-                normal : {
-                  lineStyle:{
-                    color:'#000000'
-                  }
-                }
-              },
-              data: [26,13.5],
-            }
-          ]
-        }
-      );
     }
   }
 </script>
