@@ -19,3 +19,11 @@ export const query_archivesExt = (params) =>{
   return http.requestQuickGet(apiUrl+'/archives/person/detail'+'?'+queryString);
 }
 
+
+//用户档案列表查询
+export const allUser_list = (page,size,params) =>{
+  //将params对象数据拼装成key/value串
+  let queryString = querystring.stringify(params);
+  //请求服务端的页面查询接口
+  return http.requestQuickGet(apiUrl+'/uservo/getAllUserVos/'+page+'/'+size+'?'+queryString);
+}

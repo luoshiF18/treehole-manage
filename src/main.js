@@ -14,7 +14,14 @@ import utilApi from './common/utils';
 // Mock.bootstrap();
 import echarts from 'echarts'
 
-
+import htmlToPdf from "../src/common/htmlToPdf"
+// //导出
+// import Blob from "./excel/Blob.js"
+// import Export2Excel from "./excel/Export2Excel.js"
+//
+// Vue.use(Blob)
+// Vue.use(Export2Excel)
+Vue.use(htmlToPdf)
 Vue.config.productionTip = false
 
 Vue.prototype.$echarts = echarts

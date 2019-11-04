@@ -9,23 +9,63 @@
       </el-form>
       <el-table
         :data="list"
+        v-loading="loading"
         stripe
         style="width: 100%">
         <el-table-column type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column prop="scaleName" label="量表名称" width="300">
+        <el-table-column prop="user_nickname" label="用户名" width="300">
+        </el-table-column>
+        <el-table-column prop="role_name" label="用户类型" width="300">
+        </el-table-column>
+        <el-table-column prop="user_phone" label="手机号" width="300">
+        </el-table-column>
+        <el-table-column prop="user_qq" label="qq" width="300">
+        </el-table-column>
+        <el-table-column prop="company_id" label="公司" width="300">
         </el-table-column>
         <el-table-column label="操作" width="300">
           <template slot-scope="page">
-            <router-link tag="span" :to="{path:'/archives/page/detail',query:{
+              <el-button
+                size="small"type="info" @click="lookArchives(page.row.user_id)">查看用户档案
+              </el-button>
+            <el-dialog title="用户测评档案" :visible.sync="dialogTableVisible">
+              <el-table
+                :data="oneUserList"
+                v-loading="oneloading"
+                stripe>
+                <el-table-column type="index" label="序号" width="60">
+                </el-table-column>
+                <el-table-column prop="scaleName" label="量表名称" width="300">
+                </el-table-column>
+                <el-table-column label="操作" width="300">
+                  <template slot-scope="page">
+                    <router-link tag="span" :to="{path:'/archives/page/detail',query:{
                          userId:page.row.userId,
                          scaleName:page.row.scaleName
                          }}">
-              <el-button
-                size="small"type="info">详情
-              </el-button>
-            </router-link>
+                      <el-button
+                        size="small"type="info">详情
+                      </el-button>
+                    </router-link>
 
+                    <!--
+                      slot-scope="page"
+                      slot-scope是一个插槽,拿外面的数据,就是一行的数据
+                      page.row.pageId 拿到行的数据中的pageId
+
+                      注意:
+                      slot-scope="A"  @click="edit(B.row.pageId)
+                      A和B需要保持一致
+                    -->
+                    <el-button
+                      size="small"type="danger"
+                      @click="del(page.row.pageId)">删除
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-dialog>
             <!--
               slot-scope="page"
               slot-scope是一个插槽,拿外面的数据,就是一行的数据
@@ -42,6 +82,7 @@
           </template>
         </el-table-column>
       </el-table>
+
       <el-pagination
         layout="prev, pager, next"
         :total="total"
@@ -50,8 +91,6 @@
         @current-change="changePage"
         style="float: right;">
       </el-pagination>
-
-
     </div>
   </div>
 
@@ -62,34 +101,43 @@
   export default {
     data() {
       return {
-        siteList: [],//量表列表
+        dialogTableVisible: false,
         list: [],
         total: 0,
         params: {  //这里和上面的查询表单做了双向绑定
           page:1,
-          size:5
+          size:5,
         },
+        loading: true,
+        oneloading: true,
         reque:{
-          userId: '2'
+          user_id: '',
+          user_nickname: '',
+          user_phone: ''
         },
-        drawer: false,
-        direction: 'rtl'
+        oneUser:{
+          userId: ''
+        },
+        oneUserList: []
       }
     },
     methods:{
       query:function () {  //查询页面列表
         // alert('查询')
         //调用服务端的接口
-        archivesApi.archivesList_list(this.params.page,this.params.size,this.reque).then((res)=>{
+        archivesApi.allUser_list(this.params.page,this.params.size,this.reque).then((res)=>{
             //将res结果数据赋值给数据模型对象
             this.list = res.queryResult.list;
             this.total = res.queryResult.total;
+            this.loading = false;
         })
       },
-      querySite:function(){  //查询站点
-        cmsApi.page_site().then((res)=>{
-          //将res结果数据赋值给模型对象
-          this.siteList = res.queryResult.list;
+      queryOneUser:function () {  //查询页面列表
+        // alert('查询')
+        //调用服务端的接口
+        archivesApi.archivesList_list(this.params.page,1000000,this.oneUser).then((res)=>{
+          //将res结果数据赋值给数据模型对象
+          this.oneUserList = res.queryResult.list;
         })
       },
       changePage:function (currentPage) {  //形参就是当前页码
@@ -99,12 +147,13 @@
         this.query();
       },
       //档案查看
-      look:function (userId,scaleName) {
-        alert(userId)
-        alert(scaleName)
-        //打开修改页面
-        this.$router.push({
-          path: '/cms/page/edit/'+pageId
+      lookArchives:function (userId) {
+        this.dialogTableVisible = true
+        this.oneUser.userId = userId
+        archivesApi.archivesList_list(1,1000000,this.oneUser).then((res)=>{
+          //将res结果数据赋值给数据模型对象
+          this.oneUserList = res.queryResult.list;
+          this.oneloading = false;
         })
       },
       //页面删除
@@ -121,13 +170,6 @@
             }
           })
         })
-      },
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
       }
     },
     created(){
