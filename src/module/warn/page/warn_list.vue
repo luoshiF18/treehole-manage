@@ -3,13 +3,16 @@
       <h1>预警列表</h1>
       <el-form ref="form" :model="params" label-width="80px">
       <el-row :gutter="20">
-        <el-col :span="4">
-          <el-date-picker type="date" placeholder="选择日期" v-model="params.date1" style="width: 100%;"></el-date-picker>
-        </el-col>
-        <el-col class="line" :span="1">到</el-col>
-        <el-col :span="4">
-          <el-date-picker type="date" placeholder="选择日期" v-model="params.date2" style="width: 100%;"></el-date-picker>
-        </el-col>
+        <el-date-picker
+          v-model="params.date2"
+          type="daterange"
+          align="left"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions">
+        </el-date-picker>
         <el-col class="col" :span="4">
           <el-input  v-model="params.userNickName" placeholder="登录名">
           </el-input>
@@ -19,10 +22,10 @@
         </el-col>
         <el-col :span="3">
           <el-select v-model="params.warningLevel" placeholder="预警等级">
-            <el-option label="二" value="2"></el-option>
-            <el-option label="三" value="3"></el-option>
-            <el-option label="四" value="4"></el-option>
-            <el-option label="五" value="5"></el-option>
+            <el-option label="关注" value="2"></el-option>
+            <el-option label="追踪" value="3"></el-option>
+            <el-option label="高危" value="4"></el-option>
+            <el-option label="警戒" value="5"></el-option>
           </el-select>
         </el-col>
         <el-col :span="2">
@@ -42,7 +45,11 @@
         <el-table-column align="center" type="selection" width="55"></el-table-column>
         <el-table-column align="center" prop="userNickName" label="登录名"></el-table-column>
         <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
-        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别">
+          <template slot-scope="scope">
+            {{ scope.row.sex === 0 ? '男' : '女' }}
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="scaleName" label="量表名称"></el-table-column>
         <el-table-column align="center" prop="warningLevel" label="预警等级"></el-table-column>
         <el-table-column align="center" prop="createTime" label="提交时间" :formatter="dateFormat"></el-table-column>
@@ -80,16 +87,42 @@
         name: 'warn_list',
         data() {
             return {
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
                 list: [],
                 total: 0,
                 params: {
                     page:1,
                     size:10,
-                    date1:'',
-                    date2:'',
                     userNickName:'',
                     scaleName:'',
-                    warningLevel:''
+                    warningLevel:'',
+                    date2:''
                 },
                 delarr:[], //存放删除的数据
                 multipleSelection:[], //多选的数据
@@ -180,12 +213,6 @@
         mounted(){
             this.query();
         },
-        filters: {
-            formatDate(time) {
-                var date = new Date(time);
-                return formatdate(date, 'yyyy-MM-dd hh:mm:ss');  // 此处可根据自己的需要自定义想要的日期格式
-            }
-        }
     }
 </script>
 <style scoped>
