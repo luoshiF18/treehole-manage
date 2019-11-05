@@ -19,6 +19,14 @@ module.exports = {
         target: 'http://127.0.0.1:7777'
 
       },
+      '/api/cms': {
+        target: 'http://localhost:31001',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
       '/api/psychologist': {
         target: 'http://localhost:40500',
         pathRewrite: {
@@ -26,7 +34,7 @@ module.exports = {
         }
         //target: 'http://127.0.0.1:50201'
 
-      }
+      },
       /*,
       '/ucenter': {
         // target: 'http://localhost:3000/mock/11'
