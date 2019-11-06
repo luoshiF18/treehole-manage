@@ -21,21 +21,39 @@
       <el-form-item>
         <el-button type="primary" v-on:click="query">查询</el-button>
       </el-form-item>
+      <el-form-item>
+        <!--query用来取出数据模型中的参数放到url地址栏，带参传递-->
+        <router-link :to="{path:'/psychologist/profile/add/',query:{
+          page:this.params.page,
+          name:this.params.name,
+          sex:this.params.sex,
+          qualification:this.params.qualification
+        }}">
+          <el-button type="primary">新增</el-button>
+        </router-link>
+      </el-form-item>
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
+      <el-table-column type="index" label="序号" width="50"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="80"></el-table-column>
+      <el-table-column prop="sex" label="性别" width="80"></el-table-column>
+      <el-table-column prop="age" label="年龄" width="80"></el-table-column>
       <el-table-column prop="id" label="id" width="60"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="100"></el-table-column>
-      <el-table-column prop="age" label="年龄" width="100"></el-table-column>
       <el-table-column prop="region" label="地区" width="120"></el-table-column>
-      <el-table-column prop="qualification" label="资质" width="150"></el-table-column>
+      <el-table-column prop="qualification" label="专业资质" width="150"></el-table-column>
       <el-table-column prop="introduction" label="自我介绍" width="180"></el-table-column>
-      <el-table-column prop="proficiency" label="擅长领域" width="170"></el-table-column>
-      <el-table-column prop="studio" label="工作室" width="100"></el-table-column>
+      <el-table-column prop="proficiency" label="擅长领域" width="180"></el-table-column>
+      <el-table-column prop="studio" label="工作室" width="170"></el-table-column>
       <el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="130"></el-table-column>
       <el-table-column prop="updateTime" label="信息更新时间" width="130"></el-table-column>
+      <el-table-column label="操作" width="100">
+        <template slot-scope="page">
+          <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
+          <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!--分页组件-->
     <el-pagination
@@ -72,7 +90,7 @@
       //查询所有
       query: function () {
         //res为服务端的数据，是一个形参，名字任意
-        psychologistApi.psychologist_list(this.params.page, this.params.size, this.params).then((res) => {
+        psychologistApi.profile_list(this.params.page, this.params.size, this.params).then((res) => {
           //将res服务端数据赋值给数据模型对象
           this.total = res.queryResult.total
           this.list = res.queryResult.list
@@ -83,7 +101,36 @@
         //调用当前实例的query方法
         this.params.page = page;
         this.query()
+      },
+      //打开修改页面
+      edit: function (id) {
+        this.$router.push({
+          path: '/psychologist/profile/edit/' + id
+        })
+      },
+      //删除记录
+      del: function (id) {
+        this.$confirm('您确认提交吗?', '提示', {}).then(() => {
+          //调用服务端接口
+          psychologistApi.profile_del(id).then(res => {
+            if (res.success) {
+              this.$message.success("删除成功！")
+              //刷新页面
+              this.query()
+            } else {
+              this.$message.error("删除失败！")
+            }
+          })
+        })
       }
+    },
+    //钩子函数，DOM元素还未渲染就调用
+    created() {
+      //取出url中的参数，赋值给数据对象，由于page为字符串，需要转换为int，如果page为空，则默认为转换为1
+      this.params.page = Number.parseInt(this.$route.query.page || 1)
+      this.params.name = this.$route.query.name || ''
+      this.params.sex = this.$route.query.sex || ''
+      this.params.qualification = this.$route.query.qualification || ''
     },
     //钩子函数，DOM元素渲染完成后调用，定义在methods之后
     mounted() {
