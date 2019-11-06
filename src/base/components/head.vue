@@ -22,12 +22,15 @@
        </el-dropdown>-->
 
         <div class="nav">
-
             <div class="usermenu" >
-              <span class="el-dropdown-link userinfo-inner"><img :src="this.user.sysUserImg!=null?this.user.sysUserImg:'/static/images/small.jpg'"/></span>
+              <span class="el-dropdown-link userinfo-inner">
+                <img :src="this.user.sysUserImg!=null?this.user.sysUserImg:'/static/images/small.jpg'"/>
+              </span>
               欢迎您：{{user.username}}
               <a href="http://www.xuecheng.com" target="_blank"><i class="el-icon-star-on"></i>首页</a>
-              <a href="javascript:;" @click="logout" :loading="editLoading"><i class="el-icon-circle-close"></i>退出</a>
+              <a href="javascript:;" @click="logout" :loading="editLoading">
+                <i class="el-icon-circle-close"></i>退出
+              </a>
             </div>
           </div>
       </el-col>

@@ -1,7 +1,6 @@
 <template>
   <!--编写页面静态部分，即view部分-->
   <div>
-
     <el-form   :model="pageForm" label-width="80px"  :rules="pageFormRules" ref="pageForm">
       <el-form-item label="所属站点" prop="siteId">
         <el-select v-model="pageForm.siteId" placeholder="请选择站点">
@@ -26,18 +25,15 @@
       <el-form-item label="页面名称" prop="pageName">
         <el-input v-model="pageForm.pageName" auto-complete="off" ></el-input>
       </el-form-item>
-      ​
-      <el-form-item label="别名" prop="pageAliase">
+      <el-form-item label="别名"     prop="pageAliase">
         <el-input v-model="pageForm.pageAliase" auto-complete="off" ></el-input>
       </el-form-item>
       <el-form-item label="访问路径" prop="pageWebPath">
         <el-input v-model="pageForm.pageWebPath" auto-complete="off" ></el-input>
       </el-form-item>
-      ​
       <el-form-item label="物理路径" prop="pagePhysicalPath">
         <el-input v-model="pageForm.pagePhysicalPath" auto-complete="off" ></el-input>
       </el-form-item>
-      ​
       <el-form-item label="类型">
         <el-radio-group v-model="pageForm.pageType">
           <el-radio class="radio" label="0">静态</el-radio>
@@ -47,18 +43,17 @@
       <el-form-item label="创建时间">
         <el-date-picker type="datetime" placeholder="创建时间" v-model="pageForm.pageCreateTime"></el-date-picker>
       </el-form-item>
-      ​
     </el-form>
+
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="addSubmit" >提交</el-button>
       <el-button type="primary" @click="go_back" >返回</el-button>
     </div>
 
   </div>
-
 </template>
 <script>
-  import * as cmsApi from '../api/cms'
+  import * as userApi from '../api/user'
   export default {
     data() {
       return {
@@ -96,13 +91,13 @@
     },
     methods:{
       querySite:function(){  //查询站点
-        cmsApi.page_site().then((res)=>{
+        userApi.page_site().then((res)=>{
           //将res结果数据赋值给模型对象
           this.siteList = res.queryResult.list;
         })
       },
       queryTemplate:function(){  //查询站点
-        cmsApi.page_template().then((res)=>{
+        userApi.page_template().then((res)=>{
           //将res结果数据赋值给模型对象
           this.templateList = res.queryResult.list;
         })
@@ -112,7 +107,7 @@
           if (valid) {  //表单校验成功
             this.$confirm('你确认提交吗?', '提示', {}).then(() => {
               //调用page_add方法请求服务端的新增页面接口
-              cmsApi.page_add(this.pageForm).then(res=>{
+              userApi.page_add(this.pageForm).then(res=>{
                 //解析服务端的响应内容
                 if (res.success) {
                   this.$message.success('提交成功')
@@ -128,16 +123,22 @@
           }
         })
       },
+      // 返回按钮
       go_back:function () {
+        // 获取当前路由
         this.$router.push({
-          path:'/cms/page/list',
+          path:'/User/page/list',
           query:{
-            page: this.$route.query.page, //取出路由中的参数
+            page: this.$route.query.page, // 取出路由中的参数
             siteId: this.$route.query.siteId
           }
         })
       }
     },
+    /*created() {  // 取出路由中的参数 赋值给数据对象
+      this.params.page = Number.parseInt(this.$route.query.page || 1)
+      this.params.siteId = this.$route.query.siteId || ' '
+    },*/
     mounted() {
       this.querySite();
       this.queryTemplate();

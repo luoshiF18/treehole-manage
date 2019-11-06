@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <el-form   :model="pageForm" label-width="80px" :rules="pageFormRules" ref="pageForm" >
       <el-form-item label="所属站点" prop="siteId">
@@ -54,10 +55,13 @@
       <el-button type="primary" @click.native="editSubmit" :loading="addLoading">提交</el-button>
     </div>
   </div>
+
 </template>
+
 <script>
-  import * as cmsApi from '../api/cms'
+  import * as userApi from '../api/user'
   export default{
+
     data(){
       return {
         //页面id
@@ -65,8 +69,7 @@
         //模版列表
         templateList:[],
         addLoading: false,//加载效果标记
-        //新增界面数据
-        pageForm: {
+        pageForm: { //新增界面数据
           siteId:'',
           templateId:'',
           pageName: '',
@@ -100,20 +103,20 @@
     },
     methods:{
       querySite:function(){  //查询站点
-        cmsApi.page_site().then((res)=>{
+        userApi.page_site().then((res)=>{
           //将res结果数据赋值给模型对象
           this.siteList = res.queryResult.list;
         })
       },
       queryTemplate:function(){  //查询站点
-        cmsApi.page_template().then((res)=>{
+        userApi.page_template().then((res)=>{
           //将res结果数据赋值给模型对象
           this.templateList = res.queryResult.list;
         })
       },
       go_back(){
         this.$router.push({
-          path: '/cms/page/list', query: {
+          path: '/User/page/list', query: {
             page: this.$route.query.page,
             siteId:this.$route.query.siteId
           }
@@ -125,7 +128,7 @@
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
               this.addLoading = true;
               //修改提交请求服务端的接口
-              cmsApi.page_edit(this.pageId,this.pageForm).then((res) => {
+              userApi.page_edit(this.pageId,this.pageForm).then((res) => {
                   console.log(res);
                 if(res.success){
                   this.addLoading = false;
@@ -148,7 +151,8 @@
 
     },
     created: function () {
-      this.pageId=this.$route.params.pageId;  //取出路由中的pageId 这个pageId要和index.js中定义的'/cms/page/edit/:pageId'中pageId保持一致
+      //取出路由中的pageId 这个pageId要和index.js中定义的'/User/page/edit/:pageId'中pageId保持一致
+      this.pageId=this.$route.params.pageId;
       /**
        * 在这里使用的是 $route.params来获取路由中的信息,还有一种是$route.query来获取路由中的信息
        * 有什么区别? 应用场景各自又是什么?
@@ -158,7 +162,7 @@
 
 
       //根据主键查询页面信息
-      cmsApi.page_get(this.pageId).then((res) => {
+      userApi.page_get(this.pageId).then((res) => {
         console.log(res);
         if(res){
           this.pageForm = res;
@@ -171,6 +175,7 @@
     }
   }
 </script>
+
 <style>
 
 </style>

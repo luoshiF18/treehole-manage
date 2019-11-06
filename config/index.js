@@ -51,7 +51,7 @@ module.exports = {
         target: 'http://127.0.0.1:50201'
       },
 
-      '/cms/!*': {//cms管理
+      '/User/!*': {//cms管理
         //target: 'http://127.0.0.1:31001'
         target: 'http://127.0.0.1:50201'
 
@@ -88,7 +88,7 @@ module.exports = {
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 11000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-

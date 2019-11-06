@@ -5,7 +5,7 @@ export default [{
     name: '系统管理首页',
     hidden: true
     // ,
-    // redirect: '/home',
+    // redirect: '/home', // 重定向 重定向路径的path参数
     // children: [
     //   {path: 'home', component: Home}
     // ]
