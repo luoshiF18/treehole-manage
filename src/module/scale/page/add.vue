@@ -196,7 +196,7 @@
             next2: function () {
                 //打开修改页面
                 this.$router.push({
-                    path: '/scale/page/editOpt/', query: {  //TODO 改成问题和选项那个页面
+                    path: '/scale/page/editOpt/', query: {
                         scaleName: this.params.scaleName
                     }
                 })
