@@ -1,7 +1,7 @@
 <template>
   <div>
     <br>
-    <el-button type="primary" icon="el-icon-back" @click="go_back">返回列表</el-button>
+    <el-button type="primary" icon="el-icon-back" @click="go_back">返回列表详情</el-button>
     <br>
     <br>
     <el-card>
@@ -203,8 +203,8 @@
             next2: function () {
                 //打开修改页面
                 this.$router.push({
-                    path: '/scale/page/editDes/', query: {  //TODO 改成问题和选项那个页面
-                        scaleName: this.params.scaleName
+                    path: '/scale/page/info/', query: {
+                        scaleId: this.scaleId
                     }
                 })
             },
@@ -221,8 +221,8 @@
                                 //    解析响应内容
                                 if (res.success) {
                                     this.$message.success('提交成功！');
-                                    //进行下一步，添加问题和选项
-                                    // this.next2();
+                                    //进行下一步,返回详细量表
+                                    setTimeout(this.next2(), 8000)
                                 } else {
                                     this.$message.error(res.message);
                                 }
@@ -236,7 +236,9 @@
             },
             go_back() {
                 this.$router.push({
-                    path: '/scale/page/list'
+                    path: '/scale/page/info/', query: {
+                        scaleId: this.scaleId
+                    }
                 });
             },
         },

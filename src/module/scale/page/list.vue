@@ -5,7 +5,7 @@
     <el-card>
       <el-form :model="params">
         分类查询：
-        <el-select v-model="params.typeId" filterable style="width:120px" clearable placeholder="选择分类">
+        <el-select size="medium" v-model="params.typeId" filterable style="width:120px" clearable placeholder="选择分类">
           <el-option
             v-for="item in type"
             :key="item.id"
@@ -13,19 +13,21 @@
             :value="item.id">
           </el-option>
         </el-select>
-        <el-button v-on:click="query" icon="el-icon-search" round>查询</el-button>
+        <el-button size="medium" v-on:click="query" icon="el-icon-search" round>查询</el-button>
         <i style="margin-right: 80px"></i>
         名称查询：
-        <el-input clearable v-model="params.key" style="width:200px" placeholder="请输入量表名称或简称">
+        <el-input size="medium" clearable v-model="params.key" style="width:200px" placeholder="请输入量表名称或简称">
         </el-input>
-        <el-button v-on:click="query" icon="el-icon-search" round>查询</el-button>
+        <el-button size="medium" v-on:click="query" icon="el-icon-search" round>查询</el-button>
         <i style="margin-right: 300px"></i>
         <router-link tag="span" :to="{path:'/scale/page/add'}">
           <el-button type="primary">新增量表</el-button>
         </router-link>
         <!--        <el-button type="primary" v-on:click="next">新增量表</el-button>-->
       </el-form>
+      <hr align=center width=100% color=#C0C0C0 SIZE=1>
       <el-table
+        size="medium"
         v-loading="loading"
         :data="list"
         v-on:sort-change="sort"
@@ -51,19 +53,21 @@
         </el-table-column>
         <el-table-column prop="scaleTypeName" align="center" sortable="custom" label="量表类型" width="150">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column>
           <template slot-scope="page">
+            <el-button style="float: right" size="mini" type="danger" @click="del(page.row.id)" plain>删除
+            </el-button>
             <router-link tag="span" :to="{path:'/scale/page/info',query:{
                          scaleId:page.row.id
                          }}">
-              <el-button size="mini" type="primary" plain>详情</el-button>
+              <el-button style="float: right;margin-right: 5px" size="mini" type="primary" plain>详情</el-button>
             </router-link>
-            <router-link tag="span" :to="{path:'/scale/page/alterInfo',query:{
-                         scaleId:page.row.id
-                         }}">
-              <el-button size="mini" type="primary" plain>编辑</el-button>
-            </router-link>
-            <el-button size="mini" type="danger" @click="del(page.row.id)" plain>删除</el-button>
+            <!--           <router-link tag="span" :to="{path:'/scale/page/alterInfo',query:{
+                                    scaleId:page.row.id
+                                    }}">
+                         <el-button size="mini" type="primary" plain>编辑</el-button>
+                       </router-link>-->
+
           </template>
         </el-table-column>
       </el-table>

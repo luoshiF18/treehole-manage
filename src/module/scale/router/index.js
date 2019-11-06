@@ -12,12 +12,12 @@ export default [{
   name: '量表管理',
   hidden: false,
   children: [
-    {path: '/scale/page/alterInfo', name: '量表修改页', component: alterInfo, hidden: false},
     {path: '/scale/page/list', name: '量表列表', component: list, hidden: false},
+    {path: '/scale/page/editOpt', name: '更新选项和问题页', component: editOpt, hidden: true},
     ////////////////////////////////////////////////////////////////////////////////
+    {path: '/scale/page/alterInfo', name: '量表修改页', component: alterInfo, hidden: true},
     {path: '/scale/page/add', name: '新增量表页', component: add, hidden: true},
     {path: '/scale/page/editDes', name: '更新描述页', component: editDes, hidden: true},
-    {path: '/scale/page/editOpt', name: '更新选项和问题页', component: editOpt, hidden: true},
     {path: '/scale/page/info', component: info, hidden: true},
 
   ]

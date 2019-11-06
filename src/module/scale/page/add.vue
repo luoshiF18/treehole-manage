@@ -1,6 +1,6 @@
 <template>
   <div>
-    <br>
+    <el-progress :percentage="33"></el-progress>
     <el-button type="primary" icon="el-icon-back" @click="go_back">返回列表</el-button>
     <br>
     <br>
@@ -112,7 +112,7 @@
           </el-form-item>
           <el-form-item>
             <!--            <el-button type="primary" @click="onSubmit">提交</el-button>-->
-            <el-button type="primary" @click.native="onSubmit" :loading="addLoading">创建量表</el-button>
+            <el-button type="primary" @click.native="onSubmit" :loading="addLoading">保存并进行下一步</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -196,7 +196,7 @@
             next2: function () {
                 //打开修改页面
                 this.$router.push({
-                    path: '/scale/page/editDes/', query: {  //TODO 改成问题和选项那个页面
+                    path: '/scale/page/editOpt/', query: {  //TODO 改成问题和选项那个页面
                         scaleName: this.params.scaleName
                     }
                 })
@@ -206,14 +206,14 @@
                 this.$refs.params.validate((valid) => {
                     if (valid) {
                         //确认提示
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                        this.$confirm('确认保存吗？', '提示', {}).then(() => {
                             this.addLoading = true;
                             setTimeout(this.timeOut, 8000)
                             scaleApi.scale_create(this.params).then((res) => {
                                 this.addLoading = false;
                                 //    解析响应内容
                                 if (res.success) {
-                                    this.$message.success('提交成功！');
+                                    this.$message.success('保存成功！');
                                     //进行下一步，添加问题和选项
                                     // this.next2();
                                     setTimeout(this.next2, 1000)
