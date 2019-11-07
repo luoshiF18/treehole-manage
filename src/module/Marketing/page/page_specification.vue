@@ -1,6 +1,6 @@
 <template>
   <div>
-    userSign
+    营销规格参数
   </div>
 </template>
 

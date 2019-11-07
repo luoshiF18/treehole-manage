@@ -5,27 +5,38 @@
       <!-- 侧边栏容器 -->
       <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
         <!--导航菜单【导航】-->
-        <el-menu :default-active="$route.path" class="el-menu-vertical-demo"
-                 @open="handleopen" @close="handleclose" @select="handleselect"
-                 unique-opened router v-show="!collapsed" background-color="#EFEFF4">
-          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-            <el-submenu :index="index+''" v-if="!item.leaf">
-              <!-- 【分组】1 -->
-              <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-              <!--【选项】1-1 -->
-              <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">
-                {{child.name}}
-              </el-menu-item>
+        <el-menu router unique-opened default-active="1">
+            <!--用户管理-->
+            <el-submenu index="4">
+              <template slot="title"><span>用户管理</span></template>
+              <el-menu-item-group>
+                <el-menu-item index="/User/page/user">用户信息</el-menu-item>
+                <el-menu-item index="/User/page/userIntegral">用户积分</el-menu-item>
+                <el-menu-item index="/User/page/userSign">签到</el-menu-item>
+              </el-menu-item-group>
+              <el-submenu index="4-1">
+                <template slot="title">会员等级</template>
+                <el-menu-item index="/User/page/userGrade">普通会员等级</el-menu-item>
+                <el-menu-item index="/User/page/userGradeVip">付费会员等级</el-menu-item>
+              </el-submenu>
             </el-submenu>
-            <!-- ========== -->
-            <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path">
-              <i :class="item.iconCls"></i>{{item.children[0].name}}
-            </el-menu-item>
-          </template>
 
-        </el-menu>
+            <el-submenu index="5">
+              <template slot="title"><span>营销活动管理</span></template>
+              <el-menu-item-group>
+                <el-menu-item index="/user/page/user">优惠券管理</el-menu-item>
+                <el-menu-item index="/user/page/userIntegral">活动管理</el-menu-item>
+                <el-menu-item index="/user/page/userSign">推广管理</el-menu-item>
+              </el-menu-item-group>
+              <el-submenu index="4-1">
+                <template slot="title">规格参数管理</template>
+                <!--<el-menu-item index="/user/page/userGrade">规格1</el-menu-item>
+                <el-menu-item index="/user/page/userGradeVip">规格2</el-menu-item>-->
+              </el-submenu>
+            </el-submenu>
+          </el-menu>
         <!--导航菜单-折叠后-->
-        <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
+       <!-- <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
           <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
             <template v-if="!item.leaf">
               <div class="el-submenu__title" style="padding-left: 20px;"    @mouseover="showMenu(index,true)"
@@ -47,18 +58,21 @@
               </ul>
             </template>
           </li>
-        </ul>
+        </ul>-->
       </aside>
       <!--导航栏对应页面顶部文字显示-->
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <el-col :span="24" class="breadcrumb-container">
-            <h2><strong class="title">{{$route.name}}</strong></h2><br>
-            <h2></h2> <!--h2标题在此处的作用是调节title与下面部分前后间距 -->
-            <el-breadcrumb separator="/" class="breadcrumb-inner"></el-breadcrumb>
+            <strong class="title">{{$route.name}}</strong>
+            <el-breadcrumb separator="/" class="breadcrumb-inner">
+
+            </el-breadcrumb>
           </el-col>
           <el-col :span="24" class="content-wrapper">
-            <transition name="fade" mode="out-in"><router-view></router-view></transition>
+            <transition name="fade" mode="out-in">
+              <router-view></router-view>
+            </transition>
           </el-col>
         </div>
       </section>
@@ -68,7 +82,8 @@
 
 <script>
   import PHead from '@/base/components/head.vue';
-  // import utilApi from '../../../common/utils';
+  import utilApi from '../../../common/utils';
+
   export default {
     components: {PHead},
     data() {

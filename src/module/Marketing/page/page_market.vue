@@ -1,6 +1,6 @@
 <template>
   <div>
-    userIntegral
+    营销推广管理
   </div>
 </template>
 
