@@ -93,8 +93,8 @@
           </el-form-item>
           <el-form-item prop="scaleType" size="medium" label="类型：">
             <el-radio-group v-model="params.scaleType">
-              <el-radio-button label="0">普通类型</el-radio-button>
-              <el-radio-button label="1">跳题类型</el-radio-button>
+              <el-radio-button label="2">普通类型</el-radio-button>
+              <el-radio-button label="1">多选类型</el-radio-button>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="价格(元)：">
@@ -139,7 +139,7 @@
                     status: 1,
                     images: '',
                     typeId: '',
-                    scaleType: 0,
+                    scaleType: 2,
                     price: 0,
                     remark: ''
                 },
