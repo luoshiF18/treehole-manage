@@ -1,32 +1,35 @@
 <template>
   <div>
-    <el-button type="info" size="small" @click="goback"><span class="iconfont icon-fanhui"></span></el-button>
-    <h1>预警报告</h1>
+    <el-button type="info" size="small" @click="goback"><span class="iconfont icon-fanhui">返回</span></el-button>
+    <h1>{{pageForm.userNickName}}的预警报告</h1>
     <div class="dv">
       <el-row :gutter="20">
         <el-col :span="4">
           <div>
-            <el-upload
+            <!--<el-upload
               class="avatar-uploader"
               action="https://jsonplaceholder.typicode.com/posts/"
               :show-file-list="false"
               :on-success="handleAvatarSuccess">
               <img v-if="imageUrl" :src="imageUrl" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+            </el-upload>-->
+            <span>
+              <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2298681129,3725042306&fm=26&gp=0.jpg" class="avatar" >
+            </span>
           </div>
         </el-col>
         <el-col :span="9">
           <div>
-            <el-form label-width="90px">
-              <el-form-item label="昵称：">
-                <span>{{tt}}</span>
+            <el-form  label-width="90px">
+              <el-form-item  label="昵称：">
+                <span>{{pageForm.userNickName}}</span>
               </el-form-item>
               <el-form-item label="姓名：">
-                <span></span>
+                <span >{{pageForm.userName}}</span>
               </el-form-item>
-              <el-form-item label="生日：">
-                <span></span>
+              <el-form-item   label="生日：">
+                <span  id="userBirth">{{dateFormat(pageForm.userBirth)}}</span>
               </el-form-item>
             </el-form>
           </div>
@@ -35,13 +38,13 @@
           <div>
             <el-form label-width="90px">
               <el-form-item label="电话号码：">
-                <span></span>
+                <span>{{pageForm.phone}}</span>
               </el-form-item>
               <el-form-item label="邮箱：">
-                <span></span>
+                <span>{{pageForm.userEmail}}</span>
               </el-form-item>
               <el-form-item label="居住地：">
-                <span></span>
+                <span>{{pageForm.userRegion}}</span>
               </el-form-item>
             </el-form>
           </div>
@@ -54,22 +57,26 @@
         <el-col :span="20">
           <div>
             <el-form label-width="90px">
-              <el-form-item label="量表名称：">
-                <span></span>
+              <el-form-item   label="量表名称：">
+                <span>{{pageForm.scaleName}}</span>
               </el-form-item>
               <el-form-item label="量表分类：">
-                <span></span>
+                <span>{{pageForm.scaleType}}</span>
               </el-form-item>
               <el-form-item label="量表描述：">
-               <span></span>
+               <span>{{pageForm.topicDescription}}</span>
               </el-form-item>
               <el-form-item label="量表功能：">
-                <span></span>
+                <span>{{pageForm.scaleFunction}}</span>
+              </el-form-item>
+              <el-form-item label="预警等级：">
+                <span>{{pageForm.warningLevel}}</span>
               </el-form-item>
             </el-form>
           </div>
         </el-col>
       </el-row>
+
       <el-row :gutter="20">
         <el-col :span="2">
           <div class="font-two">心理咨询师建议</div>
@@ -78,20 +85,21 @@
           <div>
             <el-form label-width="90px">
               <el-form-item>
-                <el-input  v-model="textarea"
+                <el-input  v-model="pageForm.wmessage"
+                           :disabled="true"
                            type="textarea"
-                           placeholder="咨询师预警建议："
+                           placeholder="无"
                            resize="none"
                            :autosize="{ minRows: 8, maxRows: 16}">
                 </el-input>
               </el-form-item>
               <el-form-item>
                 <div class="block">
-                  <span class="demonstration"></span>
+                  <span class="demonstration">生成时间：</span>
                   <el-date-picker
-                    v-model="value1"
-                    type="datetime"
-                    placeholder="选择日期时间">
+                    :disabled="true"
+                    v-model="pageForm.createTime"
+                    type="datetime">
                   </el-date-picker>
                 </div>
               </el-form-item>
@@ -102,33 +110,66 @@
     </div>
     <el-form>
       <el-form-item>
-        <el-button style="margin-left:36vw" type="primary" @click="save">提交</el-button>
+        <el-button style="margin-left:36vw" type="primary" @click="install">PDF导出</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
+
+    import * as warnApi from '../api/warn.js'
   export default {
     name: 'preview',
     data() {
       return {
-        imageUrl: '',
-        value1: '',
-        textarea:'',
-        tt:'你好'
+          imageUrl:'',
+          pageForm: {
+              userNickName: '',
+              userName: '',
+              userBirth: '',
+              phone: '',
+              userEmail: '',
+              userRegion: '',
+              scaleName: '',
+              scaleType: '', //量表的分类
+              scaleFunction: '',
+              topicDescription: '',
+              warningLevel: 0,
+              createTime: '',
+              wmessage: ''
+          },
       };
     },
     methods: {
-      handleAvatarSuccess(res, file) {
+
+       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
       },
       goback(){
         this.$router.push({path:'/warn/page/list'})
       },
-      save(){
-        alert('00');
-      }
-    }
+        dateFormat:function(time) {
+            var date=new Date(time);
+            var year=date.getFullYear();
+            /* 在日期格式中，月份是从0开始的，因此要加0
+             * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+             * */
+            var month= date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+            var day=date.getDate()<10 ? "0"+date.getDate() : date.getDate();
+            // 拼接
+            return year+"-"+month+"-"+day;
+        },
+    },
+      created: function () {
+          this.warningId=this.$route.params.warningId;  //取出路由中的pageId 这个pageId要和index.js中定义的'/cms/page/edit/:pageId'中pageId保持一致
+          //根据主键查询页面信息
+          warnApi.page_get(this.warningId).then((res) => {
+              console.log(res);
+              if(res){
+                  this.pageForm = res;
+              }
+          });
+      },
   }
 </script>
 <style scoped>
