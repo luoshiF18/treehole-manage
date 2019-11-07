@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div >
+    <div id="pdfCentent">
     <el-button type="info" size="small" @click="goback"><span class="iconfont icon-fanhui">返回</span></el-button>
     <h1>{{pageForm.userNickName}}的预警报告</h1>
     <div class="dv">
@@ -108,9 +109,10 @@
         </el-col>
       </el-row>
     </div>
+  </div>
     <el-form>
       <el-form-item>
-        <el-button style="margin-left:36vw" type="primary" @click="install">PDF导出</el-button>
+        <el-button style="margin-left:36vw" type="primary"  @click="ExportSavePdf(htmlTitle,nowTime)">PDF导出</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -138,6 +140,9 @@
               createTime: '',
               wmessage: ''
           },
+          htmlTitle: "预警报告PDF",
+          nowTime: "",
+          fullscreen: true
       };
     },
     methods: {
@@ -170,6 +175,8 @@
               }
           });
       },
+      mounted() {
+      }
   }
 </script>
 <style scoped>

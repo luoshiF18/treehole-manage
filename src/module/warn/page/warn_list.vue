@@ -4,14 +4,14 @@
       <el-form ref="form" :model="params" label-width="80px">
       <el-row :gutter="20">
         <el-date-picker
-          v-model="params.date2"
-          type="daterange"
-          align="left"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions">
+          v-model="params.startTime"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
+        <el-date-picker
+          v-model="params.endTime"
+          type="date"
+          placeholder="选择日期">
         </el-date-picker>
         <el-col class="col" :span="4">
           <el-input  v-model="params.userNickName" placeholder="登录名">
@@ -87,33 +87,6 @@
         name: 'warn_list',
         data() {
             return {
-                pickerOptions: {
-                    shortcuts: [{
-                        text: '最近一周',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近一个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }, {
-                        text: '最近三个月',
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            picker.$emit('pick', [start, end]);
-                        }
-                    }]
-                },
                 list: [],
                 total: 0,
                 params: {
@@ -122,7 +95,8 @@
                     userNickName:'',
                     scaleName:'',
                     warningLevel:'',
-                    date2:''
+                    startTime:'',
+                    endTime:''
                 },
                 delarr:[], //存放删除的数据
                 multipleSelection:[], //多选的数据
