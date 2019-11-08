@@ -37,9 +37,6 @@
       <el-form-item label="手机号" prop="phone" style="width:18.4%">
         <el-input v-model="profileForm.phone" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="创建时间" required>
-        <el-date-picker type="datetime" placeholder="创建时间" v-model="profileForm.createTime"></el-date-picker>
-      </el-form-item>
       <el-form-item label="更新时间" required>
         <el-date-picker type="datetime" placeholder="更新时间" v-model="profileForm.updateTime"></el-date-picker>
       </el-form-item>
@@ -94,9 +91,6 @@
           phone: [
             {required: true, message: '请输入手机号', trigger: 'blur'},
             {pattern: /^1[34578]\d{9}$/, message: '请输入合法的手机号', trigger: 'blur'},
-          ],
-          createTime: [
-            {type: 'date', required: true, message: '请选择创建时间', trigger: 'change'}
           ],
           updateTime: [
             {type: 'date', required: true, message: '请输选择更新时间', trigger: 'change'}
