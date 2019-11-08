@@ -40,9 +40,6 @@
       <el-form-item label="创建时间" required>
         <el-date-picker type="datetime" placeholder="创建时间" v-model="profileForm.createTime"></el-date-picker>
       </el-form-item>
-      <el-form-item label="更新时间" required>
-        <el-date-picker type="datetime" placeholder="更新时间" v-model="profileForm.updateTime"></el-date-picker>
-      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="addSubmit">提交</el-button>
@@ -99,9 +96,6 @@
           ],
           createTime: [
             {type: 'date', required: true, message: '请选择创建时间', trigger: 'change'}
-          ],
-          updateTime: [
-            {type: 'date', required: true, message: '请输选择更新时间', trigger: 'change'}
           ]
         }
       }
