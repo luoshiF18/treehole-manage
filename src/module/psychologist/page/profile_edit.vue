@@ -22,8 +22,8 @@
           <el-option label="国家三级心理咨询师" value="国家三级心理咨询师"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="自我介绍" prop="introduction" style="width:60%">
-        <el-input v-model="profileForm.introduction" auto-complete="off" clearable></el-input>
+      <el-form-item label="自我介绍" prop="introduction" style="width:30%">
+        <el-input type="textarea" v-model="profileForm.introduction" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="擅长领域" prop="proficiency" style="width:60%">
         <el-input v-model="profileForm.proficiency" auto-complete="off" clearable></el-input>

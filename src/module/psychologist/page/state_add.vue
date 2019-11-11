@@ -16,16 +16,16 @@
       <el-form-item label="服务价格" prop="price" style="width:20.7%">
         <el-input v-model.number="stateForm.price" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="所持证书" prop="certificate" style="width:20.7%">
-        <el-input v-model="stateForm.certificate" auto-complete="off" clearable></el-input>
+      <el-form-item label="所持证书" prop="certificate" style="width:30%">
+        <el-input type="textarea" v-model="stateForm.certificate" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="微信" prop="weChat" style="width:60%">
+      <el-form-item label="微信" prop="weChat" style="width:20.7%">
         <el-input v-model="stateForm.weChat" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="QQ" prop="qq" style="width:60%">
+      <el-form-item label="QQ" prop="qq" style="width:20.7%">
         <el-input v-model="stateForm.qq" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="详细地址" prop="address" style="width:60%">
+      <el-form-item label="详细地址" prop="address" style="width:40%">
         <el-input v-model="stateForm.address" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="创建时间" required>
