@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-form :model="profileForm" :rules="profileFormRules" label-width="80px" ref="profileForm">
-      <el-form-item label="id" prop="id" style="width:20.7%">
-        <el-input v-model.number="profileForm.id" auto-complete="off" clearable></el-input>
-      </el-form-item>
       <el-form-item label="姓名" prop="name" style="width:20.7%">
         <el-input v-model="profileForm.name" auto-complete="off" clearable></el-input>
       </el-form-item>
