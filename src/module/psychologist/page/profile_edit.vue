@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-form :model="profileForm" :rules="profileFormRules" label-width="80px" ref="profileForm">
-      <el-form-item label="id" prop="id" style="width:18.4%">
+      <el-form-item label="id" prop="id" style="width:20.7%">
         <el-input v-model.number="profileForm.id" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="姓名" prop="name" style="width:18.4%">
+      <el-form-item label="姓名" prop="name" style="width:20.7%">
         <el-input v-model="profileForm.name" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="sex">
@@ -13,10 +13,10 @@
           <el-option label="女" value="女"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年龄" prop="age" style="width:18.4%">
+      <el-form-item label="年龄" prop="age" style="width:20.7%">
         <el-input v-model="profileForm.age" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="所在地区" prop="region" style="width:18.4%">
+      <el-form-item label="所在地区" prop="region" style="width:20.7%">
         <el-input v-model="profileForm.region" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="专业资质" prop="qualification">
@@ -34,7 +34,7 @@
       <el-form-item label="工作室" prop="studio" style="width:60%">
         <el-input v-model="profileForm.studio" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="手机号" prop="phone" style="width:18.4%">
+      <el-form-item label="手机号" prop="phone" style="width:20.7%">
         <el-input v-model="profileForm.phone" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="更新时间" required>
@@ -93,7 +93,7 @@
             {pattern: /^1[34578]\d{9}$/, message: '请输入合法的手机号', trigger: 'blur'},
           ],
           updateTime: [
-            {type: 'date', required: true, message: '请输选择更新时间', trigger: 'change'}
+            {type: 'date', required: true, message: '请选择更新时间', trigger: 'change'}
           ]
         }
       }
