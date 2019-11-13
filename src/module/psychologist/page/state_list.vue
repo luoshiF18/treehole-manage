@@ -31,7 +31,7 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column prop="id" label="id" width="80"></el-table-column>
+      <el-table-column prop="id" label="id" width="60"></el-table-column>
       <el-table-column prop="name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
       <el-table-column prop="price" label="收费标准" width="260"></el-table-column>

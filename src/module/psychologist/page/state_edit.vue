@@ -69,7 +69,7 @@
             {required: true, message: '请输入所持证书', trigger: 'blur'}
           ],
           weChat: [
-            {required: true, message: '请输入微信联系方式', trigger: 'change'}
+            {required: true, message: '请输入微信联系方式', trigger: 'blur'}
           ],
           qq: [
             {required: true, message: '请输入QQ联系方式', trigger: 'blur'}

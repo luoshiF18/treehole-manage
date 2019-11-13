@@ -68,7 +68,7 @@
             {required: true, message: '请选择工作状态', trigger: 'change'}
           ],
           price: [
-            {required: true, message: '请输入数字类型价格', trigger: 'blur'}
+            {required: true, message: '请输入收费标准', trigger: 'blur'}
           ],
           certificate: [
             {required: true, message: '请输入所持证书', trigger: 'blur'}
