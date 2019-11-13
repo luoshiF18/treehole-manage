@@ -33,14 +33,14 @@
     <el-table :data="list" stripe style="width: 100%">
       <el-table-column prop="id" label="id" width="80"></el-table-column>
       <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="free" label="工作状态" width="100"></el-table-column>
-      <el-table-column prop="price" label="服务价格" width="160"></el-table-column>
-      <el-table-column prop="certificate" label="所持专业证书" width="220"></el-table-column>
-      <el-table-column prop="weChat" label="微信" width="160"></el-table-column>
-      <el-table-column prop="qq" label="QQ" width="160"></el-table-column>
-      <el-table-column prop="address" label="所在详细地址" width="220"></el-table-column>
+      <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
+      <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
+      <el-table-column prop="certificate" label="所持专业证书" width="250"></el-table-column>
+      <el-table-column prop="weChat" label="微信" width="130"></el-table-column>
+      <el-table-column prop="qq" label="QQ" width="120"></el-table-column>
+      <el-table-column prop="address" label="详细地址" width="220"></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" width="130"></el-table-column>
-      <el-table-column label="操作" width="120">
+      <el-table-column label="操作" width="90">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
           <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>

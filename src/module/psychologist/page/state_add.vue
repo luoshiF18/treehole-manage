@@ -8,16 +8,16 @@
         <el-input v-model="stateForm.name" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="工作状态" prop="free">
-        <el-select v-model="stateForm.free" placeholder="请选择" clearable>
-          <el-option label="空闲" value="空闲"></el-option>
-          <el-option label="忙碌" value="忙碌"></el-option>
-        </el-select>
+        <el-radio-group v-model="stateForm.free">
+          <el-radio label="空闲"></el-radio>
+          <el-radio label="忙碌"></el-radio>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item label="服务价格" prop="price" style="width:20.7%">
-        <el-input v-model.number="stateForm.price" auto-complete="off" clearable></el-input>
+      <el-form-item label="收费标准" prop="price" style="width:30%">
+        <el-input type="textarea" v-model="stateForm.price" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="所持证书" prop="certificate" style="width:30%">
-        <el-input type="textarea" v-model="stateForm.certificate" auto-complete="off" clearable></el-input>
+      <el-form-item label="所持证书" prop="certificate" style="width:40%">
+        <el-input v-model="stateForm.certificate" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="微信" prop="weChat" style="width:20.7%">
         <el-input v-model="stateForm.weChat" auto-complete="off" clearable></el-input>
@@ -68,7 +68,7 @@
             {required: true, message: '请选择工作状态', trigger: 'change'}
           ],
           price: [
-            {type: 'number', required: true, message: '请输入数字类型价格', trigger: 'blur'}
+            {required: true, message: '请输入数字类型价格', trigger: 'blur'}
           ],
           certificate: [
             {required: true, message: '请输入所持证书', trigger: 'blur'}
