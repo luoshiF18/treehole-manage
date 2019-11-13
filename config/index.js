@@ -12,14 +12,14 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    //proxyTable: proxyConfig.proxyList,
+    //proxyTable: proxyConfig.proxyList, 代理
     proxyTable: {
       '/banner': {
         // target: 'http://localhost:3000/mock/11'
         target: 'http://127.0.0.1:7777'
 
       },
-      '/api/cms': {
+      '/api/user': {
         target: 'http://localhost:31001',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
@@ -40,7 +40,7 @@ module.exports = {
         target: 'http://127.0.0.1:50201/api'
 
       },
-      '/course': {
+      '/course': {课程管理
         // target: 'http://localhost:3000/mock/11'
         //target: 'http://127.0.0.1:31200'
         target: 'http://127.0.0.1:50201/api'

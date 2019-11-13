@@ -11,22 +11,23 @@
               <template slot="title"><span>用户管理</span></template>
               <el-menu-item-group>
                 <el-menu-item index="/User/page/user">用户信息</el-menu-item>
+                <el-submenu index="4-1">
+                    <template slot="title">会员等级</template>
+                    <el-menu-item index="/User/page/userGrade">普通会员等级</el-menu-item>
+                    <el-menu-item index="/User/page/userGradeVip">付费会员等级</el-menu-item>
+                </el-submenu>
+                <el-menu-item index="/User/page/cards">会员卡信息</el-menu-item>
                 <el-menu-item index="/User/page/userIntegral">用户积分</el-menu-item>
                 <el-menu-item index="/User/page/userSign">签到</el-menu-item>
               </el-menu-item-group>
-              <el-submenu index="4-1">
-                <template slot="title">会员等级</template>
-                <el-menu-item index="/User/page/userGrade">普通会员等级</el-menu-item>
-                <el-menu-item index="/User/page/userGradeVip">付费会员等级</el-menu-item>
-              </el-submenu>
             </el-submenu>
 
             <el-submenu index="5">
               <template slot="title"><span>营销活动管理</span></template>
               <el-menu-item-group>
-                <el-menu-item index="/user/page/user">优惠券管理</el-menu-item>
-                <el-menu-item index="/user/page/userIntegral">活动管理</el-menu-item>
-                <el-menu-item index="/user/page/userSign">推广管理</el-menu-item>
+                <el-menu-item index="/Marketing/page/coupon">优惠券管理</el-menu-item>
+                <el-menu-item index="/Marketing/page/userIntegral">活动管理</el-menu-item>
+                <el-menu-item index="/Marketing/page/userSign">推广管理</el-menu-item>
               </el-menu-item-group>
               <el-submenu index="4-1">
                 <template slot="title">规格参数管理</template>
@@ -35,39 +36,13 @@
               </el-submenu>
             </el-submenu>
           </el-menu>
-        <!--导航菜单-折叠后-->
-       <!-- <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-          <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
-            <template v-if="!item.leaf">
-              <div class="el-submenu__title" style="padding-left: 20px;"    @mouseover="showMenu(index,true)"
-                   @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i>
-              </div>
-              <ul  class="el-menu submenu"   :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
-                <li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$menu.push(child.path)">{{child.name}}</li>
-              </ul>
-            </template>
-
-            <template v-else>
-              <ul>
-                <li class="el-submenu">
-                  <div class="el-submenu__title el-menu-item" style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;"
-                       :class="$route.path==item.children[0].path?'is-active':''" @click="$menu.push(item.children[0].path)">
-                    <i :class="item.iconCls"></i>
-                  </div>
-                </li>
-              </ul>
-            </template>
-          </li>
-        </ul>-->
       </aside>
       <!--导航栏对应页面顶部文字显示-->
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <el-col :span="24" class="breadcrumb-container">
             <strong class="title">{{$route.name}}</strong>
-            <el-breadcrumb separator="/" class="breadcrumb-inner">
-
-            </el-breadcrumb>
+            <el-breadcrumb separator="/" class="breadcrumb-inner"></el-breadcrumb>
           </el-col>
           <el-col :span="24" class="content-wrapper">
             <transition name="fade" mode="out-in">

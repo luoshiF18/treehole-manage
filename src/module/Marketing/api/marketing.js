@@ -4,7 +4,7 @@ import querystring from 'querystring'
 let sysConfig = require('@/../config/sysConfig')
 let apiUrl = sysConfig.xcApiUrlPre;
 
-// 页面查询
+//页面查询
 export const page_list = (page,size,params) =>{
   // 将params对象数据拼装成key/value串
   let queryString = querystring.stringify(params);

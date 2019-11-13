@@ -6,6 +6,7 @@ import page_userSign from '@/module/User/page/page_userSign';
 import page_userGradeVip from "../page/page_userGradeVip";
 import page_add from '@/module/User/page/page_add.vue';
 import page_edit from '@/module/User/page/page_edit.vue';
+import page_cards from "../page/page_cards";
 
 export default [{
     path: '/',
@@ -15,7 +16,8 @@ export default [{
     children:[
       {path:'/User/page/user',name:'用户信息管理',component: page_user,hidden:false},
       {path:'/User/page/userIntegral',name:'积分信息管理',component: page_userIntegral,hidden:false},
-      {path:'/User/page', name:'等级信息管理级', component: page_userGrade, hidden:false},
+      {path:'/User/page', name:'等级信息管理', component: page_userGrade, hidden:false},
+      {path:'/User/page/cards', name:'会员卡信息管理', component: page_cards, hidden:false},
       {path:'/User/page/userSign',name:'签到信息管理',component: page_userSign,hidden:false},
       {path:'/User/page/userGrade',name:'普通会员等级',component:page_userGrade,hidden:true},
       {path:'/User/page/userGradeVip',name:'付费会员等级',component:page_userGradeVip,hidden:true},
