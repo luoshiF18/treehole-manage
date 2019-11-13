@@ -35,20 +35,19 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column type="index" label="序号" width="50"></el-table-column>
+      <el-table-column prop="id" label="id" width="60"></el-table-column>
       <el-table-column prop="name" label="姓名" width="80"></el-table-column>
       <el-table-column prop="sex" label="性别" width="80"></el-table-column>
       <el-table-column prop="age" label="年龄" width="80"></el-table-column>
-      <el-table-column prop="id" label="id" width="60"></el-table-column>
       <el-table-column prop="region" label="地区" width="100"></el-table-column>
       <el-table-column prop="qualification" label="专业资质" width="150"></el-table-column>
-      <el-table-column prop="introduction" label="自我介绍" width="160"></el-table-column>
+      <el-table-column prop="introduction" label="自我介绍" width="180"></el-table-column>
       <el-table-column prop="proficiency" label="擅长领域" width="160"></el-table-column>
       <el-table-column prop="studio" label="工作室" width="120"></el-table-column>
       <el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="100"></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" width="100"></el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column prop="createTime" label="创建时间" width="110"></el-table-column>
+      <el-table-column prop="updateTime" label="更新时间" width="110"></el-table-column>
+      <el-table-column label="操作" width="110">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
           <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>
@@ -99,7 +98,7 @@
       changePage: function (page) {
         //调用当前实例的query方法
         this.params.page = page;
-        this.query()
+        this.get()
       },
       //打开修改页面
       edit: function (id) {
@@ -115,11 +114,20 @@
             if (res.success) {
               this.$message.success("删除成功！")
               //刷新页面
-              this.query()
+              this.get()
             } else {
               this.$message.error("删除失败！")
             }
           })
+        })
+      },
+      //按照id自增查询所有简介信息
+      get: function () {
+        //res为服务端的数据，是一个形参，名字任意
+        psychologistApi.profile_all(this.params.page, this.params.size).then((res) => {
+          //将res服务端数据赋值给数据模型对象
+          this.total = res.queryResult.total
+          this.list = res.queryResult.list
         })
       }
     },
@@ -134,7 +142,7 @@
     //钩子函数，DOM元素渲染完成后调用，定义在methods之后
     mounted() {
       //实现进入页面就查询
-      this.query()
+      this.get()
     }
   }
 </script>

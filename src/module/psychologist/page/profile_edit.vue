@@ -5,10 +5,10 @@
         <el-input v-model="profileForm.name" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="sex">
-        <el-select v-model="profileForm.sex" placeholder="请选择" clearable>
-          <el-option label="男" value="男"></el-option>
-          <el-option label="女" value="女"></el-option>
-        </el-select>
+        <el-radio-group v-model="profileForm.sex">
+          <el-radio label="男"></el-radio>
+          <el-radio label="女"></el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="年龄" prop="age" style="width:20.7%">
         <el-input v-model="profileForm.age" auto-complete="off" clearable></el-input>
@@ -39,8 +39,8 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="go_back">返回</el-button>
       <el-button type="primary" @click.native="editSubmit" :loading="addLoading">提交</el-button>
+      <el-button type="primary" @click="go_back">返回</el-button>
     </div>
   </div>
 </template>
@@ -108,6 +108,7 @@
             qualification: this.$route.query.qualification
           }
         })
+
       },
       //修改提交
       editSubmit: function () {
@@ -140,7 +141,7 @@
     created: function () {
       //页面参数通过路由传入，这里通过this.$route.params来获取
       this.id = this.$route.params.id;
-      //根据主键查询页面信息
+      //根据主键查询简介信息
       psychologistApi.profile_get(this.id).then((res) => {
         console.log(res);
         if (res) {

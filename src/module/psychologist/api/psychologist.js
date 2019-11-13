@@ -58,6 +58,16 @@ export const state_del = id => {
   return http.requestDelete(apiUrl + '/psychologist/state/del/' + id)
 }
 
+//按照id自增查询所有简介信息
+export const profile_all = (page, size) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/profile/get/all?page=' + page + '&size=' + size);
+}
+
+//按照id自增查询所有状态信息
+export const state_all = (page, size) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/state/get/all?page=' + page + '&size=' + size);
+}
+
 
 
 

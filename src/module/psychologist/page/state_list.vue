@@ -31,17 +31,16 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column type="index" label="序号" width="80"></el-table-column>
+      <el-table-column prop="id" label="id" width="80"></el-table-column>
       <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="id" label="id" width="60"></el-table-column>
       <el-table-column prop="free" label="工作状态" width="100"></el-table-column>
       <el-table-column prop="price" label="服务价格" width="160"></el-table-column>
       <el-table-column prop="certificate" label="所持专业证书" width="220"></el-table-column>
       <el-table-column prop="weChat" label="微信" width="160"></el-table-column>
       <el-table-column prop="qq" label="QQ" width="160"></el-table-column>
-      <el-table-column prop="address" label="所在详细地址" width="200"></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" width="120"></el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column prop="address" label="所在详细地址" width="220"></el-table-column>
+      <el-table-column prop="updateTime" label="更新时间" width="130"></el-table-column>
+      <el-table-column label="操作" width="120">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
           <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>
@@ -92,7 +91,7 @@
       changePage: function (page) {
         //调用当前实例的query方法
         this.params.page = page;
-        this.query()
+        this.get()
       },
       //打开修改页面
       edit: function (id) {
@@ -114,6 +113,15 @@
             }
           })
         })
+      },
+      //按照id自增查询所有状态信息
+      get: function () {
+        //res为服务端的数据，是一个形参，名字任意
+        psychologistApi.state_all(this.params.page, this.params.size).then((res) => {
+          //将res服务端数据赋值给数据模型对象
+          this.total = res.queryResult.total
+          this.list = res.queryResult.list
+        })
       }
     },
     //钩子函数，DOM元素还未渲染就调用
@@ -126,7 +134,7 @@
     },
     mounted() {
       //实现进入页面就查询
-      this.query()
+      this.get()
     }
   }
 

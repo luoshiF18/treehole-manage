@@ -8,10 +8,10 @@
         <el-input v-model="profileForm.name" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="sex">
-        <el-select v-model="profileForm.sex" placeholder="请选择" clearable>
-          <el-option label="男" value="男"></el-option>
-          <el-option label="女" value="女"></el-option>
-        </el-select>
+        <el-radio-group v-model="profileForm.sex">
+          <el-radio label="男"></el-radio>
+          <el-radio label="女"></el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="年龄" prop="age" style="width:20.7%">
         <el-input v-model="profileForm.age" auto-complete="off" clearable></el-input>
@@ -134,7 +134,6 @@
             qualification: this.$route.query.qualification
           }
         })
-
       }
     },
   }
