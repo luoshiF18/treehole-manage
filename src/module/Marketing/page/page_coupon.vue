@@ -21,18 +21,18 @@
     </el-form>
     <!--下拉列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column type="index" width="60"></el-table-column>
-      <el-table-column prop="letter" label="ID" width="100"></el-table-column>
-      <el-table-column prop="icon" label="图片" width="120"></el-table-column>
-      <el-table-column prop="type_id" label="优惠类型" width="180"></el-table-column>
+      <el-table-column type="index"  width="60"></el-table-column>
+      <el-table-column prop="letter" label="ID"       width="100"></el-table-column>
+      <el-table-column prop="icon"   label="图片"     width="120"></el-table-column>
+      <el-table-column prop="type_id"label="优惠类型" width="180"></el-table-column>
       <el-table-column prop="with_special" label="可用于特价商品" width="180"></el-table-column>
-      <el-table-column prop="with_amount" label="满多少金额" width="180"></el-table-column>
-      <el-table-column prop="stock" label="库存金额" width="180"></el-table-column>
+      <el-table-column prop="with_amount"  label="满多少金额"     width="180"></el-table-column>
+      <el-table-column prop="stock"   label="库存金额" width="180"></el-table-column>
       <el-table-column prop="created" label="创建时间" width="180"></el-table-column>
-      <el-table-column prop="valid_type" label="时效" width="180"></el-table-column>
-      <el-table-column prop="quota" label="发券时间" width="180"></el-table-column>
+      <el-table-column prop="valid_type"label="时效"   width="180"></el-table-column>
+      <el-table-column prop="quota"     label="发券时间" width="180"></el-table-column>
       <el-table-column prop="limit_num" label="限领数量" width="180"></el-table-column>
-      <el-table-column prop="used_by" label="受益人群（0：全体1：普通会员,2：付费会员）" width="180"></el-table-column>
+      <el-table-column prop="used_by"   label="受益人群（0：全体1：普通会员,2：付费会员）" width="180"></el-table-column>
       <!--操作-->
       <el-table-column fixed="right" align="center" label="操作" width="250">
         <template slot-scope="page">

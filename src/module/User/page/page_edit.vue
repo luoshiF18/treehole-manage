@@ -1,5 +1,5 @@
 <template>
-
+<!---->
   <div>
     <el-form   :model="pageForm" label-width="80px" :rules="pageFormRules" ref="pageForm" >
       <el-form-item label="所属站点" prop="siteId">
@@ -138,7 +138,6 @@
                   });
                   //返回
                   this.go_back();
-
                 }else{
                   this.addLoading = false;
                   this.$message.error('提交失败');

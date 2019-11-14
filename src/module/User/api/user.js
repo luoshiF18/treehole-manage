@@ -5,12 +5,12 @@ let sysConfig = require('@/../config/sysConfig')
 let apiUrl = sysConfig.thApiUrlPre;
 
 
-// 页面查询方法
+// 页面查询方法(定义方法，
 export const page_list = (page,size,params) =>{
-  // 将params对象数据拼装成key/value串
+  // 将params对象数据拼装成key/value串  +'?'+ queryString
   let queryString = querystring.stringify(params);
-  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据
-  return http.requestQuickGet(apiUrl+'/User/page/user/'+page+'/'+size+'?'+ queryString);
+  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据/User/page/user/
+  return http.requestQuickGet(apiUrl+'/user/getAllUserVos/'+page+'/'+size +queryString);
 }
 //新增页面
 export const  page_add = params =>{

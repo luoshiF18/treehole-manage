@@ -10,7 +10,7 @@
             <el-submenu index="4">
               <template slot="title"><span>用户管理</span></template>
               <el-menu-item-group>
-                <el-menu-item index="/User/page/user">用户信息</el-menu-item>
+                <el-menu-item index="/User/page/user" >用户信息</el-menu-item>
                 <el-submenu index="4-1">
                     <template slot="title">会员等级</template>
                     <el-menu-item index="/User/page/userGrade">普通会员等级</el-menu-item>
@@ -57,7 +57,7 @@
 
 <script>
   import PHead from '@/base/components/head.vue';
-  import utilApi from '../../../common/utils';
+
 
   export default {
     components: {PHead},
