@@ -45,8 +45,8 @@
       <el-table-column prop="proficiency" label="擅长领域" width="160"></el-table-column>
       <el-table-column prop="studio" label="工作室" width="140"></el-table-column>
       <el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="110"></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" width="110"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="110"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="110"></el-table-column>
       <el-table-column label="操作" width="110">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>

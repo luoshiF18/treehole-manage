@@ -38,7 +38,7 @@
         <el-input v-model="profileForm.phone" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="创建时间" required>
-        <el-date-picker type="datetime" placeholder="创建时间" v-model="profileForm.createTime"></el-date-picker>
+        <el-date-picker type="datetime" placeholder="创建时间" v-model="profileForm.create_time"></el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -65,8 +65,8 @@
           proficiency: '', //擅长领域
           studio: '',
           phone: '',
-          createTime: new Date(),
-          updateTime: new Date()
+          create_time: new Date(),
+          update_time: new Date()
         },
         profileFormRules: {
           id: [
@@ -94,7 +94,7 @@
             {required: true, message: '请输入手机号', trigger: 'blur'},
             {pattern: /^1[34578]\d{9}$/, message: '请输入合法的手机号', trigger: 'blur'},
           ],
-          createTime: [
+          create_time: [
             {type: 'date', required: true, message: '请选择创建时间', trigger: 'change'}
           ]
         }

@@ -19,8 +19,8 @@
       <el-form-item label="所持证书" prop="certificate" style="width:40%">
         <el-input v-model="stateForm.certificate" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="微信" prop="weChat" style="width:20.7%">
-        <el-input v-model="stateForm.weChat" auto-complete="off" clearable></el-input>
+      <el-form-item label="微信" prop="we_chat" style="width:20.7%">
+        <el-input v-model="stateForm.we_chat" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="QQ" prop="qq" style="width:20.7%">
         <el-input v-model="stateForm.qq" auto-complete="off" clearable></el-input>
@@ -29,7 +29,7 @@
         <el-input v-model="stateForm.address" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="创建时间" required>
-        <el-date-picker type="datetime" placeholder="创建时间" v-model="stateForm.createTime"></el-date-picker>
+        <el-date-picker type="datetime" placeholder="创建时间" v-model="stateForm.create_time"></el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -51,11 +51,11 @@
           free: '', //工作状态，空闲或忙碌
           price: '',
           certificate: '', //专业证书
-          weChat: '',
+          we_chat: '',
           qq: '',
           address: '',
-          createTime: new Date(),
-          updateTime: new Date()
+          create_time: new Date(),
+          update_time: new Date()
         },
         stateFormRules: {
           id: [
@@ -73,7 +73,7 @@
           certificate: [
             {required: true, message: '请输入所持证书', trigger: 'blur'}
           ],
-          weChat: [
+          we_chat: [
             {required: true, message: '请输入微信联系方式', trigger: 'blur'}
           ],
           qq: [
@@ -82,7 +82,7 @@
           address: [
             {required: true, message: '请输入所在详细地址', trigger: 'blur'}
           ],
-          createTime: [
+          create_time: [
             {type: 'date', required: true, message: '请选择创建时间', trigger: 'change'}
           ]
         }

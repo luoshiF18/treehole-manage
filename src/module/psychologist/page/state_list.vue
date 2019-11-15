@@ -36,10 +36,10 @@
       <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
       <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
       <el-table-column prop="certificate" label="所持专业证书" width="250"></el-table-column>
-      <el-table-column prop="weChat" label="微信" width="130"></el-table-column>
+      <el-table-column prop="we_chat" label="微信" width="130"></el-table-column>
       <el-table-column prop="qq" label="QQ" width="120"></el-table-column>
       <el-table-column prop="address" label="详细地址" width="220"></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" width="130"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="130"></el-table-column>
       <el-table-column label="操作" width="90">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
