@@ -17,8 +17,8 @@
                     <el-menu-item index="/User/page/userGradeVip">付费会员等级</el-menu-item>
                 </el-submenu>
                 <el-menu-item index="/User/page/cards">会员卡信息</el-menu-item>
-                <el-menu-item index="/User/page/userIntegral">用户积分</el-menu-item>
-                <el-menu-item index="/User/page/userSign">签到</el-menu-item>
+                <el-menu-item index="/User/page/userIntegral">会员积分</el-menu-item>
+                <el-menu-item index="/User/page/userSign">会员签到</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 

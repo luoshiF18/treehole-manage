@@ -1,5 +1,4 @@
 <template>
-<!---->
   <div>
     <el-form   :model="pageForm" label-width="80px" :rules="pageFormRules" ref="pageForm" >
       <el-form-item label="所属站点" prop="siteId">
@@ -55,17 +54,14 @@
       <el-button type="primary" @click.native="editSubmit" :loading="addLoading">提交</el-button>
     </div>
   </div>
-
 </template>
 
 <script>
   import * as userApi from '../api/user'
-  export default{
 
+  export default{
     data(){
       return {
-        //页面id
-        pageId:'',
         //模版列表
         templateList:[],
         addLoading: false,//加载效果标记
@@ -103,10 +99,10 @@
     },
     methods:{
       querySite:function(){  //查询站点
-        userApi.page_site().then((res)=>{
+       /* userApi.page_site().then((res)=>{
           //将res结果数据赋值给模型对象
           this.siteList = res.queryResult.list;
-        })
+        })*/
       },
       queryTemplate:function(){  //查询站点
         userApi.page_template().then((res)=>{

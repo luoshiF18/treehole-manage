@@ -1,158 +1,188 @@
+<!--用户等级-->
 <template>
- <!-- 普通会员等级-->
+
   <div>
-    <!--查询表单-->
-    <el-form :model="params">
-      <el-select v-model="params.siteId" placeholder="请选择站点">
-        <el-option v-for="item in siteList" :key="item.siteId" :label="item.siteName" :value="item.siteId">
-          &lt;!&ndash; value值是用于提交的,label值是用于显示的 &ndash;&gt;
-        </el-option>
-      </el-select>
-      页面别名：
-      <el-input v-model="params.pageAliase" style="width: 100px"></el-input>
-      <el-button type="primary" icon="el-icon-search" size="small" @click="query">查询</el-button>
-      <!-- 路由跳转进行传递数据 -->
-      <router-link :to="{path:'/User/page/add',query:{page:this.params.page,siteId:this.params.siteId}}">
-        <el-button type="primary" icon="el-icon-circle-plus" size="small">新增</el-button>
-      </router-link>
-      <!-- <router-link>就是相当于html中的a标签 to就是要跳转的路径 -->
+    <!--查询表单+新增-->
+    <h2></h2>
+    <el-form  :model="params">
+      <!--查询-->
+      <el-input placeholder="请输入查询关键信息"
+                size="medium"
+                clearable
+                autofocus
+                style="width:200px">
+      </el-input>
+      <!-- 查询 按钮 -->
+      <el-button type="primary"
+                 size="medium"
+                 icon="el-icon-search"
+                 @click="query">查询
+      </el-button>
+      <!--添加 按钮 -->
+      <el-button type="primary"
+                 size="medium"
+                 icon="el-icon-search">新增用户
+      </el-button>
     </el-form>
-    <!--下拉列表-->
-    <el-table :data="list" stripe style="width: 100%">
-      <el-table-column type="index" width="60"></el-table-column>
-      <el-table-column prop="user_id"         label="会员id"  width="80"></el-table-column>
-      <el-table-column prop="user_nickname"   label="昵称"    width="100"></el-table-column>
-      <el-table-column prop="user_name"       label="姓名"    width="100"></el-table-column>
-      <el-table-column prop="gender"          label="性别"    width="50"></el-table-column>
-      <el-table-column prop="user_phone"      label="电话"    width="100"></el-table-column>
-      <el-table-column prop="user_createtime" label="注册时间"width="120"></el-table-column>
-      <el-table-column prop="user_region"     label="所在地区"width="200"></el-table-column>
-      <el-table-column center label="操作"    width="390">
-        <template slot-scope="page">
-          <!--编辑按钮-->
-          <el-button type="primary" icon="el-icon-edit" size="small" @click="edit(page.row.pageId)">编辑</el-button>
-          <!--slot-scope="page"slot-scope 是一个插槽,拿外面的数据,就是一行的数据page.row.pageId 拿到行的数据中的pageId
-            注意:
-            slot-scope="A"  @click="edit(B.row.pageId)
-            A和B需要保持一致
-          -->
-          <!--发布按钮-->
-          <el-button type="primary" icon="el-icon-check"size="small" @click="postPage(page.row.pageId)">发布</el-button>
-          <el-button type="primary" icon="el-icon-view" @click="preview(page.row.pageId)" size="small">预览</el-button>
-          <!--删除按钮-->
-          <el-button type="danger" icon="el-icon-delete"size="small"@click="del(page.row.pageId)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!--分页-->
-    <el-pagination layout="prev, pager, next" :total="total" :page-size="params.size" :current-page="params.page" @current-change="changePage" style="float: right;"></el-pagination>
+    <h2></h2>
+    <!--数据列表 stripe 条纹  -->
+    <el-card>
+      <el-table :data="list"
+                style="width: 100%"
+                height="420"
+                :default-sort = "{prop: 'user_createtime', order: 'descending'}">
+        <el-table-column type="index"
+                         align="center"
+                         width="40">
+        </el-table-column>
+        <el-table-column prop="freegrade_id"
+                         align="center"
+                         label="等级ID"
+                         width="200">
+        </el-table-column>
+        <el-table-column prop="freegrade_name"
+                         align="center"
+                         label="会员卡类型"
+                         width="200">
+        </el-table-column>
+        <el-table-column prop="points_judge"
+                         align="center"
+                         label="会员总积分"
+                         width="200">
+        </el-table-column>
+        <el-table-column prop="consum_judge"
+                         align="center"
+                         label="消费总金额"
+                         width="180">
+        </el-table-column>
+        <el-table-column prop="rank"
+                         align="center"
+                         label="会员等级"
+                         width="180">
+        </el-table-column>
+        <!--操作-->
+        <el-table-column label="操作"
+                         align="center"
+                         width="180">
+          <template slot-scope="page">
+            <!--编辑按钮-->
+            <el-button type="text" size="medium" @click="edit(page.row.user_id)">编辑</el-button>
+            <!--删除按钮-->
+            <el-button type="text" class="del" size="medium" @click="del(page.row.user_id)">删除</el-button>
+          </template>
+
+        </el-table-column>
+      </el-table>
+      <!--列表底部分页-->
+      <el-pagination layout="prev, pager, next"
+                     :total="total"
+                     :page-size="params.size"
+                     :current-page="params.page"
+                     @current-change="changePage"
+                     style="float: right;">
+        <!-- current-page:当前页  current-change:当前页改变时会被触发   -->
+      </el-pagination>
+    </el-card>
   </div>
+
 </template>
 
 <script>
+  //2、导入方法user.js方法
   import * as userApi from '../api/user'
+  import moment from 'moment'
 
   export default {
-    name: "userGrade",
     data() {
       return {
-        siteList: [],  // 站点列表
-        list: [{
-            user_id: '001',
-            user_nickname: 'wang',
-            user_name: '王小虎',
-            gender: '男',
-            user_phone: '10000000011',
-            pageWebPath: 'http',
-            user_createtime: '2016-05-02',
-            user_region: '上海市普陀区金沙江路 1518 弄'
-          }], // 假数据
-        total: 0,
-        params: {  // 数据对象 这里和上面的查询表单做了双向绑定
-          page: 1, // 当前页
-          size: 10,
-          siteId: '',
-          pageAliase: ''
-        }
+        list: [],  // 数据
+        params: {  //  数据对象 这里和上面的查询表单做了双向绑定
+          page: 1, //  当前页
+          size: 6, //  每页显示数据的条数
+          desc:'', // 是否降序
+          sortBy:'',//排序字段
+        },
+        total: 0,  //  数据总条数
       }
     },
     methods: {
       //页面查询
       query: function () {
-        //调用服务端的接口
-        userApi.page_list(this.params.page, this.params.size, this.params).then((res) => {
-          //将res结果数据赋值给list数据模型对象
+        //1、调用js方法请求服务端页面查询接口  2、导入user.js
+        /*this表示当前vue实例；res 整个response
+         1）服务端返回成功就调用then方法*/
+        userApi.user_grade(this.params).then((res) => { //当前页|每页记录数|查询条件
+          // 2）将res结果数据赋值给list数据模型对象
           this.list = res.queryResult.list;
           this.total = res.queryResult.total;
         })
       },
-      querySite: function () {  //查询站点
-        userApi.page_site().then((res) => {
-          //将res结果数据赋值给模型对象
-          this.siteList = res.queryResult.list;
-        })
-      },
-      changePage: function (currentPage) {  //形参就是当前页码
+      //当前页码改变时触发的事件 @current-change="changePage"
+      changePage: function (currentPage) {  //current--》当前页码
         this.params.page = currentPage;
         //调用query方法
         this.query();
       },
       //页面修改
-      edit: function (pageId) {
+      edit: function (user_id) {
         //打开修改页面
         this.$router.push({
-          path: '/User/page/edit/' + pageId
+          path: '/User/page/edit/' + user_id
         })
       },
       //页面删除
-      del: function (pageId) {
+      del: function (user_id) {
         this.$confirm('你确认删除吗?', '提示', {}).then(() => {
           //调用服务端接口
-          cmsApi.page_del(pageId).then((res) => {
+          userApi.page_del(user_id).then((res) => {
             if (res.success) {
               this.$message.success('删除成功')
               //刷新页面
-              this.query();
+              this.query()
             } else {
               this.$message.error('删除失败')
             }
           })
         })
       },
-      //页面预览
-      preview: function (pageId) {
-        //打开浏览器窗口
-        window.open("http://www.xuecheng.com/cms/preview/" + pageId);
+      //编写日期格式化的方法
+      dateFormat:function (row,column) {
+        const date=row[column.property]
+        if(date==undefined){
+          return''
+        }
+        return moment(date).format("YYYY-MM-DD")
       },
-      postPage: function (pageId) {
-        this.$confirm('确认发布该页面吗?', '提示', {}).then(() => {
-          userApi.page_postPage(pageId).then((res) => {
-            if (res.success) {
-              console.log('发布页面id=' + pageId);
-              this.$message.success('发布成功，请稍后查看结果');
-            } else {
-              this.$message.error('发布失败');
-            }
-          });
-        }).catch(() => {
-
-        });
-      }
+      //页面内容排序
+      sort: function (sort) {
+        this.params.sortBy = sort.prop;
+        //判断排序字段
+        if (sort.order == 'ascending') {
+          this.params.desc = false;
+        } else if (sort.order == 'descending') {
+          this.params.desc = true;
+        } else {
+          this.params.desc = null;
+        }
+        this.query();
+      },
     },
-    created() {
-      //取出路由中的参数,赋值给数据对象
+    //钩子函数们！
+    created() { // vm实例的data和methods初始化完毕后执行，发ajax要提前
+      /*!//取出路由中的参数,赋值给数据对象*/
       this.params.page = Number.parseInt(this.$route.query.page || 1);
-      this.params.siteId = this.$route.query.siteId || '';
     },
     mounted() { // 模板和HTML已经渲染出来
-      /*当dom元素全部渲染完成后,调用query*/
+      /*当dom元素全部渲染完成后,自动调用query*/
       this.query();
-      this.querySite();
     }
   }
 
 </script>
 
 <style scoped>
-
+  /*编写页面样式，不是必须*/
+  .del{
+    color: #f5354c;
+  }
 </style>

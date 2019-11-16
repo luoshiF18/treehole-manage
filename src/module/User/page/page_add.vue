@@ -17,7 +17,6 @@
           <el-option
             v-for="item in templateList"
             :key="item.templateId"
-            :label="item.templateName"
             :value="item.templateId">
           </el-option>
         </el-select>
@@ -54,6 +53,7 @@
 </template>
 <script>
   import * as userApi from '../api/user'
+
   export default {
     data() {
       return {
@@ -90,18 +90,6 @@
       }
     },
     methods:{
-      querySite:function(){  //查询站点
-        userApi.page_site().then((res)=>{
-          //将res结果数据赋值给模型对象
-          this.siteList = res.queryResult.list;
-        })
-      },
-      queryTemplate:function(){  //查询站点
-        userApi.page_template().then((res)=>{
-          //将res结果数据赋值给模型对象
-          this.templateList = res.queryResult.list;
-        })
-      },
       addSubmit:function () {
         this.$refs['pageForm'].validate((valid) => {
           if (valid) {  //表单校验成功
@@ -141,7 +129,6 @@
     },*/
     mounted() {
       this.querySite();
-      this.queryTemplate();
     }
   }
 </script>

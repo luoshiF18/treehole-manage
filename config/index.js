@@ -24,9 +24,47 @@ module.exports = {
           '^/api': ''  //将/api转换成''空字符串
         }
         //target: 'http://127.0.0.1:50201'
+      },
+      '/api/card': {
+        target: 'http://10.0.42.106:40300',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
 
       },
+      '/api/checkin': {
+        target: 'http://10.0.42.106:40300',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
 
+      },
+      '/api/freegrade': {
+        target: 'http://10.0.42.106:40300',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
+      '/api/paygrade': {
+        target: 'http://10.0.42.106:40300',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
+      '/api/point': {
+        target: 'http://10.0.42.106:40300',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
       '/api/marketing': {
         target: 'http://10.0.42.4:8007',
         pathRewrite: {
@@ -34,7 +72,7 @@ module.exports = {
         }
         //target: 'http://127.0.0.1:50201'
 
-      }
+      },
 
       /*,
       '/ucenter': {
