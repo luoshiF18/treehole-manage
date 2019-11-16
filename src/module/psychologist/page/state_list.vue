@@ -40,7 +40,7 @@
       <el-table-column prop="qq" label="QQ" width="120"></el-table-column>
       <el-table-column prop="address" label="详细地址" width="220"></el-table-column>
       <el-table-column prop="update_time" label="更新时间" width="130"></el-table-column>
-      <el-table-column label="操作" width="90">
+      <el-table-column label="操作" width="110">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
           <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>
@@ -96,7 +96,13 @@
       //打开修改页面
       edit: function (id) {
         this.$router.push({
-          path: '/psychologist/state/edit/' + id
+          path: '/psychologist/state/edit/' + id,
+          query: {
+            page: this.params.page,
+            name: this.params.name,
+            price: this.params.price,
+            free: this.params.free
+          }
         })
       },
       //删除记录

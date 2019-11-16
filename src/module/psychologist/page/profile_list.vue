@@ -103,7 +103,13 @@
       //打开修改页面
       edit: function (id) {
         this.$router.push({
-          path: '/psychologist/profile/edit/' + id
+          path: '/psychologist/profile/edit/' + id,
+          query: {
+            page: this.params.page,
+            name: this.params.name,
+            sex: this.params.sex,
+            qualification: this.params.qualification
+          }
         })
       },
       //删除记录
