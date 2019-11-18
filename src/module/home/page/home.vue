@@ -30,12 +30,7 @@
             </el-menu-item-group>
           </el-submenu>
 
-          <el-submenu index="3">
-            <template slot="title">档案管理</template>
-            <el-menu-item-group>
-              <el-menu-item index="/archives/page/List">测评档案</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+
 
           <el-submenu index="4">
             <template slot="title"><span>用户管理</span></template>
@@ -50,6 +45,22 @@
               <el-menu-item index="/user/page/userGradeVip">付费会员等级</el-menu-item>
             </el-submenu>
           </el-submenu>
+
+          <el-submenu index="5">
+            <template slot="title"><span>档案管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/archives/page/List">个人档案</el-menu-item>
+              <el-menu-item index="/archives/page/UserList">用户档案</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="6">
+            <template slot="title"><span>测评报告</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/archivesReport/page/List">个体报告</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
 
         </el-menu>
 

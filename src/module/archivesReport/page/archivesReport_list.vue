@@ -11,6 +11,7 @@
       <el-table
         :data="list"
         stripe
+        v-loading="loading"
         style="width: 100%">
         <el-table-column type="index" label="序号" width="60">
         </el-table-column>
@@ -92,7 +93,9 @@
         reque:{
           user_nickname: '',
           scaleName: ''
-        }
+        },
+          loading: true,
+
       }
     },
     methods:{
@@ -103,6 +106,8 @@
           //将res结果数据赋值给数据模型对象
           this.list = res.queryResult.list;
           this.total = res.queryResult.total;
+          this.loading = false;
+
         })
       },
       //档案查看

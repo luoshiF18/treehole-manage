@@ -1,9 +1,9 @@
 <template>
     <div>
       <h1>预警列表</h1>
-      <el-form ref="form" :model="params" label-width="80px">
+      <el-form ref="form" :model="params" label-width="80px" >
       <el-row :gutter="20">
-        <el-date-picker
+  <!--      <el-date-picker
           v-model="params.startTime"
           type="date"
           placeholder="选择日期">
@@ -12,7 +12,7 @@
           v-model="params.endTime"
           type="date"
           placeholder="选择日期">
-        </el-date-picker>
+        </el-date-picker>-->
         <el-col class="col" :span="4">
           <el-input  v-model="params.userNickName" placeholder="登录名">
           </el-input>
@@ -40,6 +40,7 @@
         style="width: 100%"
         class="el-row"
         stripe
+        v-loading="loading"
         @selection-change="handleSelectionChange"
         >
         <el-table-column align="center" type="selection" width="55"></el-table-column>
@@ -95,9 +96,10 @@
                     userNickName:'',
                     scaleName:'',
                     warningLevel:'',
-                    startTime:'',
-                    endTime:''
+/*                    startTime:'',
+                    endTime:''*/
                 },
+                loading: true,
                 delarr:[], //存放删除的数据
                 multipleSelection:[], //多选的数据
             }
@@ -109,6 +111,7 @@
                     //将res结果数据赋值给数据模型对象
                     this.list = res.queryResult.list;
                     this.total = res.queryResult.total;
+                    this.loading = false;
                 })
             },
             changePage:function (page) {//形参为当前页码
