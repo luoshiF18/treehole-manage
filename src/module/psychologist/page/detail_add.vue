@@ -27,10 +27,10 @@
       <el-form-item label="访问量" prop="visit_number" style="width:30%">
         <el-input v-model="detailForm.visit_number" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="留言数" prop="message" style="width:60%">
+      <el-form-item label="留言数" prop="message" style="width:30%">
         <el-input v-model="detailForm.message" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="入驻时长" prop="platform_year" style="width:60%">
+      <el-form-item label="入驻时长" prop="platform_year" style="width:30%">
         <el-input v-model="detailForm.platform_year" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="创建时间" required>
