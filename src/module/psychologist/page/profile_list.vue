@@ -4,7 +4,7 @@
     <!--查询表单-->
     <el-form :model="params" :inline="true">
       <el-form-item label="姓名">
-        <el-input v-model="params.name" placeholder="请输入您要查询的姓名" clearable></el-input>
+        <el-input v-model="params.name" placeholder="请输入您要查询的姓名"></el-input>
       </el-form-item>
       <el-form-item label="咨询师性别">
         <el-select v-model="params.sex" placeholder="请选择咨询师性别" clearable>
@@ -19,7 +19,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-on:click="query">查询</el-button>
+        <el-button type="primary" v-on:click="query" icon="el-icon-search">查询</el-button>
       </el-form-item>
       <el-form-item>
         <!--query用来取出数据模型中的参数放到url地址栏，带参传递-->
@@ -29,7 +29,7 @@
           sex:this.params.sex,
           qualification:this.params.qualification
         }}">
-          <el-button type="primary">新增</el-button>
+          <el-button type="primary" icon="el-icon-plus">新增</el-button>
         </router-link>
       </el-form-item>
     </el-form>
@@ -42,15 +42,15 @@
       <el-table-column prop="region" label="地区" width="100"></el-table-column>
       <el-table-column prop="qualification" label="专业资质" width="150"></el-table-column>
       <el-table-column prop="introduction" label="自我介绍" width="180"></el-table-column>
-      <el-table-column prop="proficiency" label="擅长领域" width="160"></el-table-column>
-      <el-table-column prop="studio" label="工作室" width="140"></el-table-column>
-      <el-table-column prop="phone" label="联系方式" width="120"></el-table-column>
+      <el-table-column prop="proficiency" label="擅长领域" width="150"></el-table-column>
+      <el-table-column prop="studio" label="工作室" width="135"></el-table-column>
+      <el-table-column prop="phone" label="联系方式" width="115"></el-table-column>
       <el-table-column prop="create_time" label="创建时间" width="110"></el-table-column>
       <el-table-column prop="update_time" label="更新时间" width="110"></el-table-column>
-      <el-table-column label="操作" width="110">
+      <el-table-column label="操作" width="130">
         <template slot-scope="page">
-          <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
-          <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>
+          <el-button size="small" type="text" @click="edit(page.row.id)" icon="el-icon-edit">编辑</el-button>
+          <el-button size="small" type="text" @click="del(page.row.id)" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-form :model="stateForm" :rules="stateFormRules" label-width="80px" ref="stateForm">
-      <el-form-item label="id" prop="id" style="width:20.7%">
-        <el-input v-model.number="stateForm.id" auto-complete="off" clearable></el-input>
+      <el-form-item label="id" prop="id" style="width:30%">
+        <el-input v-model="stateForm.id" auto-complete="off" placeholder="请确保与简介信息列表中的咨询师id一致"></el-input>
       </el-form-item>
-      <el-form-item label="姓名" prop="name" style="width:20.7%">
-        <el-input v-model="stateForm.name" auto-complete="off" clearable></el-input>
+      <el-form-item label="姓名" prop="name" style="width:30%">
+        <el-input v-model="stateForm.name" auto-complete="off" placeholder="请确保与简介信息列表中的咨询师姓名一致"></el-input>
       </el-form-item>
       <el-form-item label="工作状态" prop="free">
         <el-radio-group v-model="stateForm.free">
@@ -59,7 +59,7 @@
         },
         stateFormRules: {
           id: [
-            {type: 'number', required: true, message: '请输入数字类型id', trigger: 'blur'},
+            {required: true, message: '请确保与简介信息列表中的咨询师id一致', trigger: 'blur'},
           ],
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur'}

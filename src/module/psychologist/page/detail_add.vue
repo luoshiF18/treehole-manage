@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-form :model="detailForm" :rules="detailFormRules" label-width="80px" ref="detailForm">
-      <el-form-item label="咨询师id" prop="psychologist_id" style="width:20.7%">
-        <el-input v-model="detailForm.psychologist_id" auto-complete="off" clearable></el-input>
+      <el-form-item label="咨询师id" prop="psychologist_id" style="width:30%">
+        <el-input v-model="detailForm.psychologist_id" auto-complete="off" placeholder="请确保与简介信息列表中的咨询师id一致"></el-input>
       </el-form-item>
-      <el-form-item label="姓名" prop="psychologist_name" style="width:20.7%">
-        <el-input v-model="detailForm.psychologist_name" auto-complete="off" clearable></el-input>
+      <el-form-item label="姓名" prop="psychologist_name" style="width: 30%">
+        <el-input v-model="detailForm.psychologist_name" auto-complete="off" placeholder="请确保与简介信息列表中的咨询师姓名一致"></el-input>
       </el-form-item>
       <el-form-item label="机构名称" prop="organization_name" style="width:30%">
         <el-input v-model="detailForm.organization_name" auto-complete="off" clearable></el-input>
@@ -65,7 +65,7 @@
         },
         detailFormRules: {
           psychologist_id: [
-            {required: true, message: '请查看简介列表输入咨询师id', trigger: 'blur'},
+            {required: true, message: '请确保与简介信息列表中的咨询师id一致', trigger: 'blur'},
           ],
           psychologist_name: [
             {required: true, message: '请输入咨询师姓名', trigger: 'blur'}

@@ -2,7 +2,7 @@
   <div>
     <el-form :model="profileForm" :rules="profileFormRules" label-width="80px" ref="profileForm">
       <el-form-item label="id" prop="id" style="width:20.7%">
-        <el-input v-model.number="profileForm.id" auto-complete="off" clearable></el-input>
+        <el-input v-model="profileForm.id" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="姓名" prop="name" style="width:20.7%">
         <el-input v-model="profileForm.name" auto-complete="off" clearable></el-input>
@@ -70,7 +70,7 @@
         },
         profileFormRules: {
           id: [
-            {type: 'number', required: true, message: '请输入数字类型id', trigger: 'blur'},
+            {required: true, message: '请输入咨询师id', trigger: 'blur'},
           ],
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur'}

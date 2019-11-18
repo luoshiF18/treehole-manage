@@ -3,7 +3,7 @@
   <div>
     <el-form :model="params" :inline="true">
       <el-form-item label="姓名">
-        <el-input v-model="params.name" placeholder="请输入您要查询的姓名" clearable></el-input>
+        <el-input v-model="params.name" placeholder="请输入您要查询的姓名"></el-input>
       </el-form-item>
       <el-form-item label="工作状态">
         <el-select v-model="params.free" placeholder="请选择咨询师工作状态" clearable>
@@ -12,10 +12,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="服务价格">
-        <el-input v-model="params.price" placeholder="请输入您要查询的服务价格" clearable></el-input>
+        <el-input v-model="params.price" placeholder="请输入您要查询的服务价格"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-on:click="query">查询</el-button>
+        <el-button type="primary" v-on:click="query" icon="el-icon-search">查询</el-button>
       </el-form-item>
       <el-form-item>
         <!--query用来取出数据模型中的参数放到url地址栏，带参传递-->
@@ -25,25 +25,26 @@
           price:this.params.price,
           free:this.params.free
         }}">
-          <el-button type="primary">新增</el-button>
+          <el-button type="primary" icon="el-icon-plus">新增</el-button>
         </router-link>
       </el-form-item>
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
       <el-table-column prop="id" label="id" width="60"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="70"></el-table-column>
       <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
       <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
-      <el-table-column prop="certificate" label="所持专业证书" width="250"></el-table-column>
-      <el-table-column prop="we_chat" label="微信" width="130"></el-table-column>
-      <el-table-column prop="qq" label="QQ" width="120"></el-table-column>
-      <el-table-column prop="address" label="详细地址" width="220"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="130"></el-table-column>
-      <el-table-column label="操作" width="110">
+      <el-table-column prop="certificate" label="所持专业证书" width="230"></el-table-column>
+      <el-table-column prop="we_chat" label="微信" width="115"></el-table-column>
+      <el-table-column prop="qq" label="QQ" width="115"></el-table-column>
+      <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="110"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="110"></el-table-column>
+      <el-table-column label="操作" width="130">
         <template slot-scope="page">
-          <el-button size="small" type="text" @click="edit(page.row.id)">编辑</el-button>
-          <el-button size="small" type="text" @click="del(page.row.id)">删除</el-button>
+          <el-button size="small" type="text" @click="edit(page.row.id)" icon="el-icon-edit">编辑</el-button>
+          <el-button size="small" type="text" @click="del(page.row.id)" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
