@@ -1,93 +1,98 @@
 <template>
-  <div class="wid">
+  <div>
+    <div id="pdfCentent" class="wid">
 
-    <h1>《<span v-text="resultExt.scaleName"> </span>》测评报告</h1>
-    <div class="piece">
-      <table>
-        <tr>
-          <td>登录名:</td>
-          <td>{{resultExt.user_nickname}}</td>
-        </tr>
-        <tr>
-          <td>姓名:</td>
-          <td>{{resultExt.user_name}}</td>
-        </tr>
-        <tr>
-          <td>性别:</td>
-          <td>{{resultExt.gender == 1 ? '女' : '男'}}</td>
-        </tr>
-        <tr>
-          <td>出生日期:</td>
-          <td>{{resultExt.user_birth}}</td>
-        </tr>
-        <tr>
-          <td>完成时间:</td>
-          <td>{{resultExt.createTime}}</td>
-        </tr>
-      </table>
-    </div>
-
-    <div class="piece">
-      <h3>一.测验介绍</h3>
-      <div class="score-description-bord">
-        <span>{{resultExt.topicBackground}}</span>
+      <h1>《<span v-text="resultExt.scaleName"> </span>》测评报告</h1>
+      <div class="piece">
+        <table>
+          <tr>
+            <td>登录名:</td>
+            <td>{{resultExt.user_nickname}}</td>
+          </tr>
+          <tr>
+            <td>姓名:</td>
+            <td>{{resultExt.user_name}}</td>
+          </tr>
+          <tr>
+            <td>性别:</td>
+            <td>{{resultExt.gender == 1 ? '女' : '男'}}</td>
+          </tr>
+          <tr>
+            <td>出生日期:</td>
+            <td>{{resultExt.user_birth}}</td>
+          </tr>
+          <tr>
+            <td>完成时间:</td>
+            <td>{{resultExt.createTime}}</td>
+          </tr>
+        </table>
       </div>
-    </div>
 
-    <div class="piece">
-      <h3>二.测试结果</h3>
-      <div>
-        <h1>生活事件量表</h1>
-        <div id="myLine" ref="myLine"></div>
-        <div>
-          <table class="eva_table">
-            <tr class="eva_rep_bac">
-              <td colspan="3"><span class="eva_font">总评</span></td>
-            </tr>
-
-            <tr class="eva_rep_2">
-              <td><span class="eva_font">原始分：{{resultExt.score}}</span></td>
-              <td><span class="eva_font">标准分：</span></td>
-              <td><span class="eva_font">状态：{{resultExt.heal_level}}</span></td>
-            </tr>
-
-            <tr>
-              <td colspan="3">
-                <span class="eva_font">【结果描述】</span>
-                <br>
-                <span>{{resultExt.description}}</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="3">
-                <span class="eva_font">【心理建议】</span>
-                <br>
-                <span class="eva_first_two">{{resultExt.topicSuggest}} </span>
-              </td>
-            </tr>
-          </table>
+      <div class="piece">
+        <h3>一.测验介绍</h3>
+        <div class="score-description-bord">
+          <span>{{resultExt.topicBackground}}</span>
         </div>
       </div>
+
+      <div class="piece">
+        <h3>二.测试结果</h3>
+        <div>
+          <h1>生活事件量表</h1>
+          <div id="myLine" ref="myLine"></div>
+          <div>
+            <table class="eva_table">
+              <tr class="eva_rep_bac">
+                <td colspan="3"><span class="eva_font">总评</span></td>
+              </tr>
+
+              <tr class="eva_rep_2">
+                <td><span class="eva_font">原始分：{{resultExt.score}}</span></td>
+                <td><span class="eva_font">标准分：</span></td>
+                <td><span class="eva_font">状态：{{resultExt.heal_level}}</span></td>
+              </tr>
+
+              <tr>
+                <td colspan="3">
+                  <span class="eva_font">【结果描述】</span>
+                  <br>
+                  <span>{{resultExt.description}}</span>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="3">
+                  <span class="eva_font">【心理建议】</span>
+                  <br>
+                  <span class="eva_first_two">{{resultExt.topicSuggest}} </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="piece">
+        <h3>三.原始答卷</h3>
+        <el-table
+          :data="resuAnswers"
+          stripe
+          style="width: 100%">
+          <el-table-column prop="sort" label="题号" width="100">
+          </el-table-column>
+          <el-table-column prop="question" label="问题" width="300">
+          </el-table-column>
+          <el-table-column prop="answer" label="用户答案" width="800">
+          </el-table-column>
+        </el-table>
+      </div>
+
+
     </div>
-
-    <div class="piece">
-      <h3>三.原始答卷</h3>
-      <el-table
-        :data="resuAnswers"
-        stripe
-        style="width: 100%">
-        <el-table-column prop="sort" label="题号" width="100">
-        </el-table-column>
-        <el-table-column prop="question" label="问题" width="300">
-        </el-table-column>
-        <el-table-column prop="answer" label="用户答案" width="800">
-        </el-table-column>
-      </el-table>
-    </div>
-
-
+    <el-button type="danger"
+               @click="ExportSavePdf(htmlTitle,nowTime)">导出PDF</el-button>
   </div>
+
 </template>
 
 
@@ -107,7 +112,9 @@
           xData: ['总评'],
           yData: [null]
         },
-        fullscreen: true
+        fullscreen: true,
+        htmlTitle: "PDF名称",
+        nowTime: ""
       }
     },
     methods:{
@@ -218,7 +225,6 @@
   }
   .wid{
     width: 65%;
-    border: 1px solid #d7d7dc;
     padding: 60px;
   }
   h3{

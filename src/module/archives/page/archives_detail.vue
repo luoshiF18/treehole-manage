@@ -44,7 +44,7 @@
             style="width: 100%">
             <el-table-column type="index" width="60">
             </el-table-column>
-            <el-table-column prop="createTime" label="测评时间"></el-table-column>
+            <el-table-column prop="createTime" :formatter="dateFormat" label="测评时间"></el-table-column>
             <el-table-column prop="score" label="得分"></el-table-column>
             <el-table-column prop="warningInfo" label="预警信息"></el-table-column>
           </el-table>
@@ -70,6 +70,7 @@
 <script>
   import * as archivesApi from '../api/archives.js'
   import { Loading } from 'element-ui';
+  import moment from 'moment'
   // import Watermark from '../../../common/watermark'
 
   export default {
@@ -163,6 +164,14 @@
           loadingInstance.close();
         });
       },
+      dateFormat:function(row,column){
+        var date = row[column.property];
+
+        if(date == undefined){return ''};
+
+        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+
+      }
     },
     created(){
       //取出路由中的参数,赋值给数据对象
