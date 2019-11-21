@@ -8,7 +8,7 @@ export default [{
   hidden: false,
   children:[
     {path:'/warn/page/list',name:'预警管理页',component:list,hidden:false},
-    {path:'/warn/page/preview',name:'查看页',component:preview,hidden:true},
+    {path:'/warn/page/preview/:warningId',name:'查看页',component: preview,hidden:true},
   ]
 }
 ]

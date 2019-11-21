@@ -19,7 +19,7 @@
             <template slot="title">量表管理</template>
             <el-menu-item-group>
               <el-menu-item index="/scale/page/list">量表列表</el-menu-item>
-              <el-menu-item index="/scale/page/add">新增量表页</el-menu-item>
+<!--              <el-menu-item index="/scale/page/add">新增量表页</el-menu-item>-->
             </el-menu-item-group>
           </el-submenu>
 
