@@ -23,8 +23,12 @@ module.exports = {
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
         }
-        //target: 'http://127.0.0.1:50201'
-
+      },
+      '/api/scale': {
+        target: 'http://localhost:40200',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
       },
       '/api/uservo': {
         target: 'http://localhost:40300',
@@ -35,10 +39,11 @@ module.exports = {
 
       },
       '/api/archives': {
-      target: 'http://localhost:40100',
+        target: 'http://localhost:40100',
         pathRewrite: {
-        '^/api': ''  //将/api转换成''空字符串
-      }
+          '^/api': ''  //将/api转换成''空字符串
+        }
+
         //target: 'http://127.0.0.1:50201'
 
       },
@@ -111,7 +116,7 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: true,
+    useEslint: false,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,
