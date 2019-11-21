@@ -10,8 +10,12 @@
           <i class="fa fa-align-justify"></i>
         </div>
       </el-col>-->
-      <el-col :span="10" class="userinfo" v-if="this.logined">
-        <!--<el-dropdown trigger="hover">
+      <el-col class="el-col-3" :span="10">
+       <span style="float: right;margin-right: 10vw">尊敬的用户 ，欢迎您</span>
+      </el-col>
+
+       <!-- <el-col :span="10" class="userinfo" v-if="this.logined">
+        &lt;!&ndash;<el-dropdown trigger="hover">
          <span class="el-dropdown-link userinfo-inner"><img :src="this.user.sysUserImg!=null?this.user.sysUserImg:'/static/images/small.jpg'"/> {{user.username}}</span>
 
           <el-dropdown-menu slot="dropdown">
@@ -19,7 +23,7 @@
            <el-dropdown-item>设置</el-dropdown-item>
            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
          </el-dropdown-menu>
-       </el-dropdown>-->
+       </el-dropdown>&ndash;&gt;
 
         <div class="nav">
 
@@ -30,7 +34,7 @@
               <a href="javascript:;" @click="logout" :loading="editLoading"><i class="el-icon-circle-close"></i>退出</a>
             </div>
           </div>
-      </el-col>
+      </el-col>-->
     </el-col>
     <!-- 1.0 利用mint-ui中的header组件实现整个系统的头部 -->
     <!-- <mt-header fixed title="传智播客.黑马程序员Vue商城系统">
@@ -156,7 +160,7 @@
   }
   }
   .logo {
-  //width:230px;
+  /*//width:230px;*/
     height: 60px;
     font-size: 20px;
     padding-left: 0px;
@@ -189,7 +193,7 @@
   }
   .main {
     display: flex;
-  // background: #324057;
+  /*// background: #324057;*/
     position: absolute;
     top: 60px;
     bottom: 0px;
@@ -197,9 +201,9 @@
   aside {
     flex: 0 0 230px;
     width: 230px;
-  // position: absolute;
-  // top: 0px;
-  // bottom: 0px;
+  /*// position: absolute;*/
+  /*// top: 0px;*/
+  /*// bottom: 0px;*/
   .el-menu {
     height: 100%;
   }
@@ -230,15 +234,15 @@
   .content-container {
     background: #fff;
     flex: 1;
-  // position: absolute;
-  // right: 0px;
-  // top: 0px;
-  // bottom: 0px;
-  // left: 230px;
+  /*// position: absolute;*/
+  /*// right: 0px;*/
+  /*// top: 0px;*/
+  /*// bottom: 0px;*/
+  /*// left: 230px;*/
     overflow-y: scroll;
     padding: 20px;
   .breadcrumb-container {
-  //margin-bottom: 15px;
+  /*//margin-bottom: 15px;*/
   .title {
     width: 200px;
     float: left;
