@@ -35,15 +35,17 @@
           <el-submenu index="4">
             <template slot="title"><span>用户管理</span></template>
             <el-menu-item-group>
-              <el-menu-item index="/user/page/user">用户信息</el-menu-item>
-              <el-menu-item index="/user/page/userIntegral">用户积分</el-menu-item>
-              <el-menu-item index="/user/page/userSign">签到</el-menu-item>
+              <el-menu-item index="/member/page/user" >用户信息</el-menu-item>
+              <el-menu-item index="/member/page/cards">会员卡信息</el-menu-item>
+              <el-submenu index="4-1">
+                <template slot="title">会员等级</template>
+                <el-menu-item index="/member/page/freegrade">普通会员等级</el-menu-item>
+                <el-menu-item index="/member/page/paygrade">付费会员等级</el-menu-item>
+              </el-submenu>
+
+              <el-menu-item index="/member/page/point">会员积分</el-menu-item>
+              <el-menu-item index="/member/page/checkin">会员签到</el-menu-item>
             </el-menu-item-group>
-            <el-submenu index="4-1">
-              <template slot="title">会员等级</template>
-              <el-menu-item index="/user/page/userGrade">普通会员等级</el-menu-item>
-              <el-menu-item index="/user/page/userGradeVip">付费会员等级</el-menu-item>
-            </el-submenu>
           </el-submenu>
 
           <el-submenu index="5">

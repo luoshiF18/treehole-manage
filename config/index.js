@@ -30,7 +30,8 @@ module.exports = {
           '^/api': ''  //将/api转换成''空字符串
         }
       },
-      '/api/uservo': {
+      //会员管理
+      '/api/member': {
         target: 'http://localhost:40300',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
@@ -38,7 +39,7 @@ module.exports = {
         //target: 'http://127.0.0.1:50201'
 
       },
-      '/api/archives': {
+       '/api/archives': {
         target: 'http://localhost:40100',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
