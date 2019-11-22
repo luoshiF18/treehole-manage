@@ -4,7 +4,7 @@
     <div>
       <!--查询表单-->
       <el-form :model="params">
-        量表名：<el-input v-model="params.pageAliase"  style="width: 100px"></el-input>
+        用户名：<el-input v-model="params.pageAliase"  style="width: 100px"></el-input>
         <el-button type="primary" size="small" v-on:click="query">查询</el-button>
       </el-form>
       <el-table
@@ -140,6 +140,16 @@
           this.oneUserList = res.queryResult.list;
         })
       },
+      //档案查看
+      look:function (resultId) {
+        // alert(resultId);
+        //打开修改页面
+        this.$router.push({
+          path:'/archivesReport/page/detail',query:{
+            resultId:resultId
+          }
+        })
+      },
       changePage:function (currentPage) {  //形参就是当前页码
         //
         this.params.page = currentPage;
@@ -148,12 +158,18 @@
       },
       //档案查看
       lookArchives:function (userId) {
-        this.dialogTableVisible = true
+/*        this.dialogTableVisible = true
         this.oneUser.userId = userId
         archivesApi.archivesList_list(1,1000000,this.oneUser).then((res)=>{
           //将res结果数据赋值给数据模型对象
           this.oneUserList = res.queryResult.list;
           this.oneloading = false;
+        })*/
+        this.$router.push({
+          path:'/archives/page/userArchivesList',query:{
+            userId:userId,
+            flag: 1
+          }
         })
       },
       //页面删除

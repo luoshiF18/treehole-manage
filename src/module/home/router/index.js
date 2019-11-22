@@ -1,5 +1,5 @@
 import Home from '@/module/home/page/home.vue';
-import Login from '@/components/Login/index';
+import Login from '@/base/components/loginform.vue';
 export default [{
     path: '/',
     component: Home,

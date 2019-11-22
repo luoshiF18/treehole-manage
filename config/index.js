@@ -47,6 +47,22 @@ module.exports = {
         //target: 'http://127.0.0.1:50201'
 
       },
+      '/api/psychologist': {
+        target: 'http://localhost:40500',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
+      '/api/auth': {
+        target: 'http://localhost:40400',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
       '/api/warning': {
         target: 'http://localhost:40200',
         pathRewrite: {
