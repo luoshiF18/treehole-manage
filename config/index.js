@@ -2,6 +2,8 @@
 // Template version: 1.2.4
 // see http://vuejs-templates.github.io/webpack for documentation.
 
+/*import * as process from "../.eslintrc";*/
+
 const path = require('path')
 var proxyConfig = require('./proxyConfig')
 let sysConfig = require('./sysConfig')
@@ -39,7 +41,7 @@ module.exports = {
 
       },
       '/api/agent': {
-        target: 'http://localhost:40400',
+        target: 'http://localhost:40600',
         changeOrigin:true,
         pathRewrite: {
           '^/api': ''
@@ -48,7 +50,7 @@ module.exports = {
 
       },
       '/api/reply': {
-        target: 'http://localhost:40400',
+        target: 'http://localhost:40600',
         changeOrigin:true,
         pathRewrite: {
           '^/api': ''
@@ -57,7 +59,7 @@ module.exports = {
 
       },
       '/api/category': {
-        target: 'http://localhost:40400',
+        target: 'http://localhost:40600',
         changeOrigin:true,
         pathRewrite: {
           '^/api': ''
@@ -66,7 +68,7 @@ module.exports = {
 
       },
       '/api/convers': {
-        target: 'http://localhost:40400',
+        target: 'http://localhost:40600',
         changeOrigin:true,
         pathRewrite: {
           '^/api': ''
@@ -183,7 +185,7 @@ module.exports = {
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false,
+    cssSourceMap: true,
   },
   build: {
     // Template for index.html

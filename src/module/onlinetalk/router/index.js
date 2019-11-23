@@ -19,12 +19,22 @@ import category_edit from '@/module/onlinetalk/page/category/category_edit.vue';
 
 import convers_list from '@/module/onlinetalk/page/convers/convers_list.vue';
 /*import page_html from '@/module/cms/page/page_html.vue';*/
+
+import imServer from '@/module/onlinetalk/page/work/imServer/imServer.vue'
+/*import reply_list from '@/components/imServer/reply_list'*/
+/*import imClient from '@/components/imClient/imClient'*/
+import imClient from '@/module/onlinetalk/page/work/imClient/imClient.vue'
+
 export default [{
     path: '/onlinetalk',
     component: Home,
     name: '客服管理',
     hidden: false,
     children: [
+      { path: '/', redirect: 'imServer' },
+      /*  { path: '/reply_list', name: 'reply_list', component: reply_list },*/
+      { path: '/imServer', name: 'imServer', component: imServer },
+      { path: '/imClient', name: 'imClient', component: imClient },
       //聊天记录模块
       { path: '/convers/chat', name:'聊天记录',component: imchat,hidden:false},
       //客服模块
@@ -42,7 +52,19 @@ export default [{
       //会话模块
       { path: '/convers/list', name:'会话列表',component: convers_list,hidden:false},
      /* { path: '/cms/page/html/:pageId', name:'生成html',component: page_html,hidden:false},*/
-    ]
+    ],
+  routes: [
+    { path: '/', redirect: 'imServer' },
+    /*  { path: '/reply_list', name: 'reply_list', component: reply_list },*/
+    { path: '/imServer', name: 'imServer', component: imServer },
+    { path: '/imClient', name: 'imClient', component: imClient },
+  ]
+  /*routes: [
+    { path: '/', redirect: 'imServer' },
+    /!*  { path: '/reply_list', name: 'reply_list', component: reply_list },*!/
+    { path: '/imServer', name: 'imServer', component: imServer },
+    { path: '/imClient', name: 'imClient', component: imClient },
+  ]*/
     // ,
     // redirect: '/home',
     // children: [

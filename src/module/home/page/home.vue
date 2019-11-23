@@ -66,8 +66,10 @@
             <template slot="title"><span>客服管理</span></template>
             <el-submenu index="7-1">
              <template slot="title">客服工作台</template>
-              <el-menu-item index=""><a href='http://localhost:8080/#/imServer' target='_blank'>客服工作台</a></el-menu-item>
-              <el-menu-item index=""><a href='http://localhost:8080/#/imclient' target='_blank'>用户测试台</a></el-menu-item>
+              <!--<el-menu-item index=""><a href='http://localhost:11000/#/imServer' target='_blank'>客服工作台</a></el-menu-item>
+              <el-menu-item index=""><a href='http://localhost:11000/#/imclient' target='_blank'>用户测试台</a></el-menu-item>-->
+              <el-menu-item index="/imServer">客服工作台</el-menu-item>
+              <el-menu-item index="/imclient">用户测试台</el-menu-item>
 
             </el-submenu>
 
