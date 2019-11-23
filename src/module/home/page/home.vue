@@ -1,4 +1,5 @@
 <template>
+
   <el-row class="container">
     <p-head></p-head>
     <el-col :span="24" class="main">
@@ -63,6 +64,41 @@
             </el-menu-item-group>
           </el-submenu>
 
+          <el-submenu index="7">
+            <template slot="title"><span>客服管理</span></template>
+            <el-submenu index="7-1">
+             <template slot="title">客服工作台</template>
+              <!--<el-menu-item index=""><a href='http://localhost:11000/#/imServer' target='_blank'>客服工作台</a></el-menu-item>
+              <el-menu-item index=""><a href='http://localhost:11000/#/imclient' target='_blank'>用户测试台</a></el-menu-item>-->
+              <el-menu-item index="/imServer">客服工作台</el-menu-item>
+              <el-menu-item index="/imclient">用户测试台</el-menu-item>
+
+            </el-submenu>
+
+
+            <el-submenu index="7-2">
+              <template slot="title">客服管理</template>
+              <el-menu-item index="/agent/list">客服列表</el-menu-item>
+              <el-menu-item index="/agent/add">添加客服</el-menu-item>
+              <el-menu-item index="/agent/edit/:agentId">修改客服</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-3">
+              <template slot="title">快捷回复管理</template>
+              <el-menu-item index="/reply/list">快捷回复列表</el-menu-item>
+              <el-menu-item index="/reply/add">添加快捷回复</el-menu-item>
+              <el-menu-item index="/reply/edit/:replyId">修改快捷回复</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-4">
+              <template slot="title">分类管理</template>
+              <el-menu-item index="/category/list">分类列表</el-menu-item>
+              <el-menu-item index="/category/add">添加分类</el-menu-item>
+              <el-menu-item index="/category/edit/:categoryId">修改分类信息</el-menu-item>
+            </el-submenu>
+          <el-submenu index="7-5">
+            <template slot="title">会话管理</template>
+            <el-menu-item index="/convers/list">会话列表</el-menu-item>
+          </el-submenu>
+          </el-submenu>
 
         </el-menu>
 
@@ -143,7 +179,7 @@
 
 <style scoped lang="scss">
   @import '~scss_vars';
-
+  /*.a {text-decoration：none}*/
   .container {
     position: absolute;
     top: 0px;
