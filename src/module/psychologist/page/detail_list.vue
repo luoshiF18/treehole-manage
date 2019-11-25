@@ -80,7 +80,7 @@
       //分页查询
       changePage: function (page) {
         this.params.page = page;
-        this.query()
+        this.get()
       },
       //打开修改页面
       edit: function (psychologist_id) {
