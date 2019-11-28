@@ -99,6 +99,36 @@ export const detail_all = (page, size) => {
   return http.requestQuickGet(apiUrl + '/psychologist/detail/get/list?page=' + page + '&size=' + size);
 }
 
+//查询所有评价信息
+export const comment_all = (page, size) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/comment/get/list/?page=' + page + '&size=' + size);
+}
+
+//根据评价id查询评价信息
+export const comment_find = comment_id => {
+  return http.requestQuickGet(apiUrl + '/psychologist/comment/get/comment/' + comment_id)
+}
+
+//根据咨询师id查询其评价信息
+export const comment_get = (page, size, psychologist_id) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/comment/get/psy/' + psychologist_id + '?page=' + page + '&size=' + size);
+}
+
+//根据评价id删除评价信息
+export const comment_del = comment_id => {
+  return http.requestDelete(apiUrl + '/psychologist/comment/del/' + comment_id)
+}
+
+//更新评价信息
+export const comment_edit = (params) => {
+  return http.requestPut(apiUrl + '/psychologist/comment/update', params)
+}
+
+//新增评价信息
+export const comment_add = params => {
+  return http.requestPost(apiUrl + '/psychologist/comment/add', params)
+}
+
 
 
 
