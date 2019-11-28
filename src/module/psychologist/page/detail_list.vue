@@ -2,7 +2,7 @@
   <div>
     <el-form :model="params" :inline="true">
       <el-form-item label="姓名">
-        <el-input v-model="params.psychologist_name" placeholder="请输入您要查询的姓名"></el-input>
+        <el-input v-model="params.psychologist_name" placeholder="请输入咨询师姓名"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" v-on:click="query">查询</el-button>

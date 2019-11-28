@@ -4,7 +4,7 @@
     <!--查询表单-->
     <el-form :model="params" :inline="true">
       <el-form-item label="姓名">
-        <el-input v-model="params.name" placeholder="请输入您要查询的姓名"></el-input>
+        <el-input v-model="params.name" placeholder="请输入咨询师姓名"></el-input>
       </el-form-item>
       <el-form-item label="咨询师性别">
         <el-select v-model="params.sex" placeholder="请选择咨询师性别" clearable>
