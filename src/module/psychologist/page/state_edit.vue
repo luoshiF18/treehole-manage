@@ -104,7 +104,7 @@
           //校验通过
           if (valid) {
             this.$confirm('您确认提交吗?', '提示', {}).then(() => {
-              this.addLoading = true;
+              this.addLoading = false;
               psychologistApi.state_edit(this.stateForm).then(res => {
                 if (res.success) {
                   this.addLoading = false;
