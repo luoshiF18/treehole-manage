@@ -1,34 +1,32 @@
 <!--用户等级-->
 <template>
-
   <div>
     <!--查询表单+新增-->
-    <h2></h2>
-    <el-form  :model="params">
+    <el-form  :model="params" class="margin">
       <!--查询-->
       <el-input placeholder="等级ID"
                 size="medium"
                 prefix-icon="el-icon-search"
                 clearable
-                v-model="params.freegrade_id"
+                v-model="params.grade_id"
                 autofocus
-                style="width:200px">
+                style="width:200px;text-align:center;">
       </el-input>
       <el-input placeholder="等级名称"
                 size="medium"
                 prefix-icon="el-icon-search"
                 clearable
-                v-model="params.freegrade_name"
-                autofocus
-                style="width:180px">
+                v-model="params.grade_name"
+                style="width:200px;text-align:center;"
+                autofocus>
       </el-input>
       <el-input placeholder="等级排名"
                 size="medium"
                 prefix-icon="el-icon-search"
                 clearable
+                style="width:200px;text-align:center;"
                 v-model="params.rank"
-                autofocus
-                style="width:120px">
+                autofocus>
       </el-input>
        <!--查询 按钮 -->
       <el-button type="primary"
@@ -40,20 +38,45 @@
       <router-link tag="span"
                    :to="{path:'/member/page/freegrade/freegrade_add',query:{
                    page:this.params.page,
-                   freegrade_id:this.params.freegrade_id
+                   freegrade_id:this.params.grade_id
       }}">
       <el-button type="primary"
-                 size="medium">新增等级
+                  style="float: right"
+                  size="medium">新增等级
       </el-button>
       </router-link>
     </el-form>
     <h2></h2>
     <!--数据列表 stripe 条纹  -->
-    <el-card>
+    <el-card class="margin">
       <el-table :data="list"
-                style="width: 100%"
-                height="420"
-                :default-sort = "{prop: 'user_createtime', order: 'descending'}">
+                 v-loading="loading"
+                 style="width: 100%; margin-top: 20px;margin-left: 20px;height:50%"
+                 height="420"
+                 :default-sort="{prop: 'user_createtime', order: 'descending'}">
+        <!--数据详情列表-->
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="right" inline class="demo-table-expand">
+              <el-form-item label="等级ID">
+                <span>{{ props.row.freegrade_id }}</span>
+              </el-form-item>
+              <el-form-item label="会员卡类型">
+                <span>{{ props.row.freegrade_name }}</span>
+              </el-form-item>
+              <el-form-item label="会员总积分">
+                <span>{{ props.row.points_judge }}</span>
+              </el-form-item>
+              <el-form-item label="消费总金额" >
+                <span>{{ props.row.consum_judge }}</span>
+              </el-form-item>
+              <el-form-item label="会员等级" >
+                <span>{{ props.row.rank }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <!-- 数据列表 -->
         <el-table-column type="index"
                          align="center"
                          width="40">
@@ -66,7 +89,8 @@
         <el-table-column prop="rank"
                          align="center"
                          label="等级序号"
-                         width="100">
+                         width="100"
+                         sortable>
         </el-table-column>
         <el-table-column prop="freegrade_name"
                          align="center"
@@ -115,17 +139,18 @@
 <script>
   //2、导入方法user.js方法
   import * as userApi from '../../api/member'
-  import moment from 'moment'
+  //import moment from 'moment'
 
   export default {
     data() {
       return {
+        loading:true,
         list: [],  // 数据
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
-          freegrade_id:'',
-          freegrade_name:'',
+          grade_id:'',
+          grade_name:'',
           rank:''
         },
         total: 0,  //  数据总条数
@@ -154,7 +179,10 @@
       edit: function (freegrade_id) {
         //打开修改页面
         this.$router.push({
-          path: '/member/page/edit/' + freegrade_id
+          path: '/member/page/freegrade/page_freegrade/' + freegrade_id,
+          query:{
+            page: this.params.page
+          }
         })
       },
       //页面删除
@@ -197,7 +225,7 @@
     //钩子函数们！
     created() { // vm实例的data和methods初始化完毕后执行，发ajax要提前
       /*!//取出路由中的参数,赋值给数据对象*/
-      this.params.page = Number.parseInt(this.$route.query.page || 1);
+      this.params.page = Number.parseInt(this.$route.query.prepage || 1);
     },
     mounted() { // 模板和HTML已经渲染出来
       /*当dom元素全部渲染完成后,自动调用query*/
@@ -221,6 +249,21 @@
 
 <style scoped>
   /*编写页面样式，不是必须*/
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #f5d2ac;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 40%;
+  }
+  .margin{
+    margin-top: 20px;
+  }
   .del{
     color: #f5354c;
   }

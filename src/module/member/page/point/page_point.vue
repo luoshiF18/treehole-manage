@@ -2,10 +2,9 @@
 <template>
   <div>
     <!--查询表单+新增-->
-    <h2></h2>
-    <el-form  :model="params">
+    <el-form  :model="params" class="margin">
       <!--查询-->
-      <el-input placeholder="请输入查询关键信息"
+      <el-input placeholder="用户ID"
                 size="medium"
                 clearable
                 autofocus
@@ -20,27 +19,66 @@
                  @click="query">查询
       </el-button>
       <!--添加 按钮 -->
+      <router-link tag="span"
+                   :to="{path:'/member/page/point/point_add',query:{
+                   page:this.params.page,
+                   points_id:this.params.points_id
+      }}">
       <el-button type="primary"
                  size="medium"
-                 icon="el-icon-search">新增用户
+                 icon="el-icon-search">新增记录
       </el-button>
+      </router-link>
     </el-form>
-    <h2></h2>
     <!--数据列表 stripe 条纹  -->
-    <el-card>
+    <el-card class="margin">
       <el-table :data="list"
-                style="width: 100%"
+                v-loading="loading"
+                style="width: 100%;height:50%"
                 height="420"
                 :default-sort = "{prop: 'user_createtime', order: 'descending'}">
-        <el-table-column fixed
-                         type="index"
+
+            <!--数据详情列表 (fixed)-->
+            <el-table-column type="expand">
+              <template slot-scope="props">
+                <el-form label-position="right" inline class="demo-table-expand">
+
+                  <el-form-item label="积分ID">
+                    <span>{{ props.row.points_id }}</span>
+                  </el-form-item>
+                  <el-form-item label="用户ID">
+                    <span>{{ props.row.user_id }}</span>
+                  </el-form-item>
+                  <el-form-item label="记录时间">
+                    <span>{{ props.row.points_time | dateFilter}}</span>
+                  </el-form-item>
+                  <el-form-item label="记录前积分">
+                    <span>{{ props.row.points_before}}</span>
+                  </el-form-item>
+                  <el-form-item label="记录后积分">
+                    <span>{{ props.row.points_later }}</span>
+                  </el-form-item>
+                  <el-form-item label="本次积分">
+                    <span>{{ props.row.points_num }}</span>
+                  </el-form-item>
+                  <el-form-item label="本次积分描述">
+                    <span>{{ props.row.description}}</span>
+                  </el-form-item>
+                  <el-form-item label="活动ID">
+                    <span>{{ props.row.act_id }}</span>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+            <!-- 数据列表 -->
+        <el-table-column type="index"
                          align="center"
+                         fixed
                          width="40">
         </el-table-column>
-        <el-table-column fixed
-                         prop="points_id"
+        <el-table-column prop="points_id"
                          align="center"
-                         label="记录积分ID"
+                         label="积分ID"
                          width="180">
         </el-table-column>
         <el-table-column prop="user_id"
@@ -51,25 +89,26 @@
         <el-table-column prop="points_time"
                          align="center"
                          label="记录时间"
+                         sortable
                          :formatter="dateFormat"
                          width="180">
         </el-table-column>
         <el-table-column prop="points_before"
                          align="center"
                          label="计算前积分"
-                         width="170">
+                         width="100">
         </el-table-column>
         <el-table-column prop="points_num"
                          align="center"
                          label="本次积分"
-                         width="170"
-                         sortable>
+                         width="100"
+                        >
         </el-table-column>
         <el-table-column prop="points_later"
                          align="center"
                          label="计算后积分"
-                         width="170"
-                         sortable>
+                         width="100"
+                        >
         </el-table-column>
         <el-table-column prop="description"
                          align="center"
@@ -87,12 +126,9 @@
                          align="center"
                          width="160">
           <template slot-scope="page">
-            <!--编辑按钮-->
-            <el-button type="text" size="medium" @click="edit(page.row.user_id)">编辑</el-button>
-            <!--预览按钮-->
-            <el-button type="text" size="medium" @click="preview(page.row.pageId)">预览</el-button>
+
             <!--删除按钮-->
-            <el-button type="text" class="del" size="medium" @click="del(page.row.user_id)">删除</el-button>
+            <el-button type="text" class="del" size="medium" @click="del(page.row.points_id)">删除</el-button>
           </template>
 
         </el-table-column>
@@ -118,11 +154,15 @@
   export default {
     data() {
       return {
+        loading:true,
         list: [],  // 数据
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
+
+          //points_id:'',
           user_id: '',
+
         },
         total: 0,  //  数据总条数
       }
@@ -131,10 +171,11 @@
       //页面查询
       query: function () {
         //1、调用js方法请求服务端页面查询接口  2、导入user.js
-        userApi.user_integral(this.params).then((res) => { //当前页|每页记录数|查询条件
+        userApi.user_point(this.params.page, this.params.size,this.params).then((res) => { //当前页|每页记录数|查询条件
           // 2）将res结果数据赋值给list数据模型对象
           this.list = res.queryResult.list;
           this.total = res.queryResult.total;
+          this.loading = false;
         })
       },
       //当前页码改变时触发的事件 @current-change="changePage"
@@ -142,25 +183,20 @@
         this.params.page = currentPage;
         //调用query方法
         this.query();
+        this.loading = false;
       },
-      //页面修改
-      edit: function (user_id) {
-        //打开修改页面
-        this.$router.push({
-          path: '/User/page/edit/' + user_id
-        })
-      },
+
       //页面删除
-      del: function (user_id) {
+      del: function (points_id) {
         this.$confirm('你确认删除吗?', '提示', {}).then(() => {
           //调用服务端接口
-          userApi.page_del(user_id).then((res) => {
+          userApi.point_del(points_id).then((res) => {
             if (res.success) {
               this.$message.success('删除成功')
               //刷新页面
               this.query()
             } else {
-              this.$message.error('删除失败')
+              this.$message.error('删除失败!' + res.message)
             }
           })
         })
@@ -171,7 +207,7 @@
         if(date==undefined){
           return''
         }
-        return moment(date).format("YYYY-MM-DD")
+        return moment(date).format("YYYY-MM-DD  HH:mm:ss")
       },
       //页面内容排序
       sort: function (sort) {
@@ -187,10 +223,28 @@
         this.query();
       },
     },
+    // 私有过滤器
+    filters: { //自定义私有过滤器 过滤器有两个条件 过滤器名称:处理函数
+      dateFilter: function (dateStr, pattern=""){
+        var dt = new Date(dateStr)
+        //yyyy-mm-dd
+        var y = dt.getFullYear()
+        var m = dt.getMonth() + 1
+        var d = dt.getDate()
+        if(pattern.toLowerCase() === 'yyyy-mm-dd') {
+          return `${y}-${m}-${d}`
+        }else{ // hh:mm:ss
+          var hh = dt.getHours()
+          var mm = dt.getMinutes()
+          var ss = dt.getSeconds()
+          return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+      }
+    },
     //钩子函数们！
     created() { // vm实例的data和methods初始化完毕后执行，发ajax要提前
       /*!//取出路由中的参数,赋值给数据对象*/
-      this.params.page = Number.parseInt(this.$route.query.page || 1);
+      this.params.page = Number.parseInt(this.$route.query.prepage || 1);
     },
     mounted() { // 模板和HTML已经渲染出来
       /*当dom元素全部渲染完成后,自动调用query*/
@@ -212,6 +266,21 @@
 </script>
 
 <style scoped>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #f5d2ac;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 40%;
+  }
+  .margin{
+    margin-top: 20px;
+  }
   .del{
     color: #f5354c;
   }

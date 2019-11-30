@@ -1,8 +1,8 @@
 <!--会员卡信息-->
 <template>
   <div>
-    <h2></h2><!--查询表单+新增-->
-    <el-form  :model="params">
+   <!--查询表单+新增-->
+    <el-form  :model="params" class="margin">
       <!--查询-->
       <el-input placeholder="用户ID"
                 size="medium"
@@ -34,20 +34,50 @@
                  icon="el-icon-search"
                  @click="query">查询
       </el-button>
-      <!--添加 按钮 -->
-      <!--<el-button type="primary"
-                 size="medium"
-                 icon="el-icon-search">添加
-      </el-button>-->
     </el-form>
-    <h2></h2>
-    <!--数据列表  stripe n. 条纹  -->
-    <el-card>
-      <el-table :data="list"in
-                style="width: 100%"
+    <!--数据列表 | 底部分页-->
+    <el-card  class="margin">
+      <el-table :data="list"
+                style="width: 100%; margin-top: 20px;margin-left: 20px;height:50%"
                 v-loading="loading"
-                height="420"
                 :default-sort = "{prop: 'user_createtime', order: 'descending'}">
+        <!--数据详情列表 fixed-->
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="right"
+                     inline
+                     class="demo-table-expand">
+              <el-form-item label="用户ID">
+                <span>{{ props.row.user_id }}</span>
+              </el-form-item>
+              <el-form-item label="会员卡ID">
+                <span>{{ props.row.card_id }}</span>
+              </el-form-item>
+              <el-form-item label="付费会员等级" >
+                <span>{{ props.row.paygrade}}</span>
+              </el-form-item>
+              <el-form-item label="普通会员等级">
+                <span>{{ props.row.freegrade }}</span>
+              </el-form-item>
+              <el-form-item label="消费总额">
+                <span>{{ props.row.consum_all }}</span>
+              </el-form-item>
+              <el-form-item label="会员开始时间">
+                <span>{{ props.row.paygrade_start | dateFilter}}</span>
+              </el-form-item>
+              <el-form-item label="会员截止时间">
+                <span>{{ props.row.paygrade_end  | dateFilter}}</span>
+              </el-form-item>
+              <el-form-item label="现有积分">
+                <span>{{ props.row.points_now }}</span>
+              </el-form-item>
+              <el-form-item label="总积分">
+                <span>{{ props.row.points_sum }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <!-- 数据列表 -->
         <el-table-column type="index"
                          fixed
                          align="center"
@@ -112,10 +142,9 @@
           <template slot-scope="page">
             <!--编辑按钮-->
             <el-button type="text" size="medium" @click="edit(page.row.card_id)">编辑</el-button>
-            <!--预览按钮-->
-            <el-button type="text" size="medium" @click="preview(page.row.card_id)">预览</el-button>
+
             <!--删除按钮-->
-            <!--<el-button type="text" class="del" size="medium" @click="del(page.row.card_id)">删除</el-button>-->
+            <el-button type="text" class="del" size="medium" @click="del(page.row.user_id)">删除</el-button>
           </template>
 
         </el-table-column>
@@ -159,6 +188,10 @@
       query: function () {
         //1、调用js方法请求服务端页面查询接口  2、导入user.js
         userApi.page_cardslist(this.params.page, this.params.size, this.params).then((res) => {
+          if (res.success) {
+          } else {
+            this.$message.error(res.message)
+          }
           // 2）将res结果数据赋值给list数据模型对象
           this.list = res.queryResult.list;
           this.total = res.queryResult.total;
@@ -172,18 +205,21 @@
         this.query();
         this.loading = false;
       },
-      //页面修改
+      //页面修改(编辑)
       edit: function (card_id) {
         //打开修改页面
         this.$router.push({
-          path: '/member/page/edit/' + card_id
+          path: '/member/page/cards/card_edit/' + card_id,
+        query:{
+          page: this.params.page
+        }
         })
       },
       //页面删除！！！！
-      /*del: function (card_id) {
+      del: function (user_id) {
         this.$confirm('你确认删除吗?', '提示', {}).then(() => {
           //1、调用服务端接口
-          userApi.card_del(card_id).then((res) => {
+          userApi.card_del(user_id).then((res) => {
             if (res.success) {
               this.$message.success('删除成功')
               //2、刷新页面
@@ -193,12 +229,8 @@
             }
           })
         })
-      },*/
-      //页面预览
-      preview: function (card_id) {
-        //打开浏览器窗口
-        window.open("http://www.xuecheng.com/cms/preview/" + card_id);
       },
+
       //编写日期格式化的方法
       dateFormat:function (row,column) {
         const date=row[column.property]
@@ -221,17 +253,35 @@
         this.query();
       },
     },
+    // 私有过滤器
+    filters: { //自定义私有过滤器 过滤器有两个条件 过滤器名称:处理函数
+      dateFilter: function (dateStr, pattern=""){
+        var dt = new Date(dateStr)
+        //yyyy-mm-dd
+        var y = dt.getFullYear()
+        var m = dt.getMonth() + 1
+        var d = dt.getDate()
+        if(pattern.toLowerCase() === 'yyyy-mm-dd') {
+          return `${y}-${m}-${d}`
+        }else{ // hh:mm:ss
+          var hh = dt.getHours()
+          var mm = dt.getMinutes()
+          var ss = dt.getSeconds()
+          return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+      }
+    },
     //钩子函数们！
     created() { // vm实例的data和methods初始化完毕后执行，发ajax要提前
       /*取出路由中的参数,赋值给数据对象*/
-      this.params.page = Number.parseInt(this.$route.query.page || 1);
+      this.params.page = Number.parseInt(this.$route.query.prepage || 1);
     },
     mounted() { // 模板和HTML已经渲染出来
       /*当dom元素全部渲染完成后,自动调用query*/
       this.query();
     },
     // 监听查询信息
-    watch: {
+   /* watch: {
       params: { // 监视pagination属性的变化
         deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
         handler() {// 变化后的回调函数，这里我们再次调用query即可
@@ -240,11 +290,26 @@
       },
       show: {
       }
-    }
+    }*/
   }
 </script>
 
 <style scoped>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #f5d2ac;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 23%;
+  }
+  .margin{
+    margin-top: 20px
+  }
   .del{
     color: #f5354c;
   }

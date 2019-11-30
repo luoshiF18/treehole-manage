@@ -14,6 +14,7 @@ import ArchivesReportRouter from '@/module/archivesReport/router'
 import ScaleRouter from '@/module/scale/router'
 import WarnRouter from '@/module/warn/router'
 import onlinetalkRouter from '@/module/onlinetalk/router'
+import MemberRouter from '@/module/member/router'
 // import UserRouter from '@/module/user/router'
 // 合并路由规则
 concat(HomeRouter)  //加入home模块的路由
@@ -23,5 +24,6 @@ concat(WarnRouter)  //加入cms模块的路由
 concat(ArchivesRouter)  //加入档案模块的路由 //加入gauge模块的路由
 concat(ArchivesReportRouter)  //加入测评报告
 concat(onlinetalkRouter)//加入agent模块的路由
+concat(MemberRouter) //加入会员管理模块的路由
 // concat(UserRouter)  //加入用户模块的路由
 export default routes;

@@ -3,24 +3,23 @@
 
   <div>
     <!--查询表单+新增-->
-    <h2></h2>
-    <el-form  :model="params">
+    <el-form  :model="params" class="margin">
       <!--查询-->
       <el-input placeholder="等级ID"
                 size="medium"
                 prefix-icon="el-icon-search"
                 clearable
-                v-model="params.paygrade_id"
-                autofocus
-                style="width:200px">
+                v-model="params.grade_id"
+                style="width:200px;text-align:center;"
+                autofocus>
       </el-input>
       <el-input placeholder="等级名称"
                 size="medium"
                 prefix-icon="el-icon-search"
                 clearable
-                v-model="params.paygrade_name"
+                v-model="params.grade_name"
                 autofocus
-                style="width:180px">
+                style="width:200px;text-align:center;">
       </el-input>
       <el-input placeholder="等级排名"
                 size="medium"
@@ -28,7 +27,7 @@
                 clearable
                 v-model="params.rank"
                 autofocus
-                style="width:120px">
+                style="width:200px;text-align:center;">
       </el-input>
       <!-- 查询 按钮 -->
       <el-button type="primary"
@@ -38,22 +37,59 @@
       </el-button>
       <!--添加 按钮 -->
       <router-link tag="span"
-                   :to="{path:'/member/page/gradegrade/gradegrade_add',query:{
+                   :to="{path:'/member/page/paygrade/paygrade_add',query:{
                    page:this.params.page,
-                   grade_id:this.params.paygrade_id
+                   paygrade_id:this.params.grade_id
       }}">
       <el-button type="primary"
-                 size="medium">新增等级
+                  style="float: right"
+                  size="medium">新增等级
       </el-button>
       </router-link>
     </el-form>
     <h2></h2>
     <!--数据列表 stripe 条纹  -->
-    <el-card>
+    <el-card class="margin">
       <el-table :data="list"
-                style="width: 100%"
+                v-loading="loading"
+                style="width: 100%; margin-top: 20px;margin-left: 20px;height:50%"
                 height="420"
                 :default-sort = "{prop: 'user_createtime', order: 'descending'}">
+        <!--数据详情列表 (fixed)-->
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="right" inline class="demo-table-expand">
+              <el-form-item label="等级ID">
+                <span>{{ props.row.paygrade_id }}</span>
+              </el-form-item>
+              <el-form-item label="会员卡类型">
+                <span>{{ props.row.paygrade_name }}</span>
+              </el-form-item>
+              <el-form-item label="售卡金额" >
+                <span>{{ props.row.card_price }}</span>
+              </el-form-item>
+              <el-form-item label="有效天数" >
+                <span>{{ props.row.card_legality }}</span>
+              </el-form-item>
+              <el-form-item label="权益描述">
+                <span>{{ props.row.card_desc }}</span>
+              </el-form-item>
+              <el-form-item label="初始储值">
+                <span>{{ props.row.initial_money }}</span>
+              </el-form-item>
+              <el-form-item label="初始积分">
+                <span>{{ props.row.initial_points}}</span>
+              </el-form-item>
+              <el-form-item label="会员折扣">
+                <span>{{ props.row.discount }}</span>
+              </el-form-item>
+              <el-form-item label="会员等级">
+                <span>{{ props.row.rank }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <!-- 数据列表 -->
         <el-table-column type="index"
                          align="center"
                          fixed
@@ -115,8 +151,6 @@
           <template slot-scope="page">
             <!--编辑按钮-->
             <el-button type="text" size="medium" @click="edit(page.row.paygrade_id)">编辑</el-button>
-            <!--预览按钮-->
-            <el-button type="text" size="medium" @click="preview(page.row.paygrade_id)">预览</el-button>
             <!--删除按钮-->
             <el-button type="text" class="del" size="medium" @click="del(page.row.paygrade_id)">删除</el-button>
           </template>
@@ -145,12 +179,13 @@
   export default {
     data() {
       return {
+        loading: true,
         list: [],  // 数据
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
-          paygrade_id:'',
-          paygrade_name:'',
+          grade_id:'',
+          grade_name:'',
           rank:''
         },
         total: 0,  //  数据总条数
@@ -179,7 +214,10 @@
       edit: function (paygrade_id) {
         //打开修改页面
         this.$router.push({
-          path: '/member/page/edit/' + paygrade_id
+          path: '/member/page/paygrade/page_paygrade/' + paygrade_id,
+          query:{
+            page: this.params.page
+          }
         })
       },
       //页面删除
@@ -197,11 +235,7 @@
           })
         })
       },
-      //页面预览
-      preview: function (paygrade_id) {
-        //打开浏览器窗口
-        window.open("http://www.xuecheng.com/cms/preview/" + paygrade_id);
-      },
+
       //编写日期格式化的方法
       dateFormat:function (row,column) {
         const date=row[column.property]
@@ -209,14 +243,6 @@
           return''
         }
         return moment(date).format("YYYY-MM-DD  HH:mm:ss")
-      },
-      //编写日期格式化的方法
-      dateFormat:function (row,column) {
-        const date=row[column.property]
-        if(date==undefined){
-          return''
-        }
-        return moment(date).format("YYYY-MM-DD")
       },
       //页面内容排序
       sort: function (sort) {
@@ -235,7 +261,7 @@
     //钩子函数们！
     created() { // vm实例的data和methods初始化完毕后执行，发ajax要提前
       /*!//取出路由中的参数,赋值给数据对象*/
-      this.params.page = Number.parseInt(this.$route.query.page || 1);
+      this.params.page = Number.parseInt(this.$route.query.prepage || 1);
     },
     mounted() { // 模板和HTML已经渲染出来
       /*当dom元素全部渲染完成后,自动调用query*/
@@ -259,6 +285,21 @@
 
 <style scoped>
   /*编写页面样式，不是必须*/
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #f5d2ac;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 40%;
+  }
+  .margin{
+    margin-top: 20px;
+  }
   .del{
     color: #f5354c;
   }
