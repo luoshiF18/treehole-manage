@@ -121,7 +121,7 @@
             {
               title: {
                 text: '生活事件量表',   //图表顶部的标题
-                subtext: '纯属虚构'    //副标题
+                subtext: ''    //副标题
               },
               tooltip: {   //鼠标悬浮框的提示文字
                 trigger: 'axis'

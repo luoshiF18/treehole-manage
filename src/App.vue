@@ -9,7 +9,7 @@ export default {
 
   data() {
     return {
-      name: 'app'
+      name: 'app',
     }
   },
   methods: {
@@ -23,6 +23,8 @@ export default {
 <style>
   * {
     -webkit-user-select:text;
+    margin: 0;
+    padding: 0;
   }
   #app {
     width: 100%;
