@@ -63,7 +63,7 @@
             {required: true, message: '请输入建议信息', trigger: 'blur'}
           ],
           psychotherapy: [
-            {required: true, message: '请输入新秀丽治疗方案', trigger: 'blur'}
+            {required: true, message: '请输入心理治疗方案', trigger: 'blur'}
           ],
           physicotherapy: [
             {required: true, message: '请输入物理治疗方案', trigger: 'blur'}

@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <!--query用来取出数据模型中的参数放到url地址栏，带参传递-->
-        <router-link :to="{path:'/psychologist/comment/add/',
+        <router-link :to="{path:'/psychologist/consultation/add/',
         query:{
           page:this.params.page,
           psychologist_id:this.params.psychologist_id

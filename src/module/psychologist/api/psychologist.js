@@ -144,6 +144,11 @@ export const consultation_del = consultation_id => {
   return http.requestDelete(apiUrl + '/psychologist/consultation/del/' + consultation_id)
 }
 
+//新增一条咨询记录
+export const consultation_add = params => {
+  return http.requestPost(apiUrl + '/psychologist/consultation/add', params)
+}
+
 //查询所有建议信息
 export const suggestion_all = (page, size) => {
   return http.requestQuickGet(apiUrl + '/psychologist/suggestion/get/all?page=' + page + '&size=' + size);
