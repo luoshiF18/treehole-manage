@@ -129,6 +129,51 @@ export const comment_add = params => {
   return http.requestPost(apiUrl + '/psychologist/comment/add', params)
 }
 
+//查询所有咨询记录
+export const consultation_all = (page, size) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/consultation/get/all?page=' + page + '&size=' + size);
+}
+
+//根据咨询师id查询其咨询信息
+export const consultation_get = (page, size, psychologist_id) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/consultation/get/list/psy/' + psychologist_id + '?page=' + page + '&size=' + size);
+}
+
+//根据咨询记录id删除该条咨询记录
+export const consultation_del = consultation_id => {
+  return http.requestDelete(apiUrl + '/psychologist/consultation/del/' + consultation_id)
+}
+
+//查询所有建议信息
+export const suggestion_all = (page, size) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/suggestion/get/all?page=' + page + '&size=' + size);
+}
+
+//根据建议id查询一条建议信息
+export const suggestion_get = (page, size, suggestion_id) => {
+  return http.requestQuickGet(apiUrl + '/psychologist/suggestion/get/' + suggestion_id + '?page=' + page + '&size=' + size)
+}
+
+//根据建议id删除该条建议
+export const suggestion_del = suggestion_id => {
+  return http.requestDelete(apiUrl + '/psychologist/suggestion/del/' + suggestion_id)
+}
+
+//修改建议信息
+export const suggestion_edit = (params) => {
+  return http.requestPut(apiUrl + '/psychologist/suggestion/update', params)
+}
+
+//根据主键查询建议信息
+export const suggestion_find = suggestion_id => {
+  return http.requestQuickGet(apiUrl + '/psychologist/suggestion/find/' + suggestion_id)
+}
+
+//新增建议信息
+export const suggestion_add = params => {
+  return http.requestPost(apiUrl + '/psychologist/suggestion/add', params)
+}
+
 
 
 
