@@ -22,7 +22,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间" required>
-        <el-date-picker type="datetime" placeholder="创建时间" v-model="consultationForm.create_time"></el-date-picker>
+        <el-date-picker type="datetime" placeholder="创建时间" v-model="consultationForm.consultation_time"></el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -44,7 +44,7 @@
           user_id: '',
           suggestion_id: '',
           type: '',//咨询类型
-          create_time: new Date()
+          consultation_time: new Date()
         },
         consultationFormRules: {
           consultation_id: [
@@ -62,7 +62,7 @@
           type: [
             {required: true, message: '请选择咨询类型', trigger: 'change'}
           ],
-          create_time: [
+          consultation_time: [
             {type: 'date', required: true, message: '请选择该咨询记录的创建时间', trigger: 'change'}
           ]
         }
