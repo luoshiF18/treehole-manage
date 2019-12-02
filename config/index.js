@@ -26,7 +26,13 @@ module.exports = {
         }
         //target: 'http://127.0.0.1:50201'
 
-      }
+      },
+      '/api/appointment': {
+        target: 'http://localhost:10001',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+      },
       /*,
       '/ucenter': {
         // target: 'http://localhost:3000/mock/11'
