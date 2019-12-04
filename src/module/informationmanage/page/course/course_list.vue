@@ -60,6 +60,8 @@
       </el-table-column>
       <el-table-column prop="teacherName" label="任课老师" width="250">
       </el-table-column>
+      <el-table-column prop="coursePrice" label="价格" width="250">
+      </el-table-column>
       <el-table-column prop="courseOther" label="备注" width="250">
       </el-table-column>
       <el-table-column label="操作" width="300">

@@ -46,6 +46,10 @@
         </el-select>
       </el-form-item>
       ​
+      <el-form-item label="价格" prop="coursePrice">
+        <el-input v-model="pageForm.coursePrice" auto-complete="off" ></el-input>
+      </el-form-item>
+
       <el-form-item label="备注" prop="courseOther">
         <el-input v-model="pageForm.courseOther" auto-complete="off" ></el-input>
       </el-form-item>
@@ -75,6 +79,7 @@
               courseEndTime: '',
               courseTime: '',
               courseTeacher: '',
+              coursePrice:'',
               courseOther: '',
           },
           //根据主键查询页面信息 的参数
@@ -103,6 +108,9 @@
               ],
               courseTeacher:[
                   {required: true, message: '请输入任课老师', trigger: 'blur'}
+              ],
+              coursePrice:[
+                  {required: true, message: '请输入价格', trigger: 'blur'}
               ],
           }
       }
