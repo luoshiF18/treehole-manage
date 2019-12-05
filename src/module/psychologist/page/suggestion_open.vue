@@ -21,9 +21,6 @@
           <el-option label="警戒" value="警戒"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="更新时间">
-        <el-date-picker type="datetime" placeholder="更新时间" v-model="suggestionForm.update_time"></el-date-picker>
-      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="go_back">返回</el-button>

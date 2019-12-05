@@ -20,18 +20,20 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column prop="consultation_id" label="咨询记录ID" width="140"></el-table-column>
-      <el-table-column prop="suggestion_id" label="建议ID" width="140"></el-table-column>
-      <el-table-column prop="user_id" label="用户ID" width="160"></el-table-column>
-      <el-table-column prop="user_nickname" label="用户昵称" width="140"></el-table-column>
-      <el-table-column prop="psychologist_id" label="咨询师ID" width="150"></el-table-column>
+      <el-table-column prop="consultation_id" label="咨询记录ID" width="155"></el-table-column>
+      <el-table-column prop="suggestion_id" label="建议ID" width="160"></el-table-column>
+      <el-table-column prop="user_id" label="用户ID" width="146"></el-table-column>
+      <el-table-column prop="user_nickname" label="用户昵称" width="160"></el-table-column>
+      <el-table-column prop="psychologist_id" label="咨询师ID" width="155"></el-table-column>
       <el-table-column prop="psychologist_name" label="咨询师姓名" width="160"></el-table-column>
       <el-table-column prop="type" label="咨询类型" width="160"></el-table-column>
-      <el-table-column prop="consultation_time" label="咨询时间" width="260"></el-table-column>
+      <el-table-column prop="consultation_time" label="咨询时间" width="200" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="page">
-          <el-button size="small" type="text" @click="opensug(page.row.suggestion_id)" icon="el-icon-search">查看建议</el-button>
-          <el-button size="small" type="text" @click="del(page.row.consultation_id)" icon="el-icon-delete">删除</el-button>
+          <el-button size="small" type="text" @click="opensug(page.row.suggestion_id)" icon="el-icon-search">查看建议
+          </el-button>
+          <el-button size="small" type="text" @click="del(page.row.consultation_id)" icon="el-icon-delete">删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,6 +52,7 @@
 
 <script>
   import * as psychologistApi from '../api/psychologist'
+  import moment from 'moment'
 
   export default {
     //数据模型
@@ -112,6 +115,14 @@
           })
         })
       },
+      //时间格式化  
+      dateFormat: function (row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      }
     },
     created() {
       this.params.page = Number.parseInt(this.$route.query.page || 1)

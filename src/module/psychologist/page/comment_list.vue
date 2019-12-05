@@ -25,12 +25,12 @@
       <el-table-column prop="consultation_id" label="咨询记录ID" width="110"></el-table-column>
       <el-table-column prop="user_id" label="用户ID" width="146"></el-table-column>
       <el-table-column prop="user_nickname" label="用户昵称" width="100"></el-table-column>
-      <el-table-column prop="psychologist_id" label="咨询师ID" width="80"></el-table-column>
+      <el-table-column prop="psychologist_id" label="咨询师ID" width="160"></el-table-column>
       <el-table-column prop="psychologist_name" label="咨询师姓名" width="100"></el-table-column>
       <el-table-column prop="comment_type" label="评价类型" width="100"></el-table-column>
-      <el-table-column prop="comment_content" label="评价内容" width="254"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="130"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="130"></el-table-column>
+      <el-table-column prop="comment_content" label="评价内容" width="210"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="130">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.comment_id)" icon="el-icon-edit">编辑</el-button>
@@ -53,6 +53,7 @@
 
 <script>
   import * as psychologistApi from '../api/psychologist'
+  import moment from 'moment'
 
   export default {
     //数据模型
@@ -115,6 +116,14 @@
           })
         })
       },
+      //时间格式化  
+      dateFormat: function (row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      }
     },
     created() {
       this.params.page = Number.parseInt(this.$route.query.page || 1)

@@ -20,14 +20,14 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column prop="suggestion_id" label="建议ID" width="100"></el-table-column>
+      <el-table-column prop="suggestion_id" label="建议ID" width="155"></el-table-column>
       <el-table-column prop="description" label="病情描述" width="180"></el-table-column>
       <el-table-column prop="suggestion_info" label="建议信息" width="200"></el-table-column>
       <el-table-column prop="psychotherapy" label="心理治疗" width="200"></el-table-column>
       <el-table-column prop="physicotherapy" label="物理治疗" width="200"></el-table-column>
-      <el-table-column prop="warning" label="预警等级" width="180"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="130"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="130"></el-table-column>
+      <el-table-column prop="warning" label="预警等级" width="160"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="140">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.suggestion_id)" icon="el-icon-edit">编辑</el-button>
@@ -50,6 +50,7 @@
 <script>
   /*编写页面静态部分，即model和vm部分*/
   import * as psychologistApi from '../api/psychologist'
+  import moment from 'moment'
 
   export default {
     data() {
@@ -112,6 +113,14 @@
           this.total = res.queryResult.total
           this.list = res.queryResult.list
         })
+      },
+      //时间格式化  
+      dateFormat: function (row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
       }
     },
     //钩子函数，DOM元素还未渲染就调用

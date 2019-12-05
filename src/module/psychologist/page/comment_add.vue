@@ -1,21 +1,17 @@
 <template>
   <div>
     <el-form :model="commentForm" :rules="commentFormRules" label-width="80px" ref="commentForm">
-      <el-form-item label="评价id" prop="comment_id" style="width:30%">
-        <el-input v-model="commentForm.comment_id" auto-complete="off" placeholder="请确保评价id不重复"></el-input>
-      </el-form-item>
       <el-form-item label="用户id" prop="user_id" style="width: 30%">
-        <el-input v-model="commentForm.user_id" auto-complete="off" placeholder="请确保与用户列表中的用户id一致"></el-input>
+        <el-input v-model="commentForm.user_id" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="咨询师id" prop="psychologist_id" style="width:40%">
-        <el-input v-model="commentForm.psychologist_id" auto-complete="off"
-                  placeholder="请确保与简介信息列表中的咨询师id一致"></el-input>
+      <el-form-item label="咨询师id" prop="psychologist_id" style="width:30%">
+        <el-input v-model="commentForm.psychologist_id" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="订单id" prop="order_id" style="width:30%">
-        <el-input v-model="commentForm.order_id" auto-complete="off" placeholder="请确保与订单列表中的订单id一致"></el-input>
+        <el-input v-model="commentForm.order_id" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="咨询id" prop="consultation_id" style="width:40%">
-        <el-input v-model="commentForm.consultation_id" auto-complete="off" placeholder="请确保与咨询记录列表中的咨询id一致"></el-input>
+      <el-form-item label="咨询id" prop="consultation_id" style="width:30%">
+        <el-input v-model="commentForm.consultation_id" auto-complete="off" placeholder="请输入咨询记录ID"></el-input>
       </el-form-item>
       <el-form-item label="评价类型" prop="comment_type">
         <el-select v-model="commentForm.comment_type" placeholder="请选择" clearable>
@@ -24,9 +20,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="评价内容" prop="comment_content" style="width:30%">
-        <el-input v-model="commentForm.comment_content" auto-complete="off" placeholder="请填写评价内容"></el-input>
+        <el-input type="textarea" v-model="commentForm.comment_content" auto-complete="off"
+                  placeholder="请填写对咨询师的评价信息"></el-input>
       </el-form-item>
-      <el-form-item label="创建时间" required>
+      <el-form-item label="创建时间" prop="create_time">
         <el-date-picker type="datetime" placeholder="创建时间" v-model="commentForm.create_time"></el-date-picker>
       </el-form-item>
     </el-form>
@@ -55,20 +52,17 @@
           update_time: new Date()
         },
         commentFormRules: {
-          comment_id: [
-            {required: true, message: '请输入评价id', trigger: 'blur'},
-          ],
           user_id: [
-            {required: true, message: '请确保与用户列表中的用户id一致', trigger: 'blur'}
+            {required: true, message: '请填写用户id', trigger: 'blur'}
           ],
           psychologist_id: [
-            {required: true, message: '请确保与简介信息列表中的咨询师id一致', trigger: 'blur'}
+            {required: true, message: '请填写咨询师id', trigger: 'blur'}
           ],
           order_id: [
-            {required: false, message: '请确保与订单列表中的订单id一致', trigger: 'blur'}
+            {required: false, message: '请填写订单id', trigger: 'blur'}
           ],
           consultation_id: [
-            {required: true, message: '请确保与咨询记录列表中的咨询id一致', trigger: 'blur'}
+            {required: true, message: '请填写咨询记录id', trigger: 'blur'}
           ],
           comment_type: [
             {required: true, message: '请选择评价等级', trigger: 'change'}

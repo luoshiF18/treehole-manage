@@ -1,18 +1,11 @@
 <template>
   <div>
     <el-form :model="consultationForm" :rules="consultationFormRules" label-width="80px" ref="consultationForm">
-      <el-form-item label="咨询ID" prop="consultation_id" style="width:30%">
-        <el-input v-model="consultationForm.consultation_id" auto-complete="off"></el-input>
-      </el-form-item>
       <el-form-item label="咨询师ID" prop="psychologist_id" style="width: 40%">
-        <el-input v-model="consultationForm.psychologist_id" auto-complete="off"
-                  placeholder="请确保与简介信息列表中的咨询师id一致"></el-input>
+        <el-input v-model="consultationForm.psychologist_id" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="用户ID" prop="user_id" style="width:40%">
-        <el-input v-model="consultationForm.user_id" auto-complete="off" placeholder="请确保与用户列表中的用户id一致"></el-input>
-      </el-form-item>
-      <el-form-item label="建议ID" prop="suggestion_id" style="width:40%">
-        <el-input v-model="consultationForm.suggestion_id" auto-complete="off"></el-input>
+        <el-input v-model="consultationForm.user_id" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="咨询类型" prop="type">
         <el-select v-model="consultationForm.type" placeholder="请选择" clearable>
@@ -21,8 +14,9 @@
           <el-option label="面对面" value="面对面"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间" required>
-        <el-date-picker type="datetime" placeholder="创建时间" v-model="consultationForm.consultation_time"></el-date-picker>
+      <el-form-item label="咨询时间" prop="consultation_time">
+        <el-date-picker type="datetime" placeholder="咨询时间"
+                        v-model="consultationForm.consultation_time"></el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -47,23 +41,17 @@
           consultation_time: new Date()
         },
         consultationFormRules: {
-          consultation_id: [
-            {required: true, message: '请输入咨询id', trigger: 'blur'},
-          ],
           psychologist_id: [
             {required: true, message: '请输入心理咨询师id', trigger: 'blur'}
           ],
           user_id: [
             {required: true, message: '请输入用户id', trigger: 'blur'}
           ],
-          suggestion_id: [
-            {required: true, message: '请输入建议id', trigger: 'blur'}
-          ],
           type: [
             {required: true, message: '请选择咨询类型', trigger: 'change'}
           ],
           consultation_time: [
-            {type: 'date', required: true, message: '请选择该咨询记录的创建时间', trigger: 'change'}
+            {type: 'date', required: true, message: '请选择咨询时间', trigger: 'change'}
           ]
         }
       }

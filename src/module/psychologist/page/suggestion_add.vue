@@ -2,19 +2,18 @@
   <div>
     <el-form :model="suggestionForm" :rules="suggestionFormRules" label-width="80px" ref="suggestionForm">
       <el-form-item label="建议ID" prop="suggestion_id" style="width:30%">
-        <el-input v-model="suggestionForm.suggestion_id" auto-complete="off"
-                  placeholder="请确保与咨询记录列表中的建议ID一致"></el-input>
+        <el-input v-model="suggestionForm.suggestion_id" auto-complete="off" placeholder="请输入咨询师给出的建议ID"></el-input>
       </el-form-item>
-      <el-form-item label="病情描述" prop="description" style="width: 40%">
+      <el-form-item label="病情描述" prop="description" style="width: 30%">
         <el-input type="textarea" v-model="suggestionForm.description" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="建议信息" prop="suggestion_info" style="width:40%">
+      <el-form-item label="建议信息" prop="suggestion_info" style="width:30%">
         <el-input type="textarea" v-model="suggestionForm.suggestion_info" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="心理治疗" prop="psychotherapy" style="width:40%">
+      <el-form-item label="心理治疗" prop="psychotherapy" style="width:30%">
         <el-input type="textarea" v-model="suggestionForm.psychotherapy" auto-complete="off" clearable></el-input>
       </el-form-item>
-      <el-form-item label="物理治疗" prop="physicotherapy" style="width:40%">
+      <el-form-item label="物理治疗" prop="physicotherapy" style="width:30%">
         <el-input type="textarea" v-model="suggestionForm.physicotherapy" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="预警等级" prop="warning">
@@ -25,7 +24,7 @@
           <el-option label="警戒" value="警戒"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间" required>
+      <el-form-item label="创建时间" prop="create_time">
         <el-date-picker type="datetime" placeholder="创建时间" v-model="suggestionForm.create_time"></el-date-picker>
       </el-form-item>
     </el-form>
