@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-form :model="detailForm" :rules="detailFormRules" label-width="80px" ref="detailForm">
-      <el-form-item label="姓名" prop="psychologist_name" style="width:20.7%">
-        <el-input v-model="detailForm.psychologist_name" auto-complete="off" clearable></el-input>
-      </el-form-item>
       <el-form-item label="机构名称" prop="organization_name" style="width:30%">
         <el-input v-model="detailForm.organization_name" auto-complete="off" clearable></el-input>
       </el-form-item>
@@ -62,9 +59,6 @@
           update_time: new Date()
         },
         detailFormRules: {
-          psychologist_name: [
-            {required: true, message: '请输入咨询师姓名', trigger: 'blur'}
-          ],
           organization_name: [
             {required: false, message: '请输入所在机构名称', trigger: 'blur'}
           ],
@@ -103,7 +97,6 @@
             psychologist_name: this.$route.query.psychologist_name
           }
         })
-
       },
       //修改提交
       editSubmit: function () {
@@ -131,7 +124,6 @@
           }
         });
       }
-
     },
     created: function () {
       //页面参数通过路由传入，这里通过this.$route.params来获取

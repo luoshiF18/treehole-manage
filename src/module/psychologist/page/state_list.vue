@@ -17,30 +17,18 @@
       <el-form-item>
         <el-button type="primary" v-on:click="query" icon="el-icon-search">查询</el-button>
       </el-form-item>
-      <el-form-item>
-        <!--query用来取出数据模型中的参数放到url地址栏，带参传递-->
-        <router-link :to="{path:'/psychologist/state/add/',query:{
-          page:this.params.page,
-          name:this.params.name,
-          price:this.params.price,
-          free:this.params.free
-        }}">
-          <el-button type="primary" icon="el-icon-plus">新增</el-button>
-        </router-link>
-      </el-form-item>
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column prop="id" label="id" width="60"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="70"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
       <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
       <el-table-column prop="certificate" label="所持专业证书" width="230"></el-table-column>
-      <el-table-column prop="we_chat" label="微信" width="115"></el-table-column>
-      <el-table-column prop="qq" label="QQ" width="115"></el-table-column>
+      <el-table-column prop="we_chat" label="微信" width="130"></el-table-column>
+      <el-table-column prop="qq" label="QQ" width="130"></el-table-column>
       <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="110"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="110"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="130">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)" icon="el-icon-edit">编辑</el-button>
@@ -63,6 +51,7 @@
 <script>
   /*编写页面静态部分，即model和vm部分*/
   import * as psychologistApi from '../api/psychologist'
+  import moment from 'moment'
 
   export default {
     data() {
@@ -92,7 +81,7 @@
       changePage: function (page) {
         //调用当前实例的query方法
         this.params.page = page;
-        this.get()
+        this.query();
       },
       //打开修改页面
       edit: function (id) {
@@ -121,14 +110,13 @@
           })
         })
       },
-      //按照id自增查询所有状态信息
-      get: function () {
-        //res为服务端的数据，是一个形参，名字任意
-        psychologistApi.state_all(this.params.page, this.params.size).then((res) => {
-          //将res服务端数据赋值给数据模型对象
-          this.total = res.queryResult.total
-          this.list = res.queryResult.list
-        })
+      //时间格式化  
+      dateFormat: function (row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
       }
     },
     //钩子函数，DOM元素还未渲染就调用
@@ -141,7 +129,7 @@
     },
     mounted() {
       //实现进入页面就查询
-      this.get()
+      this.query();
     }
   }
 

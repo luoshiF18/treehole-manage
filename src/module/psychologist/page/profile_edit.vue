@@ -1,15 +1,6 @@
 <template>
   <div>
     <el-form :model="profileForm" :rules="profileFormRules" label-width="80px" ref="profileForm">
-      <el-form-item label="姓名" prop="name" style="width:20.7%">
-        <el-input v-model="profileForm.name" auto-complete="off" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="性别" prop="sex">
-        <el-radio-group v-model="profileForm.sex">
-          <el-radio label="男"></el-radio>
-          <el-radio label="女"></el-radio>
-        </el-radio-group>
-      </el-form-item>
       <el-form-item label="年龄" prop="age" style="width:20.7%">
         <el-input v-model="profileForm.age" auto-complete="off" clearable></el-input>
       </el-form-item>
@@ -67,12 +58,6 @@
           update_time: new Date()
         },
         profileFormRules: {
-          name: [
-            {required: true, message: '请输入姓名', trigger: 'blur'}
-          ],
-          sex: [
-            {required: true, message: '请选择性别', trigger: 'change'}
-          ],
           age: [
             {required: true, message: '请输入年龄', trigger: 'blur'}
           ],
@@ -136,8 +121,8 @@
           }
         });
       }
-
     },
+    //钩子函数用来数据回显
     created: function () {
       //页面参数通过路由传入，这里通过this.$route.params来获取
       this.id = this.$route.params.id;
@@ -148,10 +133,6 @@
           this.profileForm = res;
         }
       });
-    },
-
-    mounted() {
-
     }
   }
 </script>

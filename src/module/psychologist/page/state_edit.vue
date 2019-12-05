@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-form :model="stateForm" :rules="stateFormRules" label-width="80px" ref="stateForm">
-      <el-form-item label="姓名" prop="name" style="width:20.7%">
-        <el-input v-model="stateForm.name" auto-complete="off" clearable></el-input>
-      </el-form-item>
       <el-form-item label="工作状态" prop="free">
         <el-radio-group v-model="stateForm.free">
           <el-radio label="空闲"></el-radio>
@@ -56,9 +53,6 @@
           update_time: new Date()
         },
         stateFormRules: {
-          name: [
-            {required: true, message: '请输入姓名', trigger: 'blur'}
-          ],
           free: [
             {required: true, message: '请选择工作状态', trigger: 'change'}
           ],
@@ -123,7 +117,6 @@
           }
         });
       }
-
     },
     created: function () {
       //页面参数通过路由传入，这里通过this.$route.params来获取

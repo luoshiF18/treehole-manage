@@ -7,34 +7,24 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" v-on:click="query">查询</el-button>
       </el-form-item>
-      <el-form-item>
-        <!--query用来取出数据模型中的参数放到url地址栏，带参传递-->
-        <router-link :to="{path:'/psychologist/detail/add/',
-        query:{
-          page:this.params.page,
-          psychologist_name:this.params.psychologist_name
-        }}">
-          <el-button type="primary" icon="el-icon-plus">新增</el-button>
-        </router-link>
-      </el-form-item>
     </el-form>
     <!--数据列表-->
     <el-table :data="list" stripe style="width: 100%">
-      <el-table-column prop="psychologist_id" label="id" width="60"></el-table-column>
       <el-table-column prop="psychologist_name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="organization_name" label="机构名称" width="240"></el-table-column>
-      <el-table-column prop="organization_address" label="机构地址" width="190"></el-table-column>
-      <el-table-column prop="praise_number" label="好评量" width="100"></el-table-column>
-      <el-table-column prop="praise_grade" label="好评等级" width="100"></el-table-column>
+      <el-table-column prop="organization_address" label="机构地址" width="210"></el-table-column>
+      <el-table-column prop="praise_number" label="好评量" width="110"></el-table-column>
+      <el-table-column prop="praise_grade" label="好评等级" width="110"></el-table-column>
       <el-table-column prop="visit_number" label="访问量" width="110"></el-table-column>
-      <el-table-column prop="platform_year" label="入驻时长" width="100"></el-table-column>
+      <el-table-column prop="platform_year" label="入驻时长" width="110"></el-table-column>
       <el-table-column prop="message" label="留言数" width="110"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="110"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="110"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="130">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.psychologist_id)" icon="el-icon-edit">编辑</el-button>
-          <el-button size="small" type="text" @click="del(page.row.psychologist_id)" icon="el-icon-delete">删除</el-button>
+          <el-button size="small" type="text" @click="del(page.row.psychologist_id)" icon="el-icon-delete">删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -53,6 +43,7 @@
 
 <script>
   import * as psychologistApi from '../api/psychologist'
+  import moment from 'moment'
 
   export default {
     //数据模型
@@ -80,7 +71,7 @@
       //分页查询
       changePage: function (page) {
         this.params.page = page;
-        this.get()
+        this.query();
       },
       //打开修改页面
       edit: function (psychologist_id) {
@@ -100,19 +91,20 @@
             if (res.success) {
               this.$message.success("删除成功！")
               //刷新页面
-              this.get()
+              this.query()
             } else {
               this.$message.error("删除失败！")
             }
           })
         })
       },
-      //按照id自增查询所有详情信息
-      get: function () {
-        psychologistApi.detail_all(this.params.page, this.params.size).then((res) => {
-          this.total = res.queryResult.total
-          this.list = res.queryResult.list
-        })
+      //时间格式化  
+      dateFormat: function (row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
       }
     },
     created() {
@@ -121,13 +113,8 @@
     },
     mounted() {
       //实现进入页面就查询
-      this.get()
+      this.query();
     }
-
   }
 </script>
-
-<style>
-
-</style>
 ​

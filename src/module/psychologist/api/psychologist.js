@@ -13,7 +13,7 @@ export const profile_list = (page, size, params) => {
 }
 
 //添加简介信息
-export const profile_add = params => {
+export const profileExt_add = params => {
   return http.requestPost(apiUrl + '/psychologist/profile/add', params)
 }
 
@@ -38,11 +38,6 @@ export const state_list = (page, size, params) => {
   return http.requestQuickGet(apiUrl + '/psychologist/state/find/list?' + queryString)
 }
 
-//新增状态信息
-export const state_add = (params) => {
-  return http.requestPost(apiUrl + '/psychologist/state/add', params)
-}
-
 //根据id查询状态信息
 export const state_get = id => {
   return http.requestQuickGet(apiUrl + '/psychologist/state/find/' + id)
@@ -58,25 +53,10 @@ export const state_del = id => {
   return http.requestDelete(apiUrl + '/psychologist/state/del/' + id)
 }
 
-//按照id自增查询所有简介信息
-export const profile_all = (page, size) => {
-  return http.requestQuickGet(apiUrl + '/psychologist/profile/get/all?page=' + page + '&size=' + size);
-}
-
-//按照id自增查询所有状态信息
-export const state_all = (page, size) => {
-  return http.requestQuickGet(apiUrl + '/psychologist/state/get/all?page=' + page + '&size=' + size);
-}
-
 //根据条件分页查询详情信息
 export const detail_list = (page, size, params) => {
   let queryString = querystring.stringify(params);
   return http.requestQuickGet(apiUrl + '/psychologist/detail/get/all?' + queryString);
-}
-
-//新增详情信息
-export const detail_add = params => {
-  return http.requestPost(apiUrl + '/psychologist/detail/add', params)
 }
 
 //根据id查询详情信息
@@ -92,11 +72,6 @@ export const detail_edit = (params) => {
 //根据id删除详情信息
 export const detail_del = psychologist_id => {
   return http.requestDelete(apiUrl + '/psychologist/detail/del/' + psychologist_id)
-}
-
-//按照id自增查询所有详情信息
-export const detail_all = (page, size) => {
-  return http.requestQuickGet(apiUrl + '/psychologist/detail/get/list?page=' + page + '&size=' + size);
 }
 
 //查询所有评价信息
