@@ -12,19 +12,17 @@
     <el-table :data="list" stripe style="width: 100%">
       <el-table-column prop="psychologist_name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="organization_name" label="机构名称" width="240"></el-table-column>
-      <el-table-column prop="organization_address" label="机构地址" width="210"></el-table-column>
-      <el-table-column prop="praise_number" label="好评量" width="110"></el-table-column>
-      <el-table-column prop="praise_grade" label="好评等级" width="110"></el-table-column>
-      <el-table-column prop="visit_number" label="访问量" width="110"></el-table-column>
+      <el-table-column prop="organization_address" label="机构地址" width="240"></el-table-column>
+      <el-table-column prop="praise_number" label="好评量" width="120"></el-table-column>
+      <el-table-column prop="praise_grade" label="好评等级" width="120"></el-table-column>
+      <el-table-column prop="visit_number" label="访问量" width="120"></el-table-column>
       <el-table-column prop="platform_year" label="入驻时长" width="110"></el-table-column>
       <el-table-column prop="message" label="留言数" width="110"></el-table-column>
       <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="操作" width="130">
+      <el-table-column label="操作" width="70">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.psychologist_id)" icon="el-icon-edit">编辑</el-button>
-          <el-button size="small" type="text" @click="del(page.row.psychologist_id)" icon="el-icon-delete">删除
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -81,21 +79,6 @@
             page: this.params.page,
             psychologist_name: this.params.psychologist_name
           }
-        })
-      },
-      //根据id删除咨询师详情信息
-      del: function (psychologist_id) {
-        this.$confirm('您确认提交吗?', '提示', {}).then(() => {
-          //调用服务端接口
-          psychologistApi.detail_del(psychologist_id).then(res => {
-            if (res.success) {
-              this.$message.success("删除成功！")
-              //刷新页面
-              this.query()
-            } else {
-              this.$message.error("删除失败！")
-            }
-          })
         })
       },
       //时间格式化  

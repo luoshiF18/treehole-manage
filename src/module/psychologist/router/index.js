@@ -15,10 +15,11 @@ import suggestion_add from '@/module/psychologist/page/suggestion_add.vue';
 import comment_list from '@/module/psychologist/page/comment_list.vue';
 import comment_edit from '@/module/psychologist/page/comment_edit.vue';
 import comment_add from '@/module/psychologist/page/comment_add.vue';
+import total_list from '@/module/psychologist/page/total_list.vue';
 
 
 export default [{
-  path: '/',
+  path: '/psychologist',
   component: Home,
   name: '心理咨询师信息管理',  //菜单名称
   hidden: false,
@@ -39,6 +40,7 @@ export default [{
     {path: '/psychologist/comment/list', name: '评价信息列表', component: comment_list, hidden: false},
     {path: '/psychologist/comment/edit/:comment_id', name: '修改评价信息', component: comment_edit, hidden: true},
     {path: '/psychologist/comment/add', name: '新增评价信息', component: comment_add, hidden: true},
+    {path: '/psychologist/total/list', name: '统计图表', component: total_list, hidden: false},
   ]
 }
 ]

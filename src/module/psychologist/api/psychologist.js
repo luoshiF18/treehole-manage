@@ -48,11 +48,6 @@ export const state_edit = (params) => {
   return http.requestPut(apiUrl + '/psychologist/state/update', params)
 }
 
-//根据id删除状态信息
-export const state_del = id => {
-  return http.requestDelete(apiUrl + '/psychologist/state/del/' + id)
-}
-
 //根据条件分页查询详情信息
 export const detail_list = (page, size, params) => {
   let queryString = querystring.stringify(params);
@@ -67,11 +62,6 @@ export const detail_get = psychologist_id => {
 //更新详情信息
 export const detail_edit = (params) => {
   return http.requestPut(apiUrl + '/psychologist/detail/update', params)
-}
-
-//根据id删除详情信息
-export const detail_del = psychologist_id => {
-  return http.requestDelete(apiUrl + '/psychologist/detail/del/' + psychologist_id)
 }
 
 //查询所有评价信息
@@ -154,6 +144,15 @@ export const suggestion_add = params => {
   return http.requestPost(apiUrl + '/psychologist/suggestion/add', params)
 }
 
+//查询所有咨询师的姓名
+export const names_get = () => {
+  return http.requestQuickGet(apiUrl + '/psychologist/detail/get/names')
+}
+
+//查询所有咨询师的好评数
+export const praises_get = () => {
+  return http.requestQuickGet(apiUrl + '/psychologist/detail/get/praises')
+}
 
 
 

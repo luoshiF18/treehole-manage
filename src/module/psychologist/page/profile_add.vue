@@ -65,7 +65,8 @@
         <el-input v-model="profileExtForm.detail.organization_address" auto-complete="off" clearable></el-input>
       </el-form-item>
       <el-form-item label="好评数" prop="detail.praise_number" style="width:20.7%">
-        <el-input v-model="profileExtForm.detail.praise_number" auto-complete="off" clearable></el-input>
+        <el-input v-model.number="profileExtForm.detail.praise_number" auto-complete="off" placeholder="请输入数字类型好评数"
+                  clearable></el-input>
       </el-form-item>
       <el-form-item label="好评等级" prop="detail.praise_grade">
         <el-select v-model="profileExtForm.detail.praise_grade" placeholder="请选择" clearable>
@@ -194,7 +195,7 @@
             {required: false, message: '请输入所在机构地址', trigger: 'blur'}
           ],
           'detail.praise_number': [
-            {required: true, message: '请输入获得好评数', trigger: 'blur'}
+            {type: 'number', required: true, message: '请输入数字类型好评数', trigger: 'blur'}
           ],
           'detail.praise_grade': [
             {required: true, message: '请选择好评等级', trigger: 'change'}

@@ -24,15 +24,14 @@
       <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
       <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
       <el-table-column prop="certificate" label="所持专业证书" width="230"></el-table-column>
-      <el-table-column prop="we_chat" label="微信" width="130"></el-table-column>
-      <el-table-column prop="qq" label="QQ" width="130"></el-table-column>
+      <el-table-column prop="we_chat" label="微信" width="160"></el-table-column>
+      <el-table-column prop="qq" label="QQ" width="160"></el-table-column>
       <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
       <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="操作" width="130">
+      <el-table-column label="操作" width="70">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)" icon="el-icon-edit">编辑</el-button>
-          <el-button size="small" type="text" @click="del(page.row.id)" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,21 +92,6 @@
             price: this.params.price,
             free: this.params.free
           }
-        })
-      },
-      //删除记录
-      del: function (id) {
-        this.$confirm('您确认提交吗?', '提示', {}).then(() => {
-          //调用服务端接口
-          psychologistApi.state_del(id).then(res => {
-            if (res.success) {
-              this.$message.success("删除成功！")
-              //刷新页面
-              this.query()
-            } else {
-              this.$message.error("删除失败！")
-            }
-          })
         })
       },
       //时间格式化  
