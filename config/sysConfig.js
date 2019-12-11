@@ -1,5 +1,6 @@
 var sysConfig = {
   scaleUrl: 'http://localhost:40200',
+  userUrl: 'http://localhost:40300',
   xcApiUrl: 'http://api.xuecheng.com/',
   imgUrl: 'http://img.xuecheng.com/',
   videoUrl: 'http://video.xuecheng.com/',
