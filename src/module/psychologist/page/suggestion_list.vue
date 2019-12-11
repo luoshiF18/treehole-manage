@@ -19,7 +19,7 @@
       </el-form-item>
     </el-form>
     <!--数据列表-->
-    <el-table :data="list" stripe style="width: 100%">
+    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
       <el-table-column prop="suggestion_id" label="建议ID" width="155"></el-table-column>
       <el-table-column prop="description" label="病情描述" width="180"></el-table-column>
       <el-table-column prop="suggestion_info" label="建议信息" width="200"></el-table-column>
@@ -121,6 +121,14 @@
           return "";
         }
         return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      },
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex === 1) {
+          return 'row1';
+        } else if (rowIndex === 3) {
+          return 'row3';
+        }
+        return '';
       }
     },
     //钩子函数，DOM元素还未渲染就调用
@@ -135,5 +143,15 @@
     }
   }
 </script>
+<style>
+  .el-table .row1 {
+    background: oldlace;
+  }
+
+  .el-table .row3 {
+    background: #f0f9eb;
+  }
+</style>
+
 
 ​

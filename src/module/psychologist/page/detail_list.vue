@@ -9,7 +9,7 @@
       </el-form-item>
     </el-form>
     <!--数据列表-->
-    <el-table :data="list" stripe style="width: 100%">
+    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
       <el-table-column prop="psychologist_name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="organization_name" label="机构名称" width="240"></el-table-column>
       <el-table-column prop="organization_address" label="机构地址" width="240"></el-table-column>
@@ -88,6 +88,14 @@
           return "";
         }
         return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      },
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex === 1) {
+          return 'row1';
+        } else if (rowIndex === 3) {
+          return 'row3';
+        }
+        return '';
       }
     },
     created() {
@@ -100,4 +108,13 @@
     }
   }
 </script>
+<style>
+  .el-table .row1 {
+    background: oldlace;
+  }
+
+  .el-table .row3 {
+    background: #f0f9eb;
+  }
+</style>
 ​

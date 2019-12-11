@@ -34,7 +34,7 @@
       </el-form-item>
     </el-form>
     <!--数据列表-->
-    <el-table :data="list" stripe style="width: 100%">
+    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
       <el-table-column prop="name" label="姓名" width="80"></el-table-column>
       <el-table-column prop="sex" label="性别" width="60"></el-table-column>
       <el-table-column prop="age" label="年龄" width="80"></el-table-column>
@@ -134,6 +134,14 @@
           return "";
         }
         return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      },
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex === 1) {
+          return 'row1';
+        } else if (rowIndex === 3) {
+          return 'row3';
+        }
+        return '';
       }
     },
     //钩子函数，DOM元素还未渲染就调用
@@ -152,6 +160,12 @@
   }
 </script>
 <style>
-  /*编写页面样式，不是必须的*/
+  .el-table .row1 {
+    background: oldlace;
+  }
+
+  .el-table .row3 {
+    background: #f0f9eb;
+  }
 </style>
 ​

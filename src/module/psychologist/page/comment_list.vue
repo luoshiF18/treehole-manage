@@ -19,11 +19,10 @@
       </el-form-item>
     </el-form>
     <!--数据列表-->
-    <el-table :data="list" stripe style="width: 100%">
-      <el-table-column prop="comment_id" label="评价ID" width="90"></el-table-column>
-      <el-table-column prop="order_id" label="订单ID" width="90"></el-table-column>
-      <el-table-column prop="consultation_id" label="咨询记录ID" width="110"></el-table-column>
-      <el-table-column prop="user_id" label="用户ID" width="146"></el-table-column>
+    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
+      <el-table-column prop="order_id" label="订单ID" width="120"></el-table-column>
+      <el-table-column prop="consultation_id" label="咨询记录ID" width="160"></el-table-column>
+      <el-table-column prop="user_id" label="用户ID" width="160"></el-table-column>
       <el-table-column prop="user_nickname" label="用户昵称" width="100"></el-table-column>
       <el-table-column prop="psychologist_id" label="咨询师ID" width="160"></el-table-column>
       <el-table-column prop="psychologist_name" label="咨询师姓名" width="100"></el-table-column>
@@ -123,6 +122,14 @@
           return "";
         }
         return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      },
+      tableRowClassName({row, rowIndex}) {
+        if (rowIndex === 1) {
+          return 'row1';
+        } else if (rowIndex === 3) {
+          return 'row3';
+        }
+        return '';
       }
     },
     created() {
@@ -135,5 +142,14 @@
     }
   }
 </script>
+<style>
+  .el-table .row1 {
+    background: oldlace;
+  }
+
+  .el-table .row3 {
+    background: #f0f9eb;
+  }
+</style>
 
 ​
