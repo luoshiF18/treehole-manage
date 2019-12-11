@@ -1,6 +1,5 @@
 <!--会员用户等级-->
 <template>
-
   <div>
     <!--查询表单+新增-->
     <el-form  :model="params" class="margin">

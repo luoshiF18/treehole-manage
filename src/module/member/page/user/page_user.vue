@@ -60,60 +60,61 @@
       <el-table :data="list"
                 style="width: 100%;height:50%"
                 v-loading="loading"
+                v-on:sort-change="sort"
                 :default-sort = "{prop: 'user_createtime', order: 'descending'}">
         <!--数据详情列表 (fixed)-->
         <el-table-column type="expand">
-          <template slot-scope="props">
+          <template slot-scope="props" >
             <el-form label-position="right" inline class="demo-table-expand">
               <el-form-item label="用户id">
                 <span>{{ props.row.user_id }}</span>
               </el-form-item>
-              <el-form-item label="角色名称">
+              <el-form-item label="角色">
                 <span>{{ props.row.role_name }}</span>
               </el-form-item>
-              <el-form-item label="用户头像" >
-                <span>{{ props.row.user_image }}</span>
+              <el-form-item label="年龄" >
+                <span>{{ props.row.age }}</span>
               </el-form-item>
-              <el-form-item label="用户昵称" >
+              <el-form-item label="昵称" >
                 <span>{{ props.row.user_nickname }}</span>
               </el-form-item>
               <el-form-item label="用户名">
                 <span>{{ props.row.user_name }}</span>
               </el-form-item>
-              <el-form-item label="用户性别">
+              <el-form-item label="性别">
                 <span>{{ props.row.gender }}</span>
               </el-form-item>
               <el-form-item label="出生日期">
                 <span>{{ props.row.user_birth | birthFilter}}</span>
               </el-form-item>
-              <el-form-item label="用户年龄">
+              <el-form-item label="年龄">
                 <span>{{ props.row.age }}</span>
               </el-form-item>
-              <el-form-item label="用户邮箱">
+              <el-form-item label="邮箱">
                 <span>{{ props.row.user_email }}</span>
               </el-form-item>
-              <el-form-item label="用户手机号">
+              <el-form-item label="手机号">
                 <span>{{ props.row.user_phone }}</span>
               </el-form-item>
-              <el-form-item label="用户qq号">
+              <el-form-item label="QQ号">
                 <span>{{ props.row.user_qq }}</span>
               </el-form-item>
-              <el-form-item label="用户微信">
+              <el-form-item label="微信">
                 <span>{{ props.row.user_wechat }}</span>
               </el-form-item>
-              <el-form-item label="用户地址">
+              <el-form-item label="地址">
                 <span>{{ props.row.user_region }}</span>
               </el-form-item>
               <el-form-item label="注册时间">
                 <span>{{ props.row.user_createtime | dateFilter }}</span>
               </el-form-item>
-              <el-form-item label="公司id">
+              <el-form-item label="公司">
                 <span>{{ props.row.company_id }}</span>
               </el-form-item>
-              <el-form-item label="用户状态">
+              <el-form-item label="状态">
                 <span>{{ props.row.user_status }}</span>
               </el-form-item>
-              <el-form-item label="用户类型">
+              <el-form-item label="类型">
                 <span>{{ props.row.user_type }}</span>
               </el-form-item>
             </el-form>
@@ -145,18 +146,18 @@
         <el-table-column prop="user_createtime"
                          align="center"
                          label="注册时间"
-                         :formatter="dateFormat"
-                         width="200"
-                         sortable>
+                         sortable="custom"
+                         :formatter="dateFormat1"
+                         width="200">
         </el-table-column>
         <el-table-column prop="user_id"
                          align="center"
                          label="会员ID"
                          width="170">
         </el-table-column>
-        <el-table-column prop="user_image"
+        <el-table-column prop="age"
                          align="center"
-                         label="用户头像"
+                         label="年龄"
                          width="100">
         </el-table-column>
         <el-table-column prop="gender"
@@ -167,7 +168,7 @@
         <el-table-column prop="user_birth"
                             align="center"
                             label="出生日期"
-                            :formatter="dateFormat"
+                            :formatter="dateFormat2"
                             width="200"
                             sortable>
         </el-table-column>
@@ -242,12 +243,20 @@
         }, {
           role_id: 2,
           label: '管理员'
-        }
+        },{
+          role_id: 3,
+        label: '心理咨询师'
+        }, {
+            role_id: 4,
+              label: '客服人员'
+          }
         ],
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
           user_id: '',
+          desc: "true",// 是否降序
+          sortBy: "user_createtime",// 排序字段
           user_nickname: '',
           user_phone: '',
           role_id:''
@@ -287,6 +296,21 @@
           })
         })
       },
+      //排序
+      sort: function (sort) {
+        // console.log(sort)
+          this.params.sortBy = sort.prop;
+
+        //判断排序字段
+        if (sort.order == 'ascending') {
+          this.params.desc = false;
+        } else if (sort.order == 'descending') {
+          this.params.desc = true;
+        } else {
+          this.params.desc = null;
+        }
+        this.query();
+      },
       //页面修改(编辑)  通过user_id查询，返回结果后根据整个对象修改
       edit: function (user_id) {
         //打开页面
@@ -298,7 +322,14 @@
         })
       },
       //编写日期格式化的方法
-      dateFormat:function (row,column) {
+      dateFormat1:function (row,column) {
+        const date=row[column.property]
+        if(date==undefined){
+          return''
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss")
+      },
+      dateFormat2:function (row,column) {
         const date=row[column.property]
         if(date==undefined){
           return''

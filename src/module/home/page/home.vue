@@ -41,7 +41,7 @@
               <el-submenu index="4-1">
                 <template slot="title">会员等级</template>
                 <el-menu-item index="/member/page/freegrade">普通会员等级</el-menu-item>
-                <el-menu-item index="/member/page/paygrade">付费会员等级</el-menu-item>
+                <el-menu-item index="/member/page/paygrade">VIP会员等级</el-menu-item>
               </el-submenu>
 
               <el-menu-item index="/member/page/point">会员积分</el-menu-item>

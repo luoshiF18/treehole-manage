@@ -12,6 +12,15 @@
                 v-model="params.user_id"
                 style="width:200px">
       </el-input>
+      <!--查询-->
+      <el-input placeholder="用户昵称"
+                size="medium"
+                clearable
+                autofocus
+                prefix-icon="el-icon-search"
+                v-model="params.user_nickname"
+                style="width:200px">
+      </el-input>
       <!-- 查询 按钮 -->
       <el-button type="primary"
                  size="medium"
@@ -162,6 +171,7 @@
 
           //points_id:'',
           user_id: '',
+          user_nickname: ''
 
         },
         total: 0,  //  数据总条数

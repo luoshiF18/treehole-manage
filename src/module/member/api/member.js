@@ -30,6 +30,12 @@ export const page_cardslist = (page,size,params) =>{
   let queryString = querystring.stringify(params);
   return http.requestQuickGet(apiUrl+'/member/card/getAllCards/'+page+'/'+size+'?'+ queryString);
 }
+export const card_viplist = () =>{
+  return http.requestQuickGet(apiUrl+ '/member/paygrade/find/all');
+}
+export const card_freelist = () =>{
+  return http.requestQuickGet(apiUrl+ '/member/freegrade/find/all');
+}
 //页面查询(会员积分)
 export const user_point = (page,size,params) =>{
   // 将params对象数据拼装成key/value串
@@ -120,8 +126,6 @@ export const paygrade_get= id =>{
 export const page_get= id =>{
   return http.requestQuickGet(apiUrl+'/member/user/getUserById/'+id);
 }
-
-
 //修改页面提交
 export const page_edit= (id,params) =>{
   return http.requestPut(apiUrl+'/member/page/edit/'+id,params);

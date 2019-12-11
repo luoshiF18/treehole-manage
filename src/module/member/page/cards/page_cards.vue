@@ -28,6 +28,14 @@
                 autofocus
                 style="width:200px">
       </el-input>
+      <el-input placeholder="昵称"
+                size="medium"
+                clearable
+                prefix-icon="el-icon-search"
+                v-model="params.user_nickname"
+                autofocus
+                style="width:200px">
+      </el-input>
       <!-- 查询 按钮 -->
       <el-button type="primary"
                  size="medium"
@@ -50,13 +58,16 @@
               <el-form-item label="用户ID">
                 <span>{{ props.row.user_id }}</span>
               </el-form-item>
-              <el-form-item label="会员卡ID">
+              <el-form-item label="卡ID">
                 <span>{{ props.row.card_id }}</span>
               </el-form-item>
-              <el-form-item label="付费会员等级" >
+              <el-form-item label="昵称">
+                <span>{{ props.row.user_nickname }}</span>
+              </el-form-item>
+              <el-form-item label="VIP等级" >
                 <span>{{ props.row.paygrade}}</span>
               </el-form-item>
-              <el-form-item label="普通会员等级">
+              <el-form-item label="用户等级">
                 <span>{{ props.row.freegrade }}</span>
               </el-form-item>
               <el-form-item label="消费总额">
@@ -65,7 +76,7 @@
               <el-form-item label="会员开始时间">
                 <span>{{ props.row.paygrade_start | dateFilter}}</span>
               </el-form-item>
-              <el-form-item label="会员截止时间">
+              <el-form-item label="截止时间">
                 <span>{{ props.row.paygrade_end  | dateFilter}}</span>
               </el-form-item>
               <el-form-item label="现有积分">
@@ -86,22 +97,28 @@
         <el-table-column prop="card_id"
                          fixed
                          align="center"
-                         label="会员卡ID"
+                         label="卡ID"
                          width="150">
         </el-table-column>
-        <el-table-column prop="user_id"
+        <el-table-column prop="user_nickname"
+                         fixed
+                         align="center"
+                         label="昵称"
+                         width="150">
+        </el-table-column>
+        <!--<el-table-column prop="user_id"
                          align="center"
                          label="用户ID"
                          width="200">
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column prop="paygrade"
                          align="center"
-                         label="付费等级"
+                         label="VIP等级"
                          width="150">
         </el-table-column>
         <el-table-column prop="freegrade"
                          align="center"
-                         label="非付费等级"
+                         label="用户等级"
                          width="150">
         </el-table-column>
         <el-table-column prop="consum_all"
@@ -112,14 +129,14 @@
         </el-table-column>
         <el-table-column prop="paygrade_start"
                          align="center"
-                         label="会员开始时间"
+                         label="VIP开始时间"
                          :formatter="dateFormat"
                          width="160"
                          sortable>
         </el-table-column>
         <el-table-column prop="paygrade_end"
                          align="center"
-                         label="会员截止时间"
+                         label="截止时间"
                          :formatter="dateFormat"
                          width="160"
                          sortable>
@@ -171,16 +188,18 @@
     data() {
       return {
         loading: true,
+
         list: [],  // 数据
+        total: 0,  //  数据总条数
+
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
-
           card_id: '', //会员卡ID
           user_id: '', //会员ID
-          user_phone: ''//会员手机号
+          user_phone: '',//会员手机号,
+          user_nickname: ''
         },
-        total: 0,  //  数据总条数
       }
     },
     methods: {
@@ -198,6 +217,7 @@
           this.loading = false;
         })
       },
+
       //当前页码改变时触发的事件 @current-change="changePage"
       changePage: function (currentPage) {  //current--》当前页码
         this.params.page = currentPage;
@@ -233,7 +253,11 @@
 
       //编写日期格式化的方法
       dateFormat:function (row,column) {
+
         const date=row[column.property]
+        if(date == null){
+          return null
+        }
         if(date==undefined){
           return''
         }
@@ -256,6 +280,9 @@
     // 私有过滤器
     filters: { //自定义私有过滤器 过滤器有两个条件 过滤器名称:处理函数
       dateFilter: function (dateStr, pattern=""){
+        if(dateStr == null){
+          return null;
+        }
         var dt = new Date(dateStr)
         //yyyy-mm-dd
         var y = dt.getFullYear()

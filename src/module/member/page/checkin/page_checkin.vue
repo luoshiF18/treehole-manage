@@ -26,7 +26,7 @@
       }}">
         <el-button type="primary"
                    style="float: right;"
-                   size="medium">新增等级
+                   size="medium">新增签到
         </el-button>
       </router-link>
     </el-form>
@@ -161,6 +161,7 @@
         }
         return moment(date).format("YYYY-MM-DD HH:mm:ss")
       },
+
       //页面内容排序
       sort: function (sort) {
         this.params.sortBy = sort.prop;
