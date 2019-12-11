@@ -2,6 +2,7 @@
   <div>
 
     <el-col :span="24" class="header">
+      <!--页面logo-->
       <el-col :span="14" class="logo" >
         <img src="/static/images/asset-logoIco-white.png" width="500px" alt="">{{collapsed ? '' : sysName}}
       </el-col>
@@ -10,44 +11,29 @@
           <i class="fa fa-align-justify"></i>
         </div>
       </el-col>-->
-      <el-col :span="10" class="userinfo" v-if="this.logined">
-        <!--<el-dropdown trigger="hover">
-         <span class="el-dropdown-link userinfo-inner"><img :src="this.user.sysUserImg!=null?this.user.sysUserImg:'/static/images/small.jpg'"/> {{user.username}}</span>
 
+
+        <el-col :span="10" class="userinfo" v-if="this.logined">
+        <el-dropdown trigger="hover">
+         <span class="el-dropdown-link userinfo-inner"><img :src="this.user.sysUserImg!=null?this.user.sysUserImg:'/static/images/small.jpg'"/> {{user.username}}</span>
           <el-dropdown-menu slot="dropdown">
            <el-dropdown-item>我的消息</el-dropdown-item>
            <el-dropdown-item>设置</el-dropdown-item>
            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
          </el-dropdown-menu>
-       </el-dropdown>-->
+       </el-dropdown>
 
-        <div class="nav">
-
-            <div class="usermenu" >
-              <span class="el-dropdown-link userinfo-inner"><img :src="this.user.sysUserImg!=null?this.user.sysUserImg:'/static/images/small.jpg'"/></span>
-              欢迎您：{{user.username}}
-              <a href="http://www.xuecheng.com" target="_blank"><i class="el-icon-star-on"></i>首页</a>
-              <a href="javascript:;" @click="logout" :loading="editLoading"><i class="el-icon-circle-close"></i>退出</a>
-            </div>
-          </div>
       </el-col>
     </el-col>
-    <!-- 1.0 利用mint-ui中的header组件实现整个系统的头部 -->
-    <!-- <mt-header fixed title="传智播客.黑马程序员Vue商城系统">
-       <router-link to="/" slot="left">
-         <mt-button icon="back">首页</mt-button>
-       </router-link>
-       <mt-button icon="more" slot="right">
-         <router-link to="/login">登录</router-link>|
-         <router-link to="/register">注册</router-link>
-       </mt-button>
-     </mt-header>-->
+
   </div>
 </template>
 <script type="text/javascript">
   import jwtDecode from 'jwt-decode'
   import utilApi from '../../common/utils'
   import * as loginApi from '../../module/home/api/home'
+  import * as logoutApi from '../api/login';
+
   export default {
     data() {
       return {
@@ -55,10 +41,10 @@
         sysName: '系统管理中心',
         user:{
           userid:'',
-          username: '',
+          username: '小任',
           userimg: ''
         },
-        logined:false,
+        logined:true,
         collapsed: false,
 
 
@@ -70,40 +56,57 @@
       logout: function () {
         this.$confirm('确认退出吗?', '提示', {
         }).then(() => {
-          //跳转到统一登陆
-          window.location = "http://ucenter.xuecheng.com/#/logout"
-          /*const loading = this.$loading({
-            lock: true,
-            text: 'Loading',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.7)'
-          });
-          loginApi.logout({}).then((res) => {
-              loading.close();
+          logoutApi.logout({}).then((res) => {
             if(res.success){
               this.$message('退出成功');
               //跳转到登陆页面
-              this.$router.push({ path: '/login'})
+              this.$router.push({ path: '/'})
             }else{
               this.$message.error('退出失败');
             }
           },
             (res) => {
               loading.close();
-            });*/
+            });
+
         }).catch(() => {
 
         });
       },
       refresh_user:function(){
-        let activeUser= utilApi.getActiveUser();
 
+        //从sessionStorage中取出当前用户
+        let activeUser= utilApi.getActiveUser();
+        //取出cookie中的令牌
+        let uid = utilApi.getCookie("uid")
+        console.log(activeUser+"1")
         if(activeUser){
           this.logined = true
           this.user = activeUser;
-          //console.log(this.user.username)
+
+        }else{
+
+          if(!uid){
+            this.$message('请登录');
+            this.$router.push({ path: '/'})
+            return ;
+          }
+          //请求查询jwt
+          logoutApi.getjwt().then((res) => {
+
+            if(res.success){
+              console.log(res.jwt)
+              let jwt = res.jwt;
+              let activeUser = utilApi.getUserInfoFromJwt(jwt)
+              if(activeUser){
+                this.logined = true
+                this.user = activeUser;
+                utilApi.setUserSession("activeUser",JSON.stringify(activeUser))
+              }
+            }
+          })
         }
-      }
+      },
     },
     mounted() {
       this.refresh_user()
@@ -156,7 +159,7 @@
   }
   }
   .logo {
-  //width:230px;
+  /*//width:230px;*/
     height: 60px;
     font-size: 20px;
     padding-left: 0px;
@@ -189,7 +192,7 @@
   }
   .main {
     display: flex;
-  // background: #324057;
+  /*// background: #324057;*/
     position: absolute;
     top: 60px;
     bottom: 0px;
@@ -197,9 +200,9 @@
   aside {
     flex: 0 0 230px;
     width: 230px;
-  // position: absolute;
-  // top: 0px;
-  // bottom: 0px;
+  /*// position: absolute;*/
+  /*// top: 0px;*/
+  /*// bottom: 0px;*/
   .el-menu {
     height: 100%;
   }
@@ -230,15 +233,15 @@
   .content-container {
     background: #fff;
     flex: 1;
-  // position: absolute;
-  // right: 0px;
-  // top: 0px;
-  // bottom: 0px;
-  // left: 230px;
+  /*// position: absolute;*/
+  /*// right: 0px;*/
+  /*// top: 0px;*/
+  /*// bottom: 0px;*/
+  /*// left: 230px;*/
     overflow-y: scroll;
     padding: 20px;
   .breadcrumb-container {
-  //margin-bottom: 15px;
+  /*//margin-bottom: 15px;*/
   .title {
     width: 200px;
     float: left;

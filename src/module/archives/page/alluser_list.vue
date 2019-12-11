@@ -4,7 +4,7 @@
     <div>
       <!--查询表单-->
       <el-form :model="params">
-        量表名：<el-input v-model="params.pageAliase"  style="width: 100px"></el-input>
+        用户名：<el-input v-model="params.pageAliase"  style="width: 100px"></el-input>
         <el-button type="primary" size="small" v-on:click="query">查询</el-button>
       </el-form>
       <el-table
@@ -12,19 +12,19 @@
         v-loading="loading"
         stripe
         style="width: 100%">
-        <el-table-column type="index" label="序号" width="60">
+        <el-table-column type="index" label="序号" width="50%">
         </el-table-column>
-        <el-table-column prop="user_nickname" label="用户名" width="300">
+        <el-table-column prop="user_nickname" label="用户名" width="170%">
         </el-table-column>
-        <el-table-column prop="role_name" label="用户类型" width="300">
+        <el-table-column prop="role_name" label="用户类型" width="170%">
         </el-table-column>
-        <el-table-column prop="user_phone" label="手机号" width="300">
+        <el-table-column prop="user_phone" label="手机号" width="170%">
         </el-table-column>
-        <el-table-column prop="user_qq" label="qq" width="300">
+        <el-table-column prop="user_qq" label="qq" width="170%">
         </el-table-column>
-        <el-table-column prop="company_id" label="公司" width="300">
+        <el-table-column prop="company_id" label="公司" width="170%">
         </el-table-column>
-        <el-table-column label="操作" width="300">
+        <el-table-column label="操作" width="230%">
           <template slot-scope="page">
               <el-button
                 size="small"type="info" @click="lookArchives(page.row.user_id)">查看用户档案
@@ -34,11 +34,11 @@
                 :data="oneUserList"
                 v-loading="oneloading"
                 stripe>
-                <el-table-column type="index" label="序号" width="60">
+                <el-table-column type="index" label="序号" width="300%">
                 </el-table-column>
-                <el-table-column prop="scaleName" label="量表名称" width="300">
+                <el-table-column prop="scaleName" label="量表名称" width="400%">
                 </el-table-column>
-                <el-table-column label="操作" width="300">
+                <el-table-column label="操作" width="300%">
                   <template slot-scope="page">
                     <router-link tag="span" :to="{path:'/archives/page/detail',query:{
                          userId:page.row.userId,
@@ -140,6 +140,16 @@
           this.oneUserList = res.queryResult.list;
         })
       },
+      //档案查看
+      look:function (resultId) {
+        // alert(resultId);
+        //打开修改页面
+        this.$router.push({
+          path:'/archivesReport/page/detail',query:{
+            resultId:resultId
+          }
+        })
+      },
       changePage:function (currentPage) {  //形参就是当前页码
         //
         this.params.page = currentPage;
@@ -148,12 +158,18 @@
       },
       //档案查看
       lookArchives:function (userId) {
-        this.dialogTableVisible = true
+/*        this.dialogTableVisible = true
         this.oneUser.userId = userId
         archivesApi.archivesList_list(1,1000000,this.oneUser).then((res)=>{
           //将res结果数据赋值给数据模型对象
           this.oneUserList = res.queryResult.list;
           this.oneloading = false;
+        })*/
+        this.$router.push({
+          path:'/archives/page/userArchivesList',query:{
+            userId:userId,
+            flag: 1
+          }
         })
       },
       //页面删除

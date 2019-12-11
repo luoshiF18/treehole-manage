@@ -131,7 +131,6 @@
         })
       },
       dateFormat:function(row,column){
-
         var date = row[column.property];
 
         if(date == undefined){return ''};
