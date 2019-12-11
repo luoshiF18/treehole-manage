@@ -44,7 +44,7 @@
 
 </template>
 <script>
-    import * as teacherApi from '../api/leave'
+    import * as trainApi from '../api/leave'
   export default {
     data() {
         return {
@@ -99,7 +99,7 @@
                 if (valid) {  //表单校验成功
                     this.$confirm('你确认提交吗?', '提示', {}).then(() => {
                         //调用page_add方法请求服务端的新增页面接口
-                        teacherApi.add_leave(this.pageForm).then(res=>{
+                        trainApi.add_leave(this.pageForm).then(res=>{
                             //解析服务端的响应内容
                             if (res.success) {
                                 this.$message.success('提交成功')
@@ -119,7 +119,7 @@
             })
         },
         findInfo(){
-            teacherApi.findInfo( this.pageForm.leavePeopleId).then(res=>{
+            trainApi.findInfo( this.pageForm.leavePeopleId).then(res=>{
                  this.pageForm.leavePeopleType  = res.leavePeopleType
                  this.pageForm.leavePeopleName = res.leavePeopleName
             })
