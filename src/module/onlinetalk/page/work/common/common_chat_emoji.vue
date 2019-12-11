@@ -118,7 +118,7 @@ export default {
         height: 28px;
         font-size: 0;
         text-indent: -999em;
-        /*background: url('../../assets/qqEmoji.png') 0 0 no-repeat;*/
+        background: url('../../../../../assets/qqEmoji.png') 0 0 no-repeat;
     }
 
     .qqemoji.small {

@@ -19,6 +19,8 @@
       <el-table :data="list" highlight-current-row v-loading="listLoading" style="width: 100%;">
         <el-table-column type="index" width="60">
         </el-table-column>
+        <el-table-column prop="convers_id" label="会话编号" width="120">
+        </el-table-column>
         <el-table-column prop="convers_agentname" label="客服姓名" width="120">
         </el-table-column>
         <el-table-column prop="convers_username" label="用户姓名" width="150">
@@ -50,7 +52,7 @@
     <el-col :span="24" class="toolbar">
 
       <el-pagination background layout="prev, pager, next" @current-change="changePage" :current-size="this.params.size"
-                     :total=this.total*2 :current-page="this.params.page"
+                     :total=this.total :current-page="this.params.page"
                      style="float:right;">
       </el-pagination>
     </el-col>
@@ -67,7 +69,7 @@
         listLoading:false,
         params: {  //这里和上面的查询表单做了双向绑定
           page: 1,
-          size: 5,
+          size: 10,
           name:''
         },
         convers:{
@@ -97,7 +99,9 @@
       look(conversId){
       // alert(agentId)
         this.$router.push({
-          path: '/convers/chat/'})
+          path: '/convers/message/'+conversId,query: {
+            message: this.message
+          }})
       },
       //删除
       del (conversId) {

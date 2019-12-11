@@ -4,15 +4,14 @@
     <!--编写页面静态部分，即view部分-->
       <!--查询表单-->
       <el-form :model="params">
-
-        姓名查询：
-        <el-input size="medium" clearable v-model="params.agent_name" style="width:200px" placeholder="请输入客服人员姓名">
+        根据分类名称查询：
+        <el-input size="medium" clearable v-model="params.category" style="width:200px" placeholder="请输入分类名称">
         </el-input>
         <el-button size="medium" v-on:click="query" icon="el-icon-search" round>查询</el-button>
 
         <i style="margin-right: 50px"></i>
-        <router-link tag="span" :to="{path:'/agent/add'}">
-          <el-button type="primary">新增客服</el-button>
+        <router-link tag="span" :to="{path:'/reply/add'}">
+          <el-button type="primary">新增回复信息</el-button>
         </router-link>
       </el-form>
 
@@ -20,26 +19,22 @@
       <el-table :data="list" highlight-current-row v-loading="listLoading" style="width: 100%;">
         <el-table-column type="index" width="60">
         </el-table-column>
-        <el-table-column prop="agent_name" label="客服姓名" width="120">
+        <el-table-column prop="reply_title" label="标题" width="120">
         </el-table-column>
-        <el-table-column prop="agent_no" label="客服号码" width="150">
+        <el-table-column prop="reply_content" label="快捷内容" width="150">
         </el-table-column>
-        <el-table-column prop="creater" label="创建人" width="150">
+        <el-table-column prop="category" label="类别名称" width="150">
         </el-table-column>
-        <el-table-column prop="Create_Time" label="创建时间" width="180" :formatter="formatCreatetime">
+        <el-table-column prop="reply_creater" label="创建者" width="150">
         </el-table-column>
-        <el-table-column prop="agent_phone" label="客服电话" width="150">
-        </el-table-column>
-        <el-table-column prop="agent_from" label="客服地址" width="250">
-        </el-table-column>
-        <el-table-column prop="agent_sex" label="客服性别" width="100">
+        <el-table-column prop="reply_createtime" label="创建时间" width="180" :formatter="formatCreatetime">
         </el-table-column>
         <el-table-column label="编辑" width="80">
           <template slot-scope="scope">
 
             <el-button
               size="small"type="primary"
-              @click="edit(scope.row.agent_id)">编辑
+              @click="edit(scope.row.reply_id)">编辑
             </el-button>
           </template>
         </el-table-column>
@@ -49,7 +44,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="del(scope.row.agent_id)">删除
+              @click="del(scope.row.reply_id)">删除
             </el-button>
           </template>
         </el-table-column>
@@ -59,15 +54,15 @@
     <el-col :span="24" class="toolbar">
 
       <el-pagination background layout="prev, pager, next" @current-change="changePage" :current-size="this.params.size"
-                     :total=this.total :current-page="this.params.page"
+                     :total=this.total*2 :current-page="this.params.page"
                      style="float:right;">
       </el-pagination>
     </el-col>
   </div>
 </template>
 <script>
-  import * as agentApi from '../../api/onlinetalk'
-  import utilApi from '@/common/utils';
+ /* import * as replyApi from '../../api/onlinetalk'*/
+  /*import utilApi from '@/common/utils';*/
   export default{
     data(){
       return {
@@ -77,18 +72,15 @@
         params: {  //这里和上面的查询表单做了双向绑定
           page: 1,
           size: 10,
-          agent_name:''
+          category:'',
         },
-        agent:{
-          agent_id:'',
-          agent_name:'',
-          agent_no:'',
-          create_time:'',
-          creater:'',
-          agent_password:'',
-          agent_phone:'',
-          agent_from:'',
-          agent_sex:''
+        reply:{
+          reply_id:'',
+          reply_title:'',
+          reply_content:'',
+          reply_createtime:'',
+          reply_creater:'',
+          category:''
         }
 
 
@@ -99,27 +91,27 @@
     },
     methods:{
 
-     formatCreatetime(row, column){
-        var createTime = new Date(row.create_time);
+      formatCreatetime(row, column){
+        var createTime = new Date(row.reply_createtime);
         if (createTime) {
           return utilApi.formatDate(createTime, 'yyyy-MM-dd');
         }
       },
 
-      edit(agentId){
-      // alert(agentId)
+      edit(replyId){
+      // alert(alertId)
         this.$router.push({
-          path: '/agent/edit/'+agentId,query:{
-          agent: this.agent
+          path: '/reply/edit/'+replyId,query:{
+          reply: this.reply
           }})
       },
       //删除
-      del (agentId) {
+      del (replyId) {
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
           this.listLoading = true;
-          agentApi.agent_del(agentId).then((res) => {
+          replyApi.reply_del(replyId).then((res) => {
             this.listLoading = false;
             if(res.success){
               this.$message.success("删除成功")
@@ -139,7 +131,7 @@
       },
       query(){
    /*     alert("查询")*/
-        agentApi.agent_list(this.params).then((res)=>{
+        replyApi.reply_list(this.params).then((res)=>{
           //将res结果数据赋值给数据模型对象
           console.log(res)
           this.total = res.queryResult.total

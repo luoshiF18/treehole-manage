@@ -67,7 +67,7 @@
         listLoading:false,
         params: {  //这里和上面的查询表单做了双向绑定
           page: 1,
-          size: 5,
+          size: 10,
           category:'',
         },
         category:{

@@ -23,6 +23,9 @@
           <el-radio class="radio" label="0">女</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="密码" prop="agent_password">
+        <el-input v-model="agentForm.agent_password" auto-complete="off" ></el-input>
+      </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker type="datetime" placeholder="创建时间" v-model="agentForm.create_time"></el-date-picker>
       </el-form-item>
@@ -50,25 +53,8 @@
           agent_phone:'',
           agent_from:'',
           agent_sex:'',
+          agent_password:''
         },
-        pageFormRules: {
-          siteId:[
-            {required: true, message: '请选择站点', trigger: 'blur'}
-          ],
-          templateId:[
-            {required: true, message: '请选择模版', trigger: 'blur'}
-          ],
-          pageName: [
-            {required: true, message: '请输入页面名称', trigger: 'blur'}
-          ],
-          pageWebPath: [
-            {required: true, message: '请输入访问路径', trigger: 'blur'}
-          ],
-          pagePhysicalPath: [
-            {required: true, message: '请输入物理路径', trigger: 'blur'}
-          ]
-        },
-        siteList:[],
         goback_params: {
           page: this.$route.query.page,
           siteId:this.$route.query.siteId,
