@@ -2,8 +2,9 @@ import Home from '@/module/home/page/home.vue';
 
 /*import desk from 'http://localhost:8080/#/imServer';*/
 /*import chat from '@/module/onlinetalk/page/convers/common_chat.vue';*/
-import imchat from '@/module/onlinetalk/page/convers/imChat.vue';
+import message from '@/module/onlinetalk/page/convers/message.vue';
 
+import leave_list from '@/module/onlinetalk/page/leave/leave_list.vue';
 
 import agent_list from '@/module/onlinetalk/page/agent/agent_list.vue';
 import agent_add from '@/module/onlinetalk/page/agent/agent_add.vue';
@@ -25,18 +26,19 @@ import imServer from '@/module/onlinetalk/page/work/imServer/imServer.vue'
 /*import imClient from '@/components/imClient/imClient'*/
 import imClient from '@/module/onlinetalk/page/work/imClient/imClient.vue'
 
+import serv_list from '@/module/onlinetalk/page/serv/serv_list.vue'
+import serv_add from '@/module/onlinetalk/page/serv/serv_add.vue'
+
 export default [{
     path: '/onlinetalk',
     component: Home,
     name: '客服管理',
     hidden: false,
     children: [
-      { path: '/', redirect: 'imServer' },
-      /*  { path: '/reply_list', name: 'reply_list', component: reply_list },*/
       { path: '/imServer', name: 'imServer', component: imServer },
-      { path: '/imClient', name: 'imClient', component: imClient },
+     /* { path: '/imClient', name: 'imClient', component: imClient },*/
       //聊天记录模块
-      { path: '/convers/chat', name:'聊天记录',component: imchat,hidden:false},
+      { path: '/convers/message/:conversId', name:'聊天记录',component: message,hidden:false},
       //客服模块
       { path: '/agent/list', name:'客服列表',component: agent_list,hidden:false},
       { path: '/agent/add', name:'添加客服',component: agent_add,hidden:false},
@@ -51,14 +53,17 @@ export default [{
       { path: '/category/edit/:categoryId', name:'修改分类信息',component: category_edit,hidden:false},
       //会话模块
       { path: '/convers/list', name:'会话列表',component: convers_list,hidden:false},
+      //留言模块
+      { path: '/leave/list', name:'留言列表',component: leave_list,hidden:false},
+      //服务模块
+      { path: '/serv/list', name:'服务列表',component: serv_list,hidden:false},
+      { path: '/serv/add', name:'添加服务小结',component: serv_add,hidden:false},
+     /* { path: '/category/edit/:categoryId', name:'修改分类信息',component: category_edit,hidden:false},*/
+
+     /* { path: '/imClient2', name: 'imClient2',redirect:'', component: imClient },*/
      /* { path: '/cms/page/html/:pageId', name:'生成html',component: page_html,hidden:false},*/
     ],
-  routes: [
-    { path: '/', redirect: 'imServer' },
-    /*  { path: '/reply_list', name: 'reply_list', component: reply_list },*/
-    { path: '/imServer', name: 'imServer', component: imServer },
-    { path: '/imClient', name: 'imClient', component: imClient },
-  ]
+
   /*routes: [
     { path: '/', redirect: 'imServer' },
     /!*  { path: '/reply_list', name: 'reply_list', component: reply_list },*!/
@@ -70,11 +75,13 @@ export default [{
     // children: [
     //   {path: 'home', component: Home}
     // ]
-  }/*,
+  },
   {
-    path: '/login',
-    component: Login,
-    name: 'Login',
-    hidden: true
-  }*/
+    path: '/imClient',
+    component: imClient,
+    name: 'imClient',
+    redirect:'',
+    hidden: false
+  }
 ]
+

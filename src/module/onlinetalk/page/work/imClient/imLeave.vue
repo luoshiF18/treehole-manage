@@ -14,20 +14,22 @@
                     <el-input type="textarea" v-model="dataForm.content" :rows="5" placeholder="请输入2-100字符"></el-input>
                 </el-form-item>
                 <el-form-item class="text-center">
-                    <el-button type="primary" class="submit-btn" @click="submit" :disabled="dataForm.phone.length==0 || dataForm.email.length==0">提 交</el-button>
+                    <el-button type="primary" class="submit-btn" @click.native="submit1" :disabled="dataForm.phone.length==0 || dataForm.email.length==0">提 交</el-button>
                 </el-form-item>
             </el-form>
         </div>
         <!-- 留言提交成功 -->
-        <div v-show="resultVisible" class="submit-main">
+        <!--<div v-show="resultVisible" class="submit-main">
             <i class="fa fa-check-circle-o"></i>
             <p class="title">留 言 提 交 成 功</p>
             <p class="sub-title">我们会很快与您联系</p>
-        </div>
+        </div>-->
     </div>
 </template>
 
 <script>
+  import * as leaveApi from '../../../api/onlinetalk'
+  import utilApi from '../../../../../common/utils'
 export default {
     props: {},
     data() {
@@ -36,7 +38,8 @@ export default {
             dataForm: {
                 email: '',
                 phone: '',
-                content: ''
+                content: '',
+                name:'',
             },
             dataForm_rules: {
                 email: [
@@ -97,13 +100,36 @@ export default {
         /**
          * 提交
          */
-        submit: function() {
-            var self = this;
+        submit1: function() {
+          this.dataForm.name = utilApi.getActiveUser().username,
+            leaveApi.leave_add(this.dataForm).then((res) => {
+              alert("111")
+              console.log(res);
+              if(res.success){
+                this.addLoading = false;
+                //NProgress.done();
+                this.$message({
+                  message: '提交成功',
+                  type: 'success'
+                });
+                // this.$refs['agentForm'].resetFields();
+
+              }else if(res.message){
+                this.addLoading = false;
+                this.$message.error(res.message);
+              }else{
+                this.addLoading = false;
+                this.$message.error('提交失败');
+              }
+            });
+            /*var self = this;
             this.$refs.dataForm.validate(function(valid) {
                 if (valid) {
-                    self.$data.resultVisible = true;
+                  alert("3333")
+                    //self.$data.resultVisible = true;
+
                 }
-            });
+            });*/
         }
     }
 };

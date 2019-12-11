@@ -1,10 +1,11 @@
 <!-- 会话记录 -->
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div class="imRecord-wrapper">
         <header class="header">
             <div class="kf-info-wrapper">
                 <img class="kf-avatar" :src="storeServerChatEn.avatarUrl" />
-                <span class="kf-name position-h-v-mid">{{storeServerChatEn.serverChatName}}</span>
+               <!-- <span class="kf-name position-h-v-mid">{{storeServerChatEn.serverChatName}}</span>-->
+              <span class="kf-name position-h-v-mid">{{this.user.username}}</span>
             </div>
             <div class="client-info-wrapper">
                 <p>
@@ -44,9 +45,19 @@
 </template>
 
 <script>
+  import utilApi from '../../../../../common/utils'
+  import * as logoutApi from '../../../../../base/api/login';
 export default {
     data() {
-        return {};
+        return {
+
+          user:{
+            userid:'',
+            username:'',
+            userimg: ''
+          },
+
+        };
     },
     computed: {
         selectedChatEn() {
@@ -62,12 +73,20 @@ export default {
     },
     watch: {},
     methods: {
+
+
+
+
+
+
         /**
          * 选中当前列表的chat
          * @param {Object} en call实体类
          */
         selectChat: function(en) {
             this.$store.imServerStore.dispatch('selectChat', { clientChatId: en.clientChatId });
+            //alert("111111")
+            //alert(en.clientChatId)
             this.$emit('selectedChat', {}); // 事件上传
         },
 
@@ -85,7 +104,13 @@ export default {
          * @param {string} clientChatName 姓名
          */
         getBgClass: function(clientChatName) {
+
+
+
+
+
             var rs = clientChatName.charCodeAt(0) % 5;
+           //var rs = activeUser.username;
             return 'bg' + rs;
         },
 
@@ -100,7 +125,21 @@ export default {
             var rs = this.$ak.Utils.getDateTimeStr(sValue, 'H:i:s');
             return rs;
         }
-    }
+    },
+  created(){
+    /*  this.user.username = utilApi.getUserSession("activeUser").username;*/
+if (utilApi.getActiveUser()!=null && utilApi.getActiveUser()!=''){
+  this.user.username =activeUser.username;
+} else{
+  this.user.username ="test";
+}
+      //let activeUser= utilApi.getActiveUser();
+     // this.user.username =activeUser.username;
+      //this.user.userid = utilApi.getUserSession("activeUser").userid;
+     // alert(this.user.username)
+     // alert(this.user.userid)
+
+  },
 };
 </script>
 

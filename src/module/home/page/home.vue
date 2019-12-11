@@ -66,11 +66,7 @@
             <template slot="title"><span>客服管理</span></template>
             <el-submenu index="7-1">
              <template slot="title">客服工作台</template>
-              <!--<el-menu-item index=""><a href='http://localhost:11000/#/imServer' target='_blank'>客服工作台</a></el-menu-item>
-              <el-menu-item index=""><a href='http://localhost:11000/#/imclient' target='_blank'>用户测试台</a></el-menu-item>-->
-              <el-menu-item index="/imServer">客服工作台</el-menu-item>
-              <el-menu-item index="/imclient">用户测试台</el-menu-item>
-
+              <el-menu-item index="/imServer" >客服工作台</el-menu-item>
             </el-submenu>
 
 
@@ -87,7 +83,7 @@
               <el-menu-item index="/reply/edit/:replyId">修改快捷回复</el-menu-item>
             </el-submenu>
             <el-submenu index="7-4">
-              <template slot="title">分类管理</template>
+              <template slot="title">回复分类管理</template>
               <el-menu-item index="/category/list">分类列表</el-menu-item>
               <el-menu-item index="/category/add">添加分类</el-menu-item>
               <el-menu-item index="/category/edit/:categoryId">修改分类信息</el-menu-item>
@@ -96,13 +92,25 @@
             <template slot="title">会话管理</template>
             <el-menu-item index="/convers/list">会话列表</el-menu-item>
           </el-submenu>
+            <el-submenu index="7-6">
+              <template slot="title">留言管理</template>
+              <el-menu-item index="/leave/list">留言列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-7">
+              <template slot="title">服务管理</template>
+              <el-menu-item index="/serv/list">服务列表</el-menu-item>
+              <el-menu-item index="/serv/add">新增服务小结</el-menu-item>
+            </el-submenu>
           </el-submenu>
+
+
 
         </el-menu>
 
         <!--导航菜单-折叠后-->
 
 </aside>
+
       <section class="content-container">
         <div class="grid-content bg-purple-light">
           <el-col :span="24" class="breadcrumb-container">

@@ -8,9 +8,9 @@
                     <span v-else-if="chatInfoEn.chatState == 'agent'">您正在与客服{{serverChatEn.serverChatName}}对话</span>
                 </div>
                 <div class="opr-wrapper position-v-mid">
-                    <el-tooltip content="评分" placement="bottom" effect="light">
+                    <!--<el-tooltip content="评分" placement="bottom" effect="light">
                         <i class="fa fa-star-half-full" @click="showRateDialog()"></i>
-                    </el-tooltip>
+                    </el-tooltip>-->
                     <el-tooltip content="留言" placement="bottom" effect="light">
                         <i class="fa fa-envelope-o" @click="showLeaveDialog()"></i>
                     </el-tooltip>
@@ -23,9 +23,9 @@
                 <!-- 聊天框 -->
                 <div class="item imClientChat-wrapper">
                     <!-- 聊天记录 -->
-                    <common-chat ref="common_chat" :chatInfoEn="chatInfoEn" :oprRoleName=" 'client'" @sendMsg="sendMsg" @chatCallback="chatCallback"></common-chat>
+                    <common-chat ref="common_chat" :serverChatEn1="serverChatEn" :clientChatEn1="clientChatEn" :chatInfoEn="chatInfoEn" :oprRoleName=" 'client'" @sendMsg="sendMsg" @chatCallback="chatCallback"></common-chat>
                 </div>
-                <!-- 信息区域 -->
+              <!--  &lt;!&ndash; 信息区域 &ndash;&gt;
                 <div class="item imClientInfo-wrapper">
                     <article class="imClientInfo-notice-wrapper">
                         <header class="imClientInfo-item-header">
@@ -40,7 +40,7 @@
                             </p>
                         </main>
                     </article>
-                    <!-- 常见问题 -->
+                    &lt;!&ndash; 常见问题 &ndash;&gt;
                     <article class="imClientInfo-faq-wrapper">
                         <header class="imClientInfo-item-header">
                             常见问题
@@ -53,7 +53,7 @@
                             </el-collapse>
                         </main>
                     </article>
-                </div>
+                </div>-->
             </main>
         </div>
         <!-- 转接客服dialog -->
@@ -84,6 +84,7 @@ import commonChat from '@/module/onlinetalk/page/work/common/common_chat.vue';
 import imRate from './imRate.vue';
 import imLeave from './imLeave.vue';
 import imTransfer from './imTransfer.vue';
+import utilApi from '../../../../../common/utils'
 
 export default {
     components: {
@@ -129,7 +130,14 @@ export default {
             logoutDialogVisible: false, // 结束会话显示
             transferDialogVisible: false, // 转接人工dialog
             rateDialogVisible: false, // 评价dialog
-            leaveDialogVisible: false // 留言dialog
+            leaveDialogVisible: false, // 留言dialog
+
+
+
+
+
+
+
         };
     },
     computed: {},
@@ -159,9 +167,15 @@ export default {
                     userName = '孙';
                     break;
             }
+
+          if(utilApi.getActiveUser() !=null&&utilApi.getActiveUser()!=''){
+            this.$data.clientChatEn.clientChatName = utilApi.getActiveUser().username;//userName;
+          }else{
             var tmpId = this.$data.clientChatEn.clientChatId.toString();
             userName += tmpId.substr(tmpId.length - 6, 6);
             this.$data.clientChatEn.clientChatName = userName;
+          }
+
 
             // 模拟消息
             this.addChatMsg({
@@ -278,11 +292,13 @@ export default {
                 // 机器人发送接口
             } else if (this.$data.chatInfoEn.chatState == 'agent') {
                 // 客服接口
+
                 this.$data.socket.emit('CLIENT_SEND_MSG', {
                     serverChatId: this.$data.serverChatEn.serverChatId,
                     clientChatEn: this.$data.clientChatEn,
                     msg: msg
                 });
+
             }
             // 2.添加到消息集合李
             var self = this;
@@ -309,6 +325,7 @@ export default {
             this.$data.chatInfoEn.chatState = 'agent';
             this.regSocket(rs.serverChatId);
             console.log(rs.serverChatId);
+
         },
 
         /**

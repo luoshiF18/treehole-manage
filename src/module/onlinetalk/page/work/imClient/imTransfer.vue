@@ -9,7 +9,7 @@
             </el-radio-group>
         </main>
         <footer class="footer">
-            <el-button type="primary" :disabled="selectedServerChatId == ''" @click="submit">开始咨询</el-button>
+            <el-button type="primary"   :disabled="selectedServerChatId == ''" @click="submit">开始咨询</el-button>
         </footer>
     </div>
 </template>

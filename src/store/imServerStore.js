@@ -5,14 +5,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import ak from '@/common/ak.js';
-
+import utilApi from '../common/utils'
+import * as logoutApi from '../base/api/login';
 Vue.use(Vuex);
 export const imServerStore = new Vuex.Store({
     state: {
         serverChatEn: {
             serverChatId: Number.parseInt(Date.now() + Math.random()),
+            //serverChatId: utilApi.getActiveUser().userid,
            /* serverChatId: Number.parseInt(159753),*/
+            //serverChatName: this.finduser,
             serverChatName: '小P',
+           // serverChatName: utilApi.getActiveUser().username,
             avatarUrl: '/static/images/im_server_avatar.png'
         },
         selectedChatEn: null, // 选取的会话对象
@@ -22,6 +26,19 @@ export const imServerStore = new Vuex.Store({
         socket: null
     },
     mutations: {
+
+
+      finduser: function() {
+        if( utilApi.getActiveUser() !=null ){
+          return utilApi.getActiveUser().username;
+        }else{
+          return '小P'
+        }
+
+
+      },
+
+
         /**
          * 触发当前选择的chat含有新的消息
          * @param {Object} payload 载荷对象
@@ -115,7 +132,7 @@ export const imServerStore = new Vuex.Store({
          */
         getChatEnByChatId: function(context, { clientChatId, listName }) {
             var chatEn = null;
-
+            //alert(listName)
             if (listName) {
                 // 1.指定了列表
                 var targetList = context.state[listName];
@@ -137,7 +154,7 @@ export const imServerStore = new Vuex.Store({
                     }
                 }
             }
-
+            //alert(chatEn)
             return chatEn;
         },
 
@@ -149,6 +166,7 @@ export const imServerStore = new Vuex.Store({
          */
         extendChatEn: function(context, payload) {
             return context.dispatch('getChatEnByChatId', { clientChatId: payload.clientChatId }).then((chatEn) => {
+              //alert(payload.clientChatId)
                 // 1.若没有，就附加到当前会话列表里
                 if (chatEn == null) {
                     return;
@@ -252,6 +270,7 @@ export const imServerStore = new Vuex.Store({
          * @param {String} clientChatId 选中会话Id
          */
         selectChat: function(context, { clientChatId }) {
+         // alert(clientChatId)
             context.dispatch('getChatEnByChatId', { clientChatId: clientChatId }).then((chatEn) => {
                 var state = context.state;
                 chatEn.newMsgCount = 0; // 设置新消息为0
@@ -261,6 +280,7 @@ export const imServerStore = new Vuex.Store({
                 // 2.刷新当前会话集合
                 for (var i = 0; i < state.currentChatEnlist.length; i++) {
                     var tmpEn = state.currentChatEnlist[i];
+                   // alert(tmpEn)
                     if (tmpEn.clientChatId == chatEn.clientChatId) {
                         state.currentChatEnlist[i] = state.selectedChatEn;
                         break;
@@ -349,7 +369,7 @@ export const imServerStore = new Vuex.Store({
                     context.commit('clearNotificationChat');
                     context.dispatch('selectChat', { clientChatId: item.clientChatId });
                     notification.close();
-                    imServerStore_notificationList = [];
+                    windows.imServerStore_notificationList = [];
                 };
 
                 notification.onclose = function(e) {
@@ -490,6 +510,12 @@ export const imServerStore = new Vuex.Store({
          * 客服chat信息
          */
         serverChatEn: function(state) {
+
+
+
+            /*this.state.serverChatEn.serverChatId = activeUser.userid;
+          this.state.serverChatEn.serverChatName = activeUser.username;*/
+
             return state.serverChatEn;
         }
     }

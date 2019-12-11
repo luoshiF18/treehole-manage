@@ -48,6 +48,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     historyApiFallback: {
       rewrites: [{ from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') }]
     },
+    disableHostCheck: true,
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
@@ -196,7 +197,7 @@ io.on('connection', function(socket) {
   // 服务端上线
   socket.on('SERVER_ON', function(data) {
     let serverChatEn = data.serverChatEn;
-    console.log(`有新的服务端socket连接了，服务端Id：${serverChatEn.serverChatId}`);
+    console.log(`有新的服务端socket连接了，服务端Id：${serverChatEn.serverChatId}服务端名称：${serverChatEn.serverChatName}`);
     serverChatDic.set(serverChatEn.serverChatId, {
       serverChatEn: serverChatEn,
       socket: socket
@@ -238,7 +239,7 @@ io.on('connection', function(socket) {
       // 2.对不同的事件特殊处理
       if (eventName === 'CLIENT_ON') {
         // 1)'CLIENT_ON'，通知客户端正确连接
-        console.log(`有新的客户端socket连接了，客户端Id：${clientChatEn.clientChatId}`);
+        console.log(`有新的客户端socket连接了，客户端Id：${clientChatEn.clientChatId}客户端名称：${clientChatEn.clientChatName}`);
         clientChatDic.set(clientChatEn.clientChatId, {
           clientChatEn: clientChatEn,
           socket: socket

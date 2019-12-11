@@ -114,7 +114,7 @@ export const imServerStore = new Vuex.Store({
          */
         getChatEnByChatId: function(context, { clientChatId, listName }) {
             var chatEn = null;
-
+            //alert(clientChatId)
             if (listName) {
                 // 1.指定了列表
                 var targetList = context.state[listName];
@@ -147,6 +147,7 @@ export const imServerStore = new Vuex.Store({
          * @param {Array} payload.extends Chat需要变更的属性对象数组
          */
         extendChatEn: function(context, payload) {
+         // alert(payload.clientChatId)
             return context.dispatch('getChatEnByChatId', { clientChatId: payload.clientChatId }).then((chatEn) => {
                 // 1.若没有，就附加到当前会话列表里
                 if (chatEn == null) {
@@ -348,7 +349,7 @@ export const imServerStore = new Vuex.Store({
                     context.commit('clearNotificationChat');
                     context.dispatch('selectChat', { clientChatId: item.clientChatId });
                     notification.close();
-                    imServerStore_notificationList = [];
+                    //imServerStore_notificationList = [];
                 };
 
                 notification.onclose = function(e) {

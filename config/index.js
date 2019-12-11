@@ -26,6 +26,13 @@ module.exports = {
           '^/api': ''  //将/api转换成''空字符串
         }
       },
+      '/getIMServerList': {
+        target: 'http://localhost:3000',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+      },
+
       '/api/scale': {
         target: 'http://localhost:40200',
         pathRewrite: {
@@ -40,7 +47,8 @@ module.exports = {
         //target: 'http://127.0.0.1:50201'
 
       },
-      '/api/agent': {
+
+      '/api/online': {
         target: 'http://localhost:40600',
         changeOrigin:true,
         pathRewrite: {
@@ -49,33 +57,7 @@ module.exports = {
         //target: 'http://127.0.0.1:50201'
 
       },
-      '/api/reply': {
-        target: 'http://localhost:40600',
-        changeOrigin:true,
-        pathRewrite: {
-          '^/api': ''
-        }
-        //target: 'http://127.0.0.1:50201'
 
-      },
-      '/api/category': {
-        target: 'http://localhost:40600',
-        changeOrigin:true,
-        pathRewrite: {
-          '^/api': ''
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
-      '/api/convers': {
-        target: 'http://localhost:40600',
-        changeOrigin:true,
-        pathRewrite: {
-          '^/api': ''
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
       '/api/archives': {
         target: 'http://localhost:40100',
         pathRewrite: {

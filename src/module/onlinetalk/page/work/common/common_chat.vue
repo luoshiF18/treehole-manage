@@ -62,12 +62,12 @@
                     <!-- 表情、文件选择等操作 -->
                     <div class="opr-wrapper">
                         <common-chat-emoji class="item" ref="qqemoji" @select="qqemoji_selectFace"></common-chat-emoji>
-                        <a class="item" href="javascript:void(0)" @click="fileUpload_click('file')">
+                       <!-- <a class="item" href="javascript:void(0)" @click="fileUpload_click('file')">
                             <i class="iconfont fa fa-file-o"></i>
                         </a>
                         <form method="post" enctype="multipart/form-data">
                             <input type="file" name="uploadFile" id="common_chat_opr_fileUpload" style="display:none;position:absolute;left:0;top:0;width:0%;height:0%;opacity:0;">
-                        </form>
+                        </form>-->
                     </div>
                     <!-- 聊天输入框 -->
                     <div class="input-wrapper">
@@ -106,12 +106,22 @@
 
 <script>
 import common_chat_emoji from './common_chat_emoji.vue';
+import * as agentApi from '../../../api/onlinetalk'
 
 export default {
     components: {
         commonChatEmoji: common_chat_emoji
     },
     props: {
+      serverChatEn1: {
+        serverChatName: '',
+        avatarUrl: ''
+      }, // 服务端chat信息
+      clientChatEn1: {
+        clientChatId: '',
+        clientChatName: '',
+        avatarUrl: 'static/images/im_client_avatar.png'
+      }, // 当前账号的信息
         chatInfoEn: {
             required: true,
             type: Object,
@@ -128,6 +138,39 @@ export default {
     },
     data() {
         return {
+
+        message1:{
+          message_id:'', //消息id
+          message_type:'', //回复标题
+          calltype:'',//会话方向
+          agent_id:'', //客服id
+          touser_id:'', //用户id
+          agent_name:'', //客服姓名
+          touser_name:'', //用户姓名
+          convers_id:'123456', //会话id
+          message_content:'', //会话内容
+          message_createtime:new Date(),//创建时间
+        },
+          convers:{
+            convers_id:'',
+            convers_agentid:'',
+            convers_userid:'',
+            begin_time:new Date(),
+            convers_agentname:'',
+            convers_username: '',
+          },
+          convers2:{
+            convers_id:'',
+            convers_agentid:'',
+            convers_userid:'',
+            begin_time:new Date(),
+            convers_agentname:'',
+            convers_username: '',
+          },
+
+
+
+
             inputContent_setTimeout: null, // 输入文字时在输入结束才修改具体内容
             selectionRange: null, // 输入框选中的区域
             shortcutMsgList: [], // 聊天区域的快捷回复列表
@@ -135,7 +178,17 @@ export default {
             imgViewDialog_imgSrc: '' // 图片查看dialog的图片地址
         };
     },
-    computed: {},
+  computed: {
+    storeSelectedChatEn() {
+      return this.$store.imServerStore.getters.selectedChatEn;
+    },
+    storeHaveNewMsgDelegate() {
+      return this.$store.imServerStore.getters.haveNewMsgDelegate;
+    },
+    storeServerChatEn() {
+      return this.$store.imServerStore.getters.serverChatEn;
+    }
+  },
     watch: {},
     methods: {
         /**
@@ -485,14 +538,131 @@ export default {
          * 发送消息，e.g. 文本、图片、文件
          * @param {Object} msg 消息对象
          */
+
+          convers_add (){
+  let con = this.convers;
+
+  agentApi.convers_add(con).then((res) => {
+    console.log(res);
+    if(res.success){
+      //this.addLoading = false;
+      //NProgress.done();
+      /*this.$message({
+        message: '提交会话成功',
+        type: 'success'
+      });*/
+      //this.$refs['agentForm'].resetFields();
+
+    }else if(res.message){
+      this.addLoading = false;
+      this.$message.error(res.message);
+    }else{
+      this.addLoading = false;
+      this.$message.error('提交失败');
+    }
+  });
+
+
+},
+
+        addMessage(){
+                let mssg = this.message1;
+
+                agentApi.message_add(mssg).then((res) => {
+                  console.log(res);
+                  if(res.success){
+                    //this.addLoading = false;
+                    //NProgress.done();
+                   /* this.$message({
+                      message: '提交成功',
+                      type: 'success'
+                    });*/
+                    //this.$refs['agentForm'].resetFields();
+
+                  }else if(res.message){
+                    this.addLoading = false;
+                    this.$message.error(res.message);
+                  }else{
+                    this.addLoading = false;
+                    this.$message.error('提交失败');
+                  }
+                });
+
+
+        },
+
+
         sendMsg: function(msg) {
-            /*alert()*/
+
+
+
+          //alert(msg.content)
+          //alert(msg.contentType)
+         // alert(this.oprRoleName)
+
+          this.message1.calltype = this.oprRoleName
+          this.message1.message_content = msg.content
+          this.message1.message_createtime = msg.create_time
+          this.message1.message_type = msg.contentType
+          //this.message1.convers_id=this.storeSelectedChatEn.clientChatId
+          //alert(5566)
+         // alert(this.storeSelectedChatEn.clientChatId)
+          //alert(msg.contentBase)
+
+          if(this.oprRoleName != 'server'){
+
+            this.message1.convers_id =this.clientChatEn1.clientChatId
+
+            this.message1.touser_id = this.clientChatEn1.clientChatId
+            this.message1.touser_name = this.clientChatEn1.clientChatName
+            this.message1.agent_id = this.serverChatEn1.serverChatId
+            this.message1.agent_name = this.serverChatEn1.serverChatName
+
+
+            //会话表
+            this.convers.convers_id = this.clientChatEn1.clientChatId
+            this.convers.convers_agentid =  this.serverChatEn1.serverChatId
+            this.convers.convers_userid =   this.clientChatEn1.clientChatId
+            this.convers.convers_username = this.clientChatEn1.clientChatName
+            this.convers.convers_agentname = this.serverChatEn1.serverChatName
+
+            this.convers2.convers_id = this.clientChatEn1.clientChatId
+            this.convers2.convers_agentid =  this.serverChatEn1.serverChatId
+            this.convers2.convers_userid =   this.clientChatEn1.clientChatId
+            this.convers2.convers_username = this.clientChatEn1.clientChatName
+            this.convers2.convers_agentname = this.serverChatEn1.serverChatName
+
+          }else{
+            //this.convers.convers_agentname = this.storeServerChatEn().serverChatEn1.serverChatName
+            //this.message1.message_type = 'server'
+            this.message1.convers_id =      this.convers2.convers_userid
+            this.convers.convers_id =       this.convers2.convers_id
+            this.convers.convers_agentid =  this.convers2.convers_agentid
+            this.convers.convers_userid =   this.convers2.convers_userid
+            this.convers.convers_username =  this.convers2.convers_username
+            //this.convers.convers_agentname =this.convers2.convers_agentname
+          }
+
+
+
+
+          //alert("11111")
+         // alert(this.message1.touser_name )
+         // alert(this.message1.touser_id )
+         // alert(this.message1.convers_id)
+         // alert(this.message1.message_content)
+         // alert(this.message1.calltype)
+          //alert(this.message1.calltype)
+          this.convers_add()
+          this.addMessage();
+
+
             var self = this;
             // 1.传递
             this.$emit('sendMsg', {
                 msg: msg,
                 successCallbcak: function() {
-                    /*alert(msg.content)*/
+
                     document.getElementById('common_chat_input').focus();
                     self.goEnd();
                 }
