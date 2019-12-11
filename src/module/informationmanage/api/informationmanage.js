@@ -64,17 +64,17 @@ export const class_list = (page,size,params) =>{
   return http.requestPost(apiUrl+'/train/class/find/'+page+'/'+size,params);
 }
 
-//添加老师
+//添加班级
 export const add_class = (params) =>{
   return http.requestPost(apiUrl+'/train/class/add',params);
 }
 
-//修改老师信息
+//修改班级信息
 export const update_class = (classId,params) =>{
   return http.requestPut(apiUrl+'/train/class/update/'+classId,params);
 }
 
-//删除学生信息
+//删除班级信息
 export const del_class = classId => {
   return http.requestDelete(apiUrl+'/train/class/delete/'+classId)
 }

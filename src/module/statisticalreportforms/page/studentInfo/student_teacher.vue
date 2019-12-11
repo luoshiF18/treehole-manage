@@ -142,7 +142,7 @@
                     size: 5,
                     condition:{
                         teacherId:"",
-                        classId:"",
+                        studentId:"",
                         teacherName:"",
                         teacherGender:"",
                         teacherClass:"",
@@ -158,17 +158,12 @@
            if(par == 1){
                this.params.page = 1;
            }
-           this.params.condition.classId=this.$route.params.classId;
-         console.log("============")
+           this.params.condition.studentId=this.$route.params.studentId;
            //调用服务端的接口
-           trainApi.class_teacher(this.params.page,this.params.size,this.params.condition).then((res) => {
+           trainApi.student_teacher(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象
-             console.log("============")
-
-             console.log(res.queryResult.list)
-             console.log("============")
-
-             this.list = res.queryResult.list;
+               console.log(res.queryResult.list)
+               this.list = res.queryResult.list;
                this.total = res.queryResult.total;
            })
        },
@@ -181,7 +176,7 @@
        //返回
        go_back(){
            this.$router.push({
-               path: '/statisticalreportforms/page/classInfo/class_information_statistics', query: {
+               path: '/statisticalreportforms/page/studentInfo/student_information_statistics', query: {
 
                }
            })

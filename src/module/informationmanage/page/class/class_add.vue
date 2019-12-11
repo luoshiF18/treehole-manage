@@ -7,6 +7,17 @@
         <el-input v-model="pageForm.className" auto-complete="off" ></el-input>
       </el-form-item>
 
+      <el-form-item label="期数" prop="studentPhase">
+        <el-select v-model="pageForm.classPhase" placeholder="请选择班级">
+          <el-option
+            v-for="item in phaseList"
+            :key="item.phaseId"
+            :label="item.phaseName"
+            :value="item.phaseId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="计划" prop="classPlan">
         <el-input v-model="pageForm.classPlan" auto-complete="off" ></el-input>
       </el-form-item>
@@ -45,6 +56,7 @@
   export default {
     data() {
         return {
+            phaseList:[],
             classHeadmasterList:[],
             pageForm: {
                 className: '',
@@ -52,6 +64,7 @@
                 classHeadmaster: '',
                 classPlannedNumber:"",
                 classOther: '',
+                phaseList:"",
             },
             //查询班主任的参数
             condition:{
@@ -100,6 +113,13 @@
                 }
             })
         },
+        //查询期数
+        queryPhase:function(){
+            trainApi.student_Phase().then((res)=>{
+                this.phaseList = res.queryResult.list;
+                this.pageForm.studentPhase = res.queryResult.list[(res.queryResult.total)-1].phaseId;
+            })
+        },
         //查询班主任
         queryclassHeadmaster:function(){
             trainApi.teacher_list(1,0,this.condition).then((res)=>{
@@ -113,6 +133,8 @@
     mounted(){
         //查询班主任
         this.queryclassHeadmaster();
+        //查询期数
+        this.queryPhase();
     }
   }
 </script>

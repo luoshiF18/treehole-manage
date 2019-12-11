@@ -45,10 +45,6 @@
       </el-table-column>
       <el-table-column prop="courseTypeName" label="类型" width="180">
       </el-table-column>
-      <el-table-column prop="courseBeginTime" label="开课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
-      <el-table-column prop="courseEndTime" label="结课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
       <el-table-column prop="courseTime" label="课时" width="250">
       </el-table-column>
       <el-table-column prop="teacherName" label="任课老师" width="250">
@@ -111,9 +107,14 @@
            this.params.condition.classId=this.$route.params.classId;
            //调用服务端的接口
            trainApi.class_course(this.params.page,this.params.size,this.params.condition).then((res) => {
-               //将res结果数据赋值给数据模型对象
-               this.list = res.queryResult.list;
-               this.total = res.queryResult.total;
+               if(res.success == true){
+                   //将res结果数据赋值给数据模型对象
+                   this.list = res.queryResult.list;
+                   this.total = res.queryResult.total;
+               }else {
+                   this.$message.success(res.message)
+               }
+
            })
        },
        //分页

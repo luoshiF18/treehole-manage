@@ -7,7 +7,7 @@
         <el-input v-model="pageForm.phaseName" auto-complete="off" ></el-input>
       </el-form-item>
 
-      <el-form-item label="学费" prop="phaseTuition">
+      <el-form-item label="学费" prop="phaseTuition" readonly=“readonly”>
         <el-input v-model="pageForm.phaseTuition" auto-complete="off" ></el-input>
       </el-form-item>
 
@@ -31,7 +31,7 @@
         return {
             pageForm: {
                 phaseName: '',
-                phaseTuition: '',
+                phaseTuition: '0.00',
                 phasePreferentialAmount: '',
             },
 

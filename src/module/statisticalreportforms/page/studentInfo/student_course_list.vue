@@ -46,10 +46,6 @@
       </el-table-column>
       <el-table-column prop="courseTypeName" label="类型" width="180">
       </el-table-column>
-      <el-table-column prop="courseBeginTime" label="开课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
-      <el-table-column prop="courseEndTime" label="结课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
       <el-table-column prop="courseTime" label="课时" width="250">
       </el-table-column>
       <el-table-column prop="teacherName" label="任课老师" width="250">

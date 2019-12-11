@@ -2,12 +2,12 @@
   <div>
     <el-form   :model="pageForm" label-width="80px"  :rules="pageFormRules" ref="pageForm">
 
-      <el-form-item label="名称" prop="phaseName">
-        <el-input v-model="pageForm.phaseName" auto-complete="off" ></el-input>
+      <el-form-item label="名称" prop="phaseName" >
+        <el-input v-model="pageForm.phaseName" auto-complete="off" readonly=“readonly”></el-input>
       </el-form-item>
 
-      <el-form-item label="学费" prop="phaseTuition">
-        <el-input v-model="pageForm.phaseTuition" auto-complete="off" ></el-input>
+      <el-form-item label="学费" prop="phaseTuition" >
+        <el-input v-model="pageForm.phaseTuition" auto-complete="off"  readonly=“readonly”></el-input>
       </el-form-item>
 
       <el-form-item label="优惠金额" prop="phasePreferentialAmount">

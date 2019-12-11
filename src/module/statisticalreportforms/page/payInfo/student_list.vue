@@ -4,7 +4,7 @@
     <el-form :model="params">
       Id:<el-input v-model="params.condition.studentId"  style="width: 100px"></el-input>
       姓名:<el-input v-model="params.condition.studentName"  style="width: 100px"></el-input>
-      性别:<el-select v-model="params.condition.studentGender" placeholder="请选择性别">
+      性别:<el-select v-model="params.condition.studentGender" style="width: 130px" placeholder="请选择性别">
       <el-option value="">请选择性别</el-option>
       <el-option
           v-for="item in genderList"

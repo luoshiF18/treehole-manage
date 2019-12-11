@@ -1,6 +1,7 @@
 import Home from '@/module/home/page/home.vue';
 import student_information_statistics from  '@/module/statisticalreportforms/page/studentInfo/student_information_statistics.vue';
 import student_course_list from  '@/module/statisticalreportforms/page/studentInfo/student_course_list.vue';
+import student_teacher from  '@/module/statisticalreportforms/page/studentInfo/student_teacher.vue';
 import class_information_statistics from  '@/module/statisticalreportforms/page/classInfo/class_information_statistics.vue';
 import class_student from  '@/module/statisticalreportforms/page/classInfo/class_student.vue';
 import class_course from  '@/module/statisticalreportforms/page/classInfo/class_course.vue';
@@ -20,6 +21,7 @@ export default [{
     children:[
       {path:'/statisticalreportforms/page/studentInfo/student_information_statistics',        name:'学生信息统计',          component: student_information_statistics,hidden:false},
       {path:'/statisticalreportforms/page/studentInfo/student_course_list/:studentId',        name:'学生课程',          component: student_course_list,hidden:true},
+      {path:'/statisticalreportforms/page/studentInfo/student_teacher/:studentId',        name:'学生课程',          component: student_teacher,hidden:true},
       {path:'/statisticalreportforms/page/classInfo/class_information_statistics',        name:'班级信息统计',          component: class_information_statistics,hidden:false},
       {path:'/statisticalreportforms/page/classInfo/class_student/:classId',        name:'班级学生统计',          component: class_student,hidden:true},
       {path:'/statisticalreportforms/page/classInfo/class_course/:classId',        name:'班级课程统计',          component: class_course,hidden:true},

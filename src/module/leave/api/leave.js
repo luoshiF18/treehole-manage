@@ -23,3 +23,18 @@ export const del_leave = (leaveId) =>{
 export const findInfo = (id) =>{
   return http.requestGet(apiUrl+'/train/leave/findInfo/'+id);
 }
+
+//查询审核信息（老师）
+export const examine_teacher_list = (page,size,params) =>{
+  return http.requestPost(apiUrl+'/train/leave/findLeaveTeacherExamine/'+page+'/'+size,params);
+}
+
+//审核通过
+export const pass_leave = (leaveId) =>{
+  return http.requestPut(apiUrl+'/train/leave/examine/'+leaveId);
+}
+
+//审核未通过
+export const no_pass_leave = (leaveId) =>{
+  return http.requestPut(apiUrl+'/train/leave/examineNoPass/'+leaveId);
+}

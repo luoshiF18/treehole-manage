@@ -23,29 +23,11 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="开课时间">
-        <el-date-picker type="date" placeholder="开课时间" v-model="pageForm.courseBeginTime"></el-date-picker>
-      </el-form-item>
-
-      <el-form-item label="结课时间">
-        <el-date-picker type="date" placeholder="结课时间" v-model="pageForm.courseEndTime"></el-date-picker>
-      </el-form-item>
 
       <el-form-item label="课时" prop="courseTime">
         <el-input v-model="pageForm.courseTime" auto-complete="off" ></el-input>
       </el-form-item>
 
-
-      <el-form-item label="任课老师" prop="courseTeacher">
-        <el-select v-model="pageForm.courseTeacher" placeholder="请选择类型">
-          <el-option
-            v-for="item in courseTeacherList"
-            :key="item.teacherId"
-            :label="item.teacherName"
-            :value="item.teacherId">
-          </el-option>
-        </el-select>
-      </el-form-item>
       ​
       <el-form-item label="备注" prop="courseOther">
         <el-input v-model="pageForm.courseOther" auto-complete="off" ></el-input>
@@ -148,20 +130,13 @@
                 this.courseTypeList = res.queryResult.list;
             })
         },
-        //查询老师
-        queryCourseTeacher:function(){
-            trainApi.teacher_list(1,0,this.condition).then((res)=>{
-                //将res结果数据赋值给模型对象
-                this.courseTeacherList = res.queryResult.list;
-            })
-        },
+
 
     },
     mounted(){
         //查询类型
         this.queryCourseType();
-        //查询老师
-        this.queryCourseTeacher();
+
     }
   }
 </script>

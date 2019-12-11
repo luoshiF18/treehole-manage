@@ -14,16 +14,6 @@
       </el-option>
     </el-select>
 
-      老师:<el-select v-model="params.condition.courseTeacher" placeholder="请选择老师">
-      <el-option value="">请选择老师</el-option>
-      <el-option
-        v-for="item in courseTeacherList"
-        :key="item.teacherId"
-        :label="item.teacherName"
-        :value="item.teacherId">
-        <!-- value值是用于提交的,label值是用于显示的 -->
-      </el-option>
-    </el-select>
 
     <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     </el-form>
@@ -41,13 +31,9 @@
       </el-table-column>
       <el-table-column prop="courseTypeName" label="类型" width="180">
       </el-table-column>
-      <el-table-column prop="courseBeginTime" label="开课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
-      <el-table-column prop="courseEndTime" label="结课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
       <el-table-column prop="courseTime" label="课时" width="250">
       </el-table-column>
-      <el-table-column prop="teacherName" label="任课老师" width="250">
+      <el-table-column prop="coursePrice" label="价格" width="250">
       </el-table-column>
       <el-table-column prop="courseOther" label="备注" width="250">
       </el-table-column>
@@ -92,7 +78,7 @@
                         courseName:"",
                         courseType:"",
                         courseTeacher:"",
-                        classId:""
+                        phaseId:""
                     },
                 },
                 //查询老师的参数
@@ -108,9 +94,9 @@
            if(par == 1){
                this.params.page = 1;
            }
-           this.params.condition.classId=this.$route.params.classId;
+           this.params.condition.phaseId=this.$route.params.phaseId;
            //调用服务端的接口
-           trainApi.classCourse_list(this.params.page,this.params.size,this.params.condition).then((res) => {
+           trainApi.phaseCourse_list(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象
                this.list = res.queryResult.list;
                this.total = res.queryResult.total;
@@ -124,9 +110,9 @@
        },
        //退课
        del:function (courseId) {
-           this.params.condition.classId=this.$route.params.classId;
+           this.params.condition.phaseId=this.$route.params.phaseId;
            this.$confirm('确认退课吗?', '提示', {}).then(() => {
-               trainApi.retireCourse(this.params.condition.classId,courseId).then((res)=>{
+               trainApi.retireCourse(this.params.condition.phaseId,courseId).then((res)=>{
                    if(res.success){
                        this.$message({
                            type: 'success',
@@ -148,7 +134,7 @@
        //返回
        go_back(){
            this.$router.push({
-               path:'/courseselectionmanage/page/class_list',
+               path:'/courseselectionmanage/page/phase_list',
                query:{
                //    page: this.$route.params.page, //取出路由中的参数
                //    className:this.$route.params.className,
@@ -162,13 +148,7 @@
                this.courseTypeList = res.queryResult.list;
            })
        },
-       //查询老师
-       queryCourseTeacher:function(){
-           trainApi.teacher_list(1,0,this.condition).then((res) => {
-               //将res结果数据赋值给数据模型对象
-               this.courseTeacherList = res.queryResult.list;
-           })
-       },
+
        //时间格式化  
        dateFormat:function(row, column) {
            var date = row[column.property];

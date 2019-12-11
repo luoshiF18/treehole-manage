@@ -2,11 +2,17 @@
   <div>
     <!--查询表单-->
     <el-form :model="params">
-      Id:<el-input v-model="params.condition.classId"  style="width: 100px"></el-input>
-      班级名:<el-input v-model="params.condition.className"  style="width: 100px"></el-input>
-    <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
+      期数Id:<el-input v-model="params.condition.phaseId"  style="width: 100px"></el-input>
+      期数名称:<el-input v-model="params.condition.phaseName"  style="width: 100px"></el-input>
+    <el-button type="primary" size="small" v-on:click="query">查询</el-button>
+    <router-link :to="{path:'/phasemanage/page/phase_add',query:{
+                 page:this.params.page,
+                 phaseId:this.params.condition.phaseId,
+                 phaseName:this.params.condition.phaseName,
+                 }}">
+      <el-button  type="primary" size="small">新增页面</el-button>
+    </router-link>
     </el-form>
-
 
     <el-table
       :data="list"
@@ -14,32 +20,26 @@
       style="width: 100%">
       <el-table-column type="index" width="60">
       </el-table-column>
-      <el-table-column  prop="classId" label="Id" width="120">
+      <el-table-column  prop="phaseId" label="Id" width="120">
       </el-table-column>
-      <el-table-column  prop="className" label="班级名" width="120">
+      <el-table-column prop="phaseName" label="名称" width="120">
       </el-table-column>
-      <el-table-column prop="classPlan" label="计划" width="120">
+      <el-table-column prop="phaseCourseNumber" label="课程数" width="180">
       </el-table-column>
-      <el-table-column prop="classNumber" label="人数" width="180">
+      <el-table-column prop="phaseTuition" label="学费" width="180">
       </el-table-column>
-      <el-table-column prop="classCourseNumber" label="课程数" width="180">
-      </el-table-column>
-      <el-table-column prop="classCreatTime" label="创建日期" width="250" :formatter="dateFormat">
-      </el-table-column>
-      <el-table-column prop="teacherName" label="班主任" width="250">
-      </el-table-column>
-      <el-table-column prop="classOther" label="备注" width="250">
+      <el-table-column prop="phasePreferentialAmount" label="优惠金额" width="250">
       </el-table-column>
       <el-table-column label="操作" width="300">
         <template slot-scope="page">
           <el-button
             size="small"type="text"
-            @click="selectCourse(page.row.classId)">选课
+            @click="selectCourse(page.row.phaseId)">选课
           </el-button>
 
           <el-button
             size="small"type="text"
-            @click="classCourse(page.row.classId)">查看所选课程
+            @click="classCourse(page.row.phaseId)">查看所选课程
           </el-button>
         </template>
       </el-table-column>
@@ -59,33 +59,29 @@
 </template>
 <script>
     import * as trainApi from '../api/courseselectionmanage'
-    import moment from 'moment'
     export default {
         data() {
             return {
+                courseTypeList:[],
+                courseTeacherList:[],
                 list: [],
                 total: 0,
                 params: {  //这里和上面的查询表单做了双向绑定
                     page: 1,
                     size: 5,
                     condition:{
-                        className:"",
-                        classId:"",
+                        phaseId:"",
+                        phaseName:"",
                     },
                 },
             }
         },
    methods: {
-       //查询班级信息
-       query: function (par) {
-           //如果是查询的时候 从第一页开始显示
-           if(par == 1){
-               this.params.page = 1;
-           }
+       //查询期数信息
+       query: function () {
            //调用服务端的接口
-           trainApi.class_list(this.params.page,this.params.size,this.params.condition).then((res) => {
+           trainApi.find_phase(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象
-               console.log(this.params.condition);
                this.list = res.queryResult.list;
                this.total = res.queryResult.total;
            })
@@ -97,28 +93,24 @@
            this.query();
        },
        //跳转到选课页面
-       selectCourse(classId){
-          this.$router.push({
-              path:'/courseselectionmanage/page/course_selection/'+classId
-          })
-       },
-       //跳转到班级课程页面
-       classCourse(classId){
+       selectCourse(phaseId){
            this.$router.push({
-               path:'/courseselectionmanage/page/class_course_list/'+classId
+               path:'/courseselectionmanage/page/course_selection/'+phaseId
            })
        },
-       //时间格式化  
-       dateFormat:function(row, column) {
-           var date = row[column.property];
-           if (date == undefined) {
-               return "";
-           }
-           return moment(date).format("YYYY-MM-DD");
-       }
+       //跳转到期数课程页面
+       classCourse(phaseId){
+           this.$router.push({
+               path:'/courseselectionmanage/page/phase_course_list/'+phaseId
+           })
+       },
+
       },
         created(){
-
+            //返回时到那一页
+            this.params.page = Number.parseInt(this.$route.query.page || 1);
+            this.params.condition.phaseId=this.$route.query.phaseId;
+            this.params.condition.phaseName=this.$route.query.phaseName;
         },
         mounted(){
             //当dom元素全部渲染完成后,调用query

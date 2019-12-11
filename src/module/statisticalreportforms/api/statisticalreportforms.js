@@ -15,6 +15,11 @@ export const student_course = (page,size,params) =>{
   return http.requestPost(apiUrl+'/train/student/findstudntcourse/'+page+'/'+size,params);
 }
 
+//查询学生老师
+export const student_teacher = (page,size,params) =>{
+  return http.requestPost(apiUrl+'/train/student/findstudntteacher/'+page+'/'+size,params);
+}
+
 //查询老师信息
 export const teacher_list = (page,size,params) =>{
   return http.requestPost(apiUrl+'/train/teacher/find/'+page+'/'+size,params);

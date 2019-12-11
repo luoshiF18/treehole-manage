@@ -15,16 +15,6 @@
       </el-option>
     </el-select>
 
-      老师:<el-select v-model="params.condition.courseTeacher" placeholder="请选择老师">
-      <el-option value="">请选择老师</el-option>
-      <el-option
-        v-for="item in courseTeacherList"
-        :key="item.teacherId"
-        :label="item.teacherName"
-        :value="item.teacherId">
-        <!-- value值是用于提交的,label值是用于显示的 -->
-      </el-option>
-    </el-select>
 
     <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     <router-link :to="{path:'/informationmanage/page/course/add',query:{
@@ -52,13 +42,7 @@
       </el-table-column>
       <el-table-column prop="courseTypeName" label="类型" width="180">
       </el-table-column>
-      <el-table-column prop="courseBeginTime" label="开课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
-      <el-table-column prop="courseEndTime" label="结课时间" width="250" :formatter="dateFormat">
-      </el-table-column>
       <el-table-column prop="courseTime" label="课时" width="250">
-      </el-table-column>
-      <el-table-column prop="teacherName" label="任课老师" width="250">
       </el-table-column>
       <el-table-column prop="coursePrice" label="价格" width="250">
       </el-table-column>
@@ -170,13 +154,7 @@
                this.courseTypeList = res.queryResult.list;
            })
        },
-       //查询老师
-       queryCourseTeacher:function(){
-           trainApi.teacher_list(1,0,this.condition).then((res) => {
-               //将res结果数据赋值给数据模型对象
-               this.courseTeacherList = res.queryResult.list;
-           })
-       },
+
        //时间格式化  
        dateFormat:function(row, column) {
            var date = row[column.property];

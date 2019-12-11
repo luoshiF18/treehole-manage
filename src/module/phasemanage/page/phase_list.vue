@@ -24,6 +24,8 @@
       </el-table-column>
       <el-table-column prop="phaseName" label="名称" width="120">
       </el-table-column>
+      <el-table-column prop="phaseCourseNumber" label="课程数" width="180">
+      </el-table-column>
       <el-table-column prop="phaseTuition" label="学费" width="180">
       </el-table-column>
       <el-table-column prop="phasePreferentialAmount" label="优惠金额" width="250">

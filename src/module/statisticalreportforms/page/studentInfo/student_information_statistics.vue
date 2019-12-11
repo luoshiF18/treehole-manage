@@ -112,6 +112,11 @@
             size="small"type="text"
             @click="findCourse(page.row.studentId)">学生课程统计
           </el-button>
+
+          <el-button
+            size="small"type="text"
+            @click="findTeacher(page.row.studentId)">学生老师统计
+          </el-button>
         </template>
       </el-table-column>
 
@@ -223,6 +228,11 @@
        findCourse(studentId){
            this.$router.push({
                path:'/statisticalreportforms/page/studentInfo/student_course_list/'+studentId
+           })
+       },
+       findTeacher(studentId){
+           this.$router.push({
+               path:'/statisticalreportforms/page/studentInfo/student_teacher/'+studentId
            })
        },
        //查询期数
