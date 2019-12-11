@@ -10,7 +10,10 @@
 
       <el-form-item label="用户等级" prop="freegrade_id">
       <!--<el-input  v-model="cardForm.freegrade" auto-complete="off" ></el-input>-->
-        <el-select  v-model="cardForm.freegrade" filterable style="width:120px" clearable placeholder="选择分类">
+        <el-select  v-model="cardForm.freegrade"
+                    filterable
+                    style="width:120px"
+                    clearable placeholder="选择分类">
           <el-option
             v-for="item in freetype"
             :key="item.freegrade_id"

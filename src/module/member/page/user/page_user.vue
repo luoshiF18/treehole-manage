@@ -5,7 +5,8 @@
     <h2></h2>
     <el-form  :model="params">
       <el-select v-model="params.role_id"
-                 placeholder="角色"
+                 clearable placeholder="角色"
+                 filterable
                  size="medium"
                  style="width:110px;text-align:center;">
         <el-option
