@@ -15,7 +15,7 @@
       </el-option>
     </el-select>
 
-      班级:<el-select v-model="params.condition.studentClass" placeholder="请选择班级">
+      班级:<el-select v-model="params.condition.studentClass" placeholder="请选择班级" style="width: 100px">
       <el-option value="">请选择班级</el-option>
       <el-option
         v-for="item in classList"
@@ -59,6 +59,16 @@
       </el-option>
     </el-select>
 
+      是否欠费:<el-select v-model="params.condition.studentArrears" placeholder="请选择是否欠费" style="width: 100px">
+      <el-option value="">请选择是否欠费</el-option>
+      <el-option
+        v-for="item in arrearsList"
+        :key="item.arrearsId"
+        :label="item.arrearsName"
+        :value="item.arrearsId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
 
     <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     </el-form>
@@ -103,6 +113,24 @@
       </el-table-column>
       <el-table-column prop="studentEnrollmentTime" label="入学时间" width="250" :formatter="dateFormat">
       </el-table-column>
+
+      <el-table-column prop="studentArrears" label="是否欠费" width="250">
+        <template slot-scope="{row: {studentArrears}}">
+          <span v-if="+studentArrears === 1 ">是</span>
+          <span v-else-if="+studentArrears === 2 ">否</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="studentGraduation" label="是否毕业" width="250">
+        <template slot-scope="{row: {studentGraduation}}">
+          <span v-if="+studentGraduation === 1 ">未毕业</span>
+          <span v-else-if="+studentGraduation === 2 ">已毕业</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="studentGraduationTime" label="毕业时间" width="250" :formatter="dateFormat">
+      </el-table-column>
+
       <el-table-column prop="studentOther" label="备注" width="250">
       </el-table-column>
 
@@ -153,6 +181,17 @@
                         graduationName:"已毕业",
                     }
                 ],
+              arrearsList:[
+                {
+                  arrearsId:"1",
+                  arrearsName:"是",
+                },
+                {
+                  arrearsId:"2",
+                  arrearsName:"否",
+                },
+
+              ],
                 //班级列表
                 classList: [],
                 genderList:[  //性别

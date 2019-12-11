@@ -47,7 +47,7 @@
       </el-table-column>
       <el-table-column  prop="classId" label="Id" width="120">
       </el-table-column>
-      <el-table-column  prop="classPhase" label="期数" width="120">
+      <el-table-column  prop="phaseName" label="期数" width="120">
       </el-table-column>
       <el-table-column  prop="className" label="班级名" width="120">
       </el-table-column>
@@ -61,8 +61,7 @@
       </el-table-column>
       <el-table-column prop="classCreatTime" label="创建日期" width="250" :formatter="dateFormat" >
       </el-table-column>
-      <el-table-column prop="classEndTime" label="毕业日期" width="250" :formatter="dateFormat" >
-      </el-table-column>
+
       <el-table-column prop="teacherName" label="班主任" width="250">
       </el-table-column>
 
@@ -72,7 +71,8 @@
           <span v-else-if="+classGraduation === 2 ">已毕业</span>
         </template>
       </el-table-column>
-
+      <el-table-column prop="classEndTime" label="毕业日期" width="250" :formatter="dateFormat" >
+      </el-table-column>
       <el-table-column prop="classOther" label="备注" width="250">
       </el-table-column>
       <el-table-column label="操作" width="300">

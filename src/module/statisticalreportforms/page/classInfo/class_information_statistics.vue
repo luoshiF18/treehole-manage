@@ -5,6 +5,29 @@
       Id:<el-input v-model="params.condition.classId"  style="width: 100px"></el-input>
       班级名:<el-input v-model="params.condition.className"  style="width: 100px"></el-input>
 
+      期数:<el-select v-model="params.condition.classPhase" placeholder="请选择期数" style="width: 100px">
+      <el-option value="">请选择期数</el-option>
+      <el-option
+        v-for="item in phaseList"
+        :key="item.phaseId"
+        :label="item.phaseName"
+        :value="item.phaseId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
+
+
+      是否毕业:<el-select v-model="params.condition.classGraduation" placeholder="请选择是否毕业" style="width: 100px">
+      <el-option value="">请选择是否毕业</el-option>
+      <el-option
+        v-for="item in graduationList"
+        :key="item.graduationId"
+        :label="item.graduationName"
+        :value="item.graduationId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
+
     <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     </el-form>
 
@@ -16,6 +39,8 @@
       <el-table-column type="index" width="60">
       </el-table-column>
       <el-table-column  prop="classId" label="Id" width="120">
+      </el-table-column>
+      <el-table-column  prop="phaseName" label="期数" width="120">
       </el-table-column>
       <el-table-column  prop="className" label="班级名" width="120">
       </el-table-column>
@@ -29,6 +54,14 @@
       </el-table-column>
       <el-table-column prop="teacherName" label="班主任" width="250">
       </el-table-column>
+
+      <el-table-column prop="classGraduation" label="是否毕业" width="250">
+        <template slot-scope="{row: {classGraduation}}">
+          <span v-if="+classGraduation === 1 ">未毕业</span>
+          <span v-else-if="+classGraduation === 2 ">已毕业</span>
+        </template>
+      </el-table-column>
+
       <el-table-column prop="classOther" label="备注" width="250">
       </el-table-column>
       <el-table-column label="操作" width="300">
@@ -69,6 +102,19 @@
     export default {
         data() {
             return {
+              //是否毕业
+              graduationList:[
+                {
+                  graduationId:"1",
+                  graduationName:"未毕业",
+                },
+                {
+                  graduationId:"2",
+                  graduationName:"已毕业",
+                }
+              ],
+              //期数列表
+              phaseList:[],
                 list: [],
                 total: 0,
                 params: {  //这里和上面的查询表单做了双向绑定
@@ -77,6 +123,8 @@
                     condition:{
                         classId:"",
                         className:"",
+                        classPhase:"",
+                       classGraduation:"",
                     },
                 },
             }
@@ -114,6 +162,12 @@
                path:'/statisticalreportforms/page/classInfo/class_course/'+classId
            })
        },
+     //查询期数
+     queryPhase:function(){
+       trainApi.student_Phase().then((res)=>{
+         this.phaseList = res.queryResult.list;
+       })
+     },
        //跳转到班级老师统计页面
        class_teacher(classId){
            this.$router.push({
@@ -135,6 +189,7 @@
         mounted(){
             //当dom元素全部渲染完成后,调用query
             this.query();
+            this.queryPhase();
         }
     }
 </script>
