@@ -26,7 +26,10 @@
           <el-submenu index="2">
             <template slot="title">预警管理</template>
             <el-menu-item-group>
-              <el-menu-item index="/warn/page/list">预警管理页</el-menu-item>
+              <el-menu-item index="/warn/page/list">预警管理</el-menu-item>
+              <el-menu-item index="/warn/page/analyze">预警统计和分析</el-menu-item>
+              <el-menu-item index="/warn/page/intervene">预警人员心理干预管理</el-menu-item>
+              <el-menu-item index="/warn/page/test">测试页面</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
