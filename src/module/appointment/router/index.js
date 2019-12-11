@@ -5,7 +5,7 @@ import order_edit from '@/module/appointment/page/app_edit.vue';
 export default [{
     path: '/appointment',
     component: Home,
-    name: '预约管理中心',  //菜单名称
+    name: '预约订单管理',  //菜单名称
     hidden: false,
     children:[
       {path:'/appointment/order/list',name:'预约订单列表',component: order_list,hidden:false},

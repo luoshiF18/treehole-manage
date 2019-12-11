@@ -29,11 +29,11 @@
       </el-table-column>
       <el-table-column prop="cltId" label="咨询师ID" width="160">
       </el-table-column>
-      <el-table-column prop="leftTime" label="预约开始时间" width="180" :formatter="formatCreatetime1">
+      <el-table-column prop="cltDate" label="预约日期" width="180" :formatter="formatCreatetime" >
       </el-table-column>
-      <el-table-column prop="rightTime" label="预约结束时间" width="180" :formatter="formatCreatetime2" >
+      <el-table-column prop="cltStartTime" label="预约开始时间" width="180">
       </el-table-column>
-      <el-table-column prop="appNumber" label="可预约人数" width="180">
+      <el-table-column prop="cltEndTime" label="预约结束时间" width="180">
       </el-table-column>
       <el-table-column label="操作" width="120">
         <template slot-scope="list">
@@ -84,16 +84,10 @@
       }
     },
     methods:{
-      formatCreatetime1(row, column){
-        var createTime = new Date(row.leftTime);
+      formatCreatetime(row, column){
+        var createTime = new Date(row.cltDate);
         if (createTime) {
-          return utilApi.formatDate(createTime, 'yyyy-MM-dd hh:mm:ss');
-        }
-      },
-      formatCreatetime2(row, column){
-        var createTime = new Date(row.rightTime);
-        if (createTime) {
-          return utilApi.formatDate(createTime, 'yyyy-MM-dd hh:mm:ss');
+          return utilApi.formatDate(createTime, 'yyyy-MM-dd');
         }
       },
       //查询咨询师预约管理单

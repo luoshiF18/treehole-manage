@@ -4,36 +4,38 @@
     <el-form   :model="pageForm" label-width="120px" :rules="pageFormRules" ref="pageForm" style="padding: 20px">
       <el-form-item label="咨询师ID" prop="cltId">
         <el-input v-model="pageForm.cltId" auto-complete="off" disabled style="width: 220px"></el-input>
-        <!--<el-select v-model="pageForm.cltId" filterable placeholder="请输入咨询师ID">-->
-        <!--<el-option-->
-        <!--v-for="item in cltIdList"-->
-        <!--:key="item.cltId"-->
-        <!--:label="item.cltId"-->
-        <!--:value="item.cltId">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
       </el-form-item>
-      <el-form-item label="预约开始时间" prop="leftTime">
+      <el-form-item label="预约日期" prop="cltDate">
         <el-date-picker
-          disabled
-          v-model="pageForm.leftTime"
-          type="datetime"
-          placeholder="选择开始日期时间"
+          v-model="pageForm.cltDate"
           align="right"
-          :picker-options="startTime">
+          type="date"
+          placeholder="选择日期"
+          :picker-options="checkDate">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="预约结束时间" prop="rightTime">
-        <el-date-picker
-          v-model="pageForm.rightTime"
-          type="datetime"
-          placeholder="选择结束日期时间"
-          align="right"
-          :picker-options="endTime">
-        </el-date-picker>
+      <el-form-item label="预约开始时间" prop="cltStartTime">
+        <el-time-select
+          placeholder="起始时间"
+          v-model="pageForm.cltStartTime"
+          :picker-options="{
+            start: '00:00',
+            step: '01:00',
+            end: '23:59',
+          }">
+        </el-time-select>
       </el-form-item>
-      <el-form-item label="可预约人数" prop="appNumber">
-        <el-input type="appNumber" v-model.number="pageForm.appNumber" style="width: 220px"></el-input>
+      <el-form-item label="预约结束时间" prop="cltEndTime">
+        <el-time-select
+          placeholder="结束时间"
+          v-model="pageForm.cltEndTime"
+          :picker-options="{
+            start: '00:00',
+            step: '01:00',
+            end: '24:00',
+            minTime: pageForm.cltStartTime
+          }">
+        </el-time-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer" style="padding: 20px">
@@ -47,57 +49,49 @@
   import * as cmsApi from '../api/cltmanage'
   export default {
     data() {
-      var checkRightTime = (rule, value, callback) => {
-        if (value.getTime()< new Date(this.pageForm.leftTime).getTime()+3600*1000*1){
-          callback(new Error('预约时间不能低于1小时'));
-        }else {
-          callback();
-        }
-      };
       return {
-        cltIdList: [],
-        cltManageId:'',
+        cltManageId: '',
         pageForm:{
           cltId:'',
-          leftTime:'',
-          rightTime: '',
-          appNumber: '',
+          cltDate:'',
+          cltStartTime: '',
+          cltEndTime: '',
         },
-        // 开始时间小于结束时间，且开始时间大于此刻
-        startTime: {
-          disabledDate: time => {
-            if (this.pageForm.rightTime) {
-              return time.getTime() > new Date(this.pageForm.rightTime).getTime() || time.getTime() < Date.now()- 8.64e7
-            } else {
-              return time.getTime() < Date.now()- 8.64e7
+        //日期效验(预约日期不能小于当前日期)
+        checkDate: {
+          disabledDate(time) {
+            return time.getTime() < Date.now()- 8.64e7 || time.getTime() > Date.now()+ 3600 * 1000 * 24 * 7 - 8.64e7;
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
             }
-          }
-        },
-        // 结束时间大于开始时间，且大于此刻
-        endTime: {
-          disabledDate: time => {
-            if (this.pageForm.leftTime) {
-              return time.getTime() < new Date(this.pageForm.leftTime).getTime()- 8.64e7
-            } else {
-              return time.getTime() < Date.now()- 8.64e7
+          }, {
+            text: '明天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24);
+              picker.$emit('pick', date);
             }
-          }
+          }, {
+            text: '后天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 2);
+              picker.$emit('pick', date);
+            }
+          }]
         },
         pageFormRules: {
-          cltId:[
-            { required: true, message: '请输入咨询师ID', trigger: 'blur'}
+          cltDate: [
+            { required: true, message: '请选择预约日期', trigger: 'blur'},
           ],
-          leftTime: [
-            { required: true, message: '请选择开始日期时间', trigger: ['blur','change']},
-            { type:'date',min:Date.now(),message: '预约开始时间不能小于此刻时间',trigger: ['blur','change']}
+          cltStartTime: [
+            { required: true, message: '请选择预约开始时间', trigger:'blur'},
           ],
-          rightTime: [
-            { type:'date',required: true, message: '请选择结束日期时间', trigger: ['blur','change']},
-            { validator: checkRightTime, trigger: ['blur','change']}
-          ],
-          appNumber: [
-            { required: true, message: '预约人数不能为空',trigger: 'blur' },
-            { type: 'integer', min: 1, message: '预约人数必须为正整数',trigger: 'blur'},
+          cltEndTime: [
+            { required: true, message: '请选择预约结束时间',trigger: 'blur' },
           ]
         }
       }

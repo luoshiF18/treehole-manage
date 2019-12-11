@@ -4,7 +4,6 @@
     <!--查询表单-->
     <el-form :model="params" style="padding: 10px">
       <!--<el-input v-model="params.id" placeholder="请输入查询条件..." style="width: 200px"></el-input>-->
-
       <el-select v-model="value" clearable placeholder="请选择" style="width: 100px">
         <el-option
           v-for="item in options"
@@ -25,25 +24,31 @@
       style="width: 100%">
       <el-table-column type="index" width="60">
       </el-table-column>
-      <el-table-column prop="id" label="订单ID" width="120">
+      <el-table-column prop="id" label="订单ID" width="120" align="center">
       </el-table-column>
-      <el-table-column prop="userId" label="用户ID" width="80">
+      <el-table-column prop="userId" label="用户ID" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="cltId" label="咨询师ID" width="80">
+      <el-table-column prop="cltId" label="咨询师ID" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="appTime" label="预约时间" width="165">
+      <el-table-column prop="appDate" label="预约日期" width="120" align="center" :formatter="formatAppDate">
       </el-table-column>
-      <el-table-column prop="appMode" label="咨询方式" width="80">
+      <el-table-column prop="appStartTime" label="开始时间" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="appPrice" label="价格" width="80">
+      <el-table-column prop="appEndTime" label="结束时间" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="appNote" label="备注" width="80">
+      <el-table-column prop="appMode" label="咨询方式" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="165" :formatter="formatCreatetime">
+      <el-table-column prop="appPrice" label="价格" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="appStatus" label="状态" width="80">
+      <el-table-column prop="appNote" label="备注" width="80" align="center">
       </el-table-column>
-      <el-table-column label="操作" width="120">
+      <el-table-column prop="createTime" label="创建时间" width="110" align="center" :formatter="formatCreatetime">
+      </el-table-column>
+      <el-table-column prop="updateTime" label="更新时间" width="110" align="center" :formatter="formatUpdateTime">
+      </el-table-column>
+      <el-table-column prop="appStatus" label="状态" width="80" align="center">
+      </el-table-column>
+      <el-table-column label="操作" width="120" align="center">
         <template slot-scope="list">
           <el-button
             size="small"type="text"
@@ -105,10 +110,25 @@
       }
     },
     methods:{
+      // 预约日期格式化
+      formatAppDate(row, column){
+        var date = new Date(row.appDate);
+        if (date) {
+          return utilApi.formatDate(date, 'yyyy-MM-dd');
+        }
+      },
+      // 创建时间格式化
       formatCreatetime(row, column){
-        var createTime = new Date(row.createTime);
-        if (createTime) {
-          return utilApi.formatDate(createTime, 'yyyy-MM-dd hh:mm:ss');
+        var date = new Date(row.createTime);
+        if (date) {
+          return utilApi.formatDate(date, 'yyyy-MM-dd hh:mm:ss');
+        }
+      },
+      // 更新时间格式化
+      formatUpdateTime(row, column){
+        var date = new Date(row.updateTime);
+        if (date) {
+          return utilApi.formatDate(date, 'yyyy-MM-dd hh:mm:ss');
         }
       },
       //查询预约订单列表
