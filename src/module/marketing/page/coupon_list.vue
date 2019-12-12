@@ -77,6 +77,7 @@
         <el-table-column fixed="right" label="操作" width="150" align="center">
           <template slot-scope="scope">
             <el-button @click="updateCoupon(scope.row)" type="text" size="medium">编辑</el-button>
+            <el-button @click="updateStatusToFinished(scope.row.id)" type="text" size="medium">下架</el-button>
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
           </template>
         </el-table-column>
@@ -184,6 +185,23 @@
                         marketingApi.coupon_del(id).then((res) => {
                             if (res.success) {
                                 this.$message.success("删除成功！")
+                                this.getDataFromServer();
+                            } else if(res.message){
+                                this.$message.error(res.message);
+
+
+                            }
+                        });
+                    });
+                });
+            },
+            //修改优惠券状态为结束
+            updateStatusToFinished(id) {
+                this.$confirm('确认下架吗?下架即为结束发放', '提示', {}).then(() => {
+                    this.$confirm('再次确认，该操作不可撤销？', '提示', {}).then(() => {
+                        marketingApi.coupon_updateStatus(id).then((res) => {
+                            if (res.success) {
+                                this.$message.success("优惠券结束发放！")
                                 this.getDataFromServer();
                             } else if(res.message){
                                 this.$message.error(res.message);

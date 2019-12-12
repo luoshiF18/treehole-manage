@@ -1,4 +1,3 @@
-<!--
 <template>
   <div>
 
@@ -7,7 +6,7 @@
         <router-link tag="span" :to="{path:'/marketing/activity/add'}">
           <el-button type="primary" size="medium" plain>添加活动</el-button>
         </router-link>
-        &lt;!&ndash;<el-button type="primary" size="medium" plain>添加活动</el-button>&ndash;&gt;
+        <!--<el-button type="primary" size="medium" plain>添加活动</el-button>-->
 
         <div style="float: right; margin-right: 130px;">
           <el-input clearable v-model="pagination.key" style="width:200px" placeholder="请输入活动名称或简称">
@@ -41,7 +40,7 @@
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
             <router-link tag="span" :to="{path:'/marketing/activity/info',query:{
-                         id:scope.row.id
+                         id:scope.row.id,typeId:scope.row.typeId
                          }}">
               <el-button type="text" size="medium">详情</el-button>
             </router-link>
@@ -50,7 +49,7 @@
                          }}">
               <el-button type="text" size="medium">修改</el-button>
             </router-link>
-           &lt;!&ndash; <el-button @click="updateActivity(scope.row.id)" type="text" size="medium">编辑</el-button>&ndash;&gt;
+           <!-- <el-button @click="updateActivity(scope.row.id)" type="text" size="medium">编辑</el-button>-->
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
           </template>
         </el-table-column>
@@ -195,7 +194,7 @@
   }
 
 </style>
--->
+<!--
 <template>
   <div>
     <el-card>
@@ -330,7 +329,7 @@
                         actualPrice: '',
                     }
                 ],
-                // ----------------------
+                // &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
                 loading: true,
                 activities: [],
                 totalActivities: 0, //优惠券总条数
@@ -501,3 +500,4 @@
   }
 
 </style>
+-->

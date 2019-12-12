@@ -40,7 +40,7 @@
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
             <router-link tag="span" :to="{path:'/marketing/activity/info',query:{
-                         id:scope.row.id
+                         id:scope.row.id,typeId:scope.row.typeId
                          }}">
               <el-button type="text" size="medium">详情</el-button>
             </router-link>

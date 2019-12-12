@@ -118,19 +118,19 @@
             },
             //查询用户
             search(searchUser) {
-               // alert("查询出User")
-               // if(this.extension.mode == 0){
-               //     this.user = [{userName: 'wll',to:'2031866592@qq.com'},
-               //         {userName: 'wwll',to:'1261361118@qq.com'}];
-               // } else {
-               //     this.user = [{userName: 'wll',to:'13721638838'},
-               //         {userName: 'wwll',to:'15236268769'}];
-               // }
+                alert("查询出User")
+                if(this.extension.mode == 0){
+                    this.user = [{userName: 'wll',to:'2031866592@qq.com'},
+                        {userName: 'wwll',to:'1261361118@qq.com'}];
+                } else {
+                    this.user = [{userName: 'wll',to:'13721638838'},
+                        {userName: 'wwll',to:'15236268769'}];
+                }
 
                //this.extension.info = [{userName: 'wangnannan',to:'857202982@qq.com'},{userName: 'wwll',to:'1261361118@qq.com'}];
-               marketingApi.searchUserInfo(searchUser).then((res) => {
-                  this.user = res
-               });
+               //marketingApi.searchUserInfo(searchUser).then((res) => {
+               //   this.user = res
+               //});
             },
             submit() {
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {

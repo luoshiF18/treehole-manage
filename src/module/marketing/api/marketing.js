@@ -25,7 +25,10 @@ export const coupon_add = (coupon) => {
 export const coupon_update = (coupon) => {
   return http.requestPut(apiUrl+"/marketing/coupon", coupon);
 }
-
+//修改优惠券状态为结束
+export const coupon_updateStatus = (id) => {
+  return http.requestPut(apiUrl + "/marketing/coupon/status/" +id);
+}
 export const extension_add = (extension) => {
   return http.requestPost(apiUrl + "/marketing/extension", extension);
 }

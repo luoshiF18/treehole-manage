@@ -42,14 +42,11 @@
             <span>积分</span><span class="color" v-text="activityRule.point"></span>
             <br>
           </el-tab-pane>
-          <el-tab-pane label="商品信息">
+          <el-tab-pane label="商品信息" v-if="types[1] != '4'">
           <!--  <div v-if="activityGoods.goodsMap['scaleId']">
               {{activityGoods.goodsMap['sacleId']}}
             </div>-->
-            <div v-for="(item, i) in activityGoods">
-              <span>商品类型： </span><span class="color">{{item.resType==1?"量表":"其他还没制作完成"}}</span><br>
 
-            </div>
 
           </el-tab-pane>
 
@@ -82,6 +79,8 @@
             return {
                 show: false,//优惠券信息的弹窗
                 activityId: '',
+                typeId: '',
+                types: [],
                 activity: {
                     id: '',
                     title: '',
@@ -103,7 +102,7 @@
                     couponId: '',
                     point: '',
                 },
-                activityGoods: [
+                activityGoodsList: [
                     {
                         /*
                           private String id;
@@ -115,11 +114,11 @@
         private BigDecimal price;
         private BigDecimal actualPrice;
                         */
-                        resType: '',
+                      /*  resType: '',
                         resName: '',
                         image: '',
                         price: '',
-                        actualPrice: '',
+                        actualPrice: '',*/
                     }
                 ],
             }
@@ -144,28 +143,41 @@
             getActivityGoods() {
                 marketingApi.activity_goods(this.activityId).then((res) => {
 
-                    this.activityGoods = res;
+                    this.activityGoodsList = res;
                     //alert(this.activityGoods);
                     //alert(this.activityGoods.goodsMap)
                     //alert(typeof(res.goods)+ JSON.stringify(res.goods))
                    // alert(res.goods)
                 })
             },
-            showCoupon(){
-                this.show = true;
-            },
             go_back() {
-                this.$router.push({
-                    path: '/marketing/activity/page/list'
-                });
+                if(this.types[1] == 4){
+                    this.$router.push({
+                        path: '/marketing/activity/point/list'
+                    });
+                } else {
+                    this.$router.push({
+                        path: '/marketing/activity/page/list'
+                    });
+                }
+
             },
         },
         created() {
             //取出路由中的参数,赋值给数据对象
             this.activityId = this.$route.query.id;
-            this.getActivityDetail();
-            this.getActivityRule();
-            this.getActivityGoods();
+            this.typeId = this.$route.query.typeId;
+            this.types = this.typeId.split("_");
+            if(this.types[1] == 4){
+                this.getActivityDetail();
+                this.getActivityRule();
+                this.activityGoodsList = null;
+            } else {
+                this.getActivityDetail();
+                this.getActivityRule();
+                this.getActivityGoods();
+            }
+
         },
         components:{
             CouponInfoForm
