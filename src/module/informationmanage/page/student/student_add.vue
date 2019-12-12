@@ -14,6 +14,7 @@
         </el-radio-group>
       </el-form-item>
 
+
       <el-form-item label="期数" prop="studentPhase">
         <el-select v-model="pageForm.studentPhase" placeholder="请选择班级">
           <el-option
@@ -23,6 +24,7 @@
             :value="item.phaseId">
           </el-option>
         </el-select>
+        <el-button  type="primary" size="small" @click="findCorrespondingClass">查询对应的班级</el-button>
       </el-form-item>
 
       <el-form-item label="出生日期">
@@ -85,6 +87,10 @@
             par:{
                 classId:"",
             },
+          //查询对应班级的参数
+          query_class:{
+            classPhase:'',
+          },
             pageFormRules: {
 
                 studentName: [
@@ -143,11 +149,13 @@
             })
         },
         //查询班级
-        queryClass:function(){
-            trainApi.class_list(1,0).then((res)=>{
+      findCorrespondingClass:function(){
+            this.query_class.classPhase = this.pageForm.studentPhase;
+            trainApi.class_list(1,0,this.query_class).then((res)=>{
                 //将res结果数据赋值给模型对象
                 this.classList = res.queryResult.list;
             })
+            this.pageForm.studentClass = null;
         },
         //查询期数
         queryPhase:function(){
@@ -171,8 +179,7 @@
         }
     },
     mounted(){
-        //查询班级
-        this.queryClass();
+
         //查询期数
         this.queryPhase();
     }

@@ -2,9 +2,9 @@
   <div>
     <!--查询表单-->
     <el-form :model="params">
-      Id:<el-input v-model="params.condition.studentId"  style="width: 100px"></el-input>
-      姓名:<el-input v-model="params.condition.studentName"  style="width: 100px"></el-input>
-      性别:<el-select v-model="params.condition.studentGender" placeholder="请选择性别" style="width: 100px">
+      Id:<el-input v-model="params.condition.studentId"  style="width: 90px"></el-input>
+      姓名:<el-input v-model="params.condition.studentName"  style="width: 80px"></el-input>
+      性别:<el-select v-model="params.condition.studentGender" placeholder="请选择性别" style="width: 70px">
       <el-option value="">请选择性别</el-option>
       <el-option
           v-for="item in genderList"
@@ -48,7 +48,7 @@
       </el-option>
     </el-select>
 
-      是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择是否毕业" style="width: 100px">
+      是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择是否毕业" style="width: 70px">
       <el-option value="">请选择是否毕业</el-option>
       <el-option
         v-for="item in graduationList"
@@ -59,7 +59,7 @@
       </el-option>
     </el-select>
 
-      是否欠费:<el-select v-model="params.condition.studentArrears" placeholder="请选择是否欠费" style="width: 100px">
+      是否欠费:<el-select v-model="params.condition.studentArrears" placeholder="请选择是否欠费" style="width: 70px">
       <el-option value="">请选择是否欠费</el-option>
       <el-option
         v-for="item in arrearsList"

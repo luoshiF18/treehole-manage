@@ -9,6 +9,9 @@ import VueRouter from 'vue-router'
 import routes from './base/router'
 import store from './vuex/store'
 import Vuex from 'vuex'
+//导出表所引入的东西
+import JsonExcel from 'vue-json-excel'
+Vue.component('downloadExcel', JsonExcel)
 import utilApi from './common/utils';
 // import Mock from './mock'
 // Mock.bootstrap();

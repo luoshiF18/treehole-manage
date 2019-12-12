@@ -29,7 +29,10 @@
     </el-select>
 
     <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
+
     </el-form>
+
+
 
 
     <el-table
@@ -94,6 +97,16 @@
       @current-change="changePage"
       style="float: right;">
     </el-pagination>
+
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "班级信息.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+
   </div>
 </template>
 <script>
@@ -102,6 +115,47 @@
     export default {
         data() {
             return {
+
+              json_fields: {
+                "id": "classId",    //常规字段
+                "期数": "phaseName", //支持嵌套属性
+                "班级名": "className",
+                "计划":"classPlan",
+                "人数":"classNumber",
+                "课程数":"classCourseNumber",
+                "创建日期":{
+                  field: "classCreatTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+
+                "班主任":"teacherName",
+                "是否毕业":{
+                  field: "classGraduation",
+                  callback: value => {
+                       if (`${value}` == 1){
+                         return "未毕业"
+                        }else if(`${value}` == 2){
+                          return "已毕业"
+                        };
+                  }
+                },
+                "备注":"classOther"
+              },
+              json_meta: [
+                [
+                  {
+                    " key ": " charset ",
+                    " value ": " utf- 8 "
+                  }
+                ]
+              ],
+
               //是否毕业
               graduationList:[
                 {
@@ -194,5 +248,5 @@
     }
 </script>
 <style>
-  /*编写页面样式，不是必须*/
+
 </style>

@@ -3,7 +3,7 @@
     <!--查询表单-->
     <el-form :model="params">
       Id:<el-input v-model="params.condition.studentId"  style="width: 100px"></el-input>
-      姓名:<el-input v-model="params.condition.studentName"  style="width: 100px"></el-input>
+      姓名:<el-input v-model="params.condition.studentName"  style="width: 80px"></el-input>
       性别:<el-select v-model="params.condition.studentGender" placeholder="请选择性别" style="width: 100px">
       <el-option value="">请选择性别</el-option>
       <el-option
@@ -48,7 +48,7 @@
       </el-option>
     </el-select>
 
-      是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择状态" style="width: 100px">
+      是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择状态" style="width: 70px">
       <el-option value="">请选择是否毕业</el-option>
       <el-option
         v-for="item in graduationList"
@@ -59,7 +59,7 @@
       </el-option>
     </el-select>
 
-      是否欠费:<el-select v-model="params.condition.studentArrears" placeholder="请选择是否欠费" style="width: 100px">
+      是否欠费:<el-select v-model="params.condition.studentArrears" placeholder="请选择是否欠费" style="width: 70px">
       <el-option value="">请选择是否欠费</el-option>
       <el-option
         v-for="item in arrearsList"
@@ -160,6 +160,16 @@
       @current-change="changePage"
       style="float: right;">
     </el-pagination>
+
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "学生信息.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+
   </div>
 </template>
 <script>
@@ -168,6 +178,98 @@
     export default {
         data() {
             return {
+
+              json_fields: {
+                "id": "studentId",    //常规字段
+                "姓名": "studentName", //支持嵌套属性
+                "性别": {
+                  field: "studentGender",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "男"
+                    }else if(`${value}` == 2){
+                      return "女"
+                    };
+                  }
+                },
+                "班级":"className",
+                "职务":{
+                  field: "studentType",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "学员"
+                    }else if(`${value}` == 2){
+                      return "组长"
+                    }else if(`${value}` == 3){
+                      return "班长"
+                    };
+                  }
+                },
+                "状态":{
+                  field: "studentState",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "正常"
+                    }else if(`${value}` == 2){
+                      return "请假中"
+                    };
+                  }
+                },
+                "出生日期":{
+                  field: "studentBirthDate",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "电话":"studentTelephone",
+                "地址":"studentAddress",
+                "入学时间":{
+                  field: "studentEnrollmentTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "是否欠费":{
+                  field: "studentArrears",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "是"
+                    }else if(`${value}` == 2){
+                      return "否"
+                    };
+                  }
+                },
+                "是否毕业":{
+                  field: "studentGraduation",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "未毕业"
+                    }else if(`${value}` == 2){
+                      return "已毕业"
+                    };
+                  }
+                },
+                "毕业时间":{
+                  field: "studentGraduationTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "备注":"studentOther"
+              },
+
                 //期数列表
                 phaseList:[],
                 //是否毕业

@@ -92,6 +92,15 @@
       style="float: right;">
     </el-pagination>
 
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "学生老师.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+
     <div slot="footer" class="dialog-footer">
       <el-button @click="go_back">返回</el-button>
     </div>
@@ -104,6 +113,63 @@
     export default {
         data() {
             return {
+
+              json_fields: {
+                "id": "teacherId",    //常规字段
+                "姓名": "teacherName", //支持嵌套属性
+                "性别": {
+                  field: "teacherGender",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "男"
+                    }else if(`${value}` == 2){
+                      return "女"
+                    };
+                  }
+                },
+                "状态":{
+                  field: "teacherState",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "正常"
+                    }else if(`${value}` == 2){
+                      return "请假中"
+                    };
+                  }
+                },
+                "出生日期":{
+                  field: "teacherBirthDate",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "职务":{
+                  field: "teacherType",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "讲师"
+                    }else if(`${value}` == 2){
+                      return "班主任"
+                    };
+                  }
+                },
+                "电话":"teacherTelephone",
+                "地址":"teacherAddress",
+                "备注":"teacherOther"
+              },
+              json_meta: [
+                [
+                  {
+                    " key ": " charset ",
+                    " value ": " utf- 8 "
+                  }
+                ]
+              ],
+
                 genderList:[  //性别
                     {
                         genderId:"1",

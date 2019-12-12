@@ -29,12 +29,14 @@
     </el-select>
 
     <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
+
     <router-link :to="{path:'/informationmanage/page/class/add',query:{
                  page:this.params.page,
                  className:this.params.condition.className,
                  }}">
       <el-button  type="primary" size="small">新增页面</el-button>
     </router-link>
+
     </el-form>
 
 

@@ -65,6 +65,15 @@
       style="float: right;">
     </el-pagination>
 
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "学生课程.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+
     <div slot="footer" class="dialog-footer">
       <el-button @click="go_back">返回</el-button>
     </div>
@@ -77,9 +86,21 @@
     export default {
         data() {
             return {
+
+              json_fields: {
+                "id": "courseId",    //常规字段
+                "课程名": "courseName", //支持嵌套属性
+                "描述": "courseDescribe",
+                "类型":"courseTypeName",
+                "课时":"courseTime",
+                "任课老师":"teacherName",
+                "备注":"courseOther"
+              },
+
                 courseTypeList:[],
                 courseTeacherList:[],
                 list: [],
+
                 total: 0,
                 params: {  //这里和上面的查询表单做了双向绑定
                     page: 1,
@@ -109,7 +130,7 @@
            this.params.condition.studentId=this.$route.params.studentId;
            //调用服务端的接口
            trainApi.student_course(this.params.page,this.params.size,this.params.condition).then((res) => {
-               //将res结果数据赋值给数据模型对象
+               //将res结果数据赋值给数据模型对
                this.list = res.queryResult.list;
                this.total = res.queryResult.total;
            })
