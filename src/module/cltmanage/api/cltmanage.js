@@ -1,7 +1,7 @@
-import http from '../../../base/api/public'
+import http from './../../../base/api/public'
 import querystring from 'querystring'
 let sysConfig = require('@/../config/sysConfig')
-let apiUrl = sysConfig.xcApiUrlPre;
+let apiUrl = sysConfig.thApiUrlPre;
 
 //查询咨询师预约管理单
 export const manage_list = (page,size,params) =>{

@@ -28,6 +28,9 @@
             <template slot="title">预警管理</template>
             <el-menu-item-group>
               <el-menu-item index="/warn/page/list">预警管理页</el-menu-item>
+              <el-menu-item index="/warn/page/analyze">预警统计和分析</el-menu-item>
+              <el-menu-item index="/warn/page/intervene">预警人员心理干预管理</el-menu-item>
+              <el-menu-item index="/warn/page/test">测试页面</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
@@ -70,8 +73,6 @@
              <template slot="title">客服工作台</template>
               <el-menu-item index="/imServer" >客服工作台</el-menu-item>
             </el-submenu>
-
-
             <el-submenu index="7-2">
               <template slot="title">客服管理</template>
               <el-menu-item index="/agent/list">客服列表</el-menu-item>
@@ -105,6 +106,42 @@
             </el-submenu>
           </el-submenu>
 
+          <el-submenu index="8">
+            <template slot="title"><span>心理咨询师信息管理</span></template>
+            <el-submenu index="8-1">
+              <template slot="title">信息列表</template>
+              <el-menu-item index="/psychologist/profile/list">简介信息列表</el-menu-item>
+              <el-menu-item index="/psychologist/state/list">状态信息列表</el-menu-item>
+              <el-menu-item index="/psychologist/detail/list" >详情信息列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="8-2">
+              <template slot="title">服务列表</template>
+              <el-menu-item index="/psychologist/consultation/list" >咨询记录列表</el-menu-item>
+              <el-menu-item index="/psychologist/suggestion/list" >建议信息列表</el-menu-item>
+              <el-menu-item index="/psychologist/comment/list" >评价信息列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="8-3">
+              <template slot="title">统计图表</template>
+              <el-menu-item index="/psychologist/total/list" >统计图表</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <el-submenu index="9">
+            <template slot="title"><span>预约订单管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/appointment/order/list">预约订单列表</el-menu-item>
+              <el-menu-item index="/appointment/cltmanage/list">咨询师预约时间列表</el-menu-item>
+              <el-menu-item index="/appointment/cltmanage/add">新增咨询师预约时间</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="10">
+            <template slot="title"><span>营销活动管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/marketing/coupon/page/list">优惠券列表</el-menu-item>
+              <el-menu-item index="/marketing/activity/page/list">优惠活动列表</el-menu-item>
+              <el-menu-item index="/marketing/activity/point/list">积分活动</el-menu-item>
+              <el-menu-item index="/marketing/extension/list">推广列表</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
 
 
         </el-menu>

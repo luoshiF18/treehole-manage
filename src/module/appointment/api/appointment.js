@@ -1,7 +1,7 @@
-import http from '../../../base/api/public'
+import http from './../../../base/api/public'
 import querystring from 'querystring'
 let sysConfig = require('@/../config/sysConfig')
-let apiUrl = sysConfig.xcApiUrlPre;
+let apiUrl = sysConfig.thApiUrlPre;
 
 //查询预约订单
 export const page_list = (page,size,params) =>{
