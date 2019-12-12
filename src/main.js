@@ -12,7 +12,8 @@ import Vuex from 'vuex'
 import utilApi from './common/utils';
 // import Mock from './mock'
 // Mock.bootstrap();
-
+import htmlToPdf from "../src/common/htmlToPdf"
+Vue.use(htmlToPdf)
 
 Vue.config.productionTip = false
 
