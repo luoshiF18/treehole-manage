@@ -3,7 +3,7 @@
   <div>
     <el-form :model="params" :inline="true">
       <el-form-item label="建议ID">
-        <el-input v-model="params.suggestion_id" placeholder="请输入您要查询的建议ID"></el-input>
+        <el-input v-model="params.suggestion_id" placeholder="请输入您要查询的建议ID" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" v-on:click="query" icon="el-icon-search">查询</el-button>

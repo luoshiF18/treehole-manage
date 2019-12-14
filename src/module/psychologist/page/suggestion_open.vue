@@ -1,26 +1,21 @@
 <template>
   <div>
     <div id="pdfCentent">
-      <el-form :model="suggestionForm" :rules="suggestionFormRules" label-width="80px" ref="suggestionForm">
-        <el-form-item label="病情描述" prop="description" style="width:40%">
-          <el-input type="textarea" v-model="suggestionForm.description" auto-complete="off" clearable></el-input>
+      <el-form label-width="80px">
+        <el-form-item label="病情描述:">
+          <span>{{suggestionForm.description}}</span>
         </el-form-item>
-        <el-form-item label="建议信息" prop="suggestion_info" style="width:40%">
-          <el-input type="textarea" v-model="suggestionForm.suggestion_info" auto-complete="off" clearable></el-input>
+        <el-form-item label="建议信息:">
+          <span>{{suggestionForm.suggestion_info}}</span>
         </el-form-item>
-        <el-form-item label="心理治理" prop="psychotherapy" style="width:40%">
-          <el-input type="textarea" v-model="suggestionForm.psychotherapy" auto-complete="off" clearable></el-input>
+        <el-form-item label="心理治理:">
+          <span>{{suggestionForm.psychotherapy}}</span>
         </el-form-item>
-        <el-form-item label="物理治疗" prop="physicotherapy" style="width:40%">
-          <el-input type="textarea" v-model="suggestionForm.physicotherapy" auto-complete="off" clearable></el-input>
+        <el-form-item label="物理治疗:">
+          <span>{{suggestionForm.physicotherapy}}</span>
         </el-form-item>
-        <el-form-item label="预警等级" prop="warning">
-          <el-select v-model="suggestionForm.warning" placeholder="请选择" clearable>
-            <el-option label="关注" value="关注"></el-option>
-            <el-option label="追踪" value="追踪"></el-option>
-            <el-option label="高危" value="高危"></el-option>
-            <el-option label="警戒" value="警戒"></el-option>
-          </el-select>
+        <el-form-item label="预警等级:">
+          <span>{{suggestionForm.warning}}</span>
         </el-form-item>
       </el-form>
     </div>

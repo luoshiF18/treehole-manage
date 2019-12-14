@@ -1,66 +1,172 @@
 <template>
+
   <el-row class="container">
     <p-head></p-head>
     <el-col :span="24" class="main">
       <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
         <!--导航菜单-->
-        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose"
+        <!--<el-menu :default-active="$route.path"
+                 class="el-menu-vertical-demo"
+                 @open="handleopen"
+                 @close="handleclose"
                  @select="handleselect"
-                 unique-opened router v-show="!collapsed" background-color="#EFEFF4">
-          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-            <el-submenu :index="index+''" v-if="!item.leaf">
-              <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-              <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">
-                {{child.name}}
-              </el-menu-item>
-            </el-submenu>
-            <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i
-              :class="item.iconCls"></i>{{item.children[0].name}}
-            </el-menu-item>
-          </template>
-        </el-menu>
-        <!--导航菜单-折叠后-->
-        <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-          <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
-            <template v-if="!item.leaf">
-              <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)"
-                   @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
-              <ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)"
-                  @mouseout="showMenu(index,false)">
-                <li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item"
-                    style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''"
-                    @click="$menu.push(child.path)">{{child.name}}
-                </li>
-              </ul>
-            </template>
-            <template v-else>
-          <li class="el-submenu">
-            <div class="el-submenu__title el-menu-item"
-                 style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;"
-                 :class="$route.path==item.children[0].path?'is-active':''" @click="$menu.push(item.children[0].path)">
-              <i :class="item.iconCls"></i></div>
-          </li>
-</template>
-</li>
-</ul>
-</aside>
-<section class="content-container">
-  <div class="grid-content bg-purple-light">
-    <el-col :span="24" class="breadcrumb-container">
-      <strong class="title">{{$route.name}}</strong>
-      <el-breadcrumb separator="/" class="breadcrumb-inner">
+                 unique-opened
+                 router
+                 v-show="!collapsed"
+                 background-color="#EFEFF4">-->
+        <el-menu router unique-opened default-active="1">
 
-      </el-breadcrumb>
+          <el-submenu index="1">
+            <template slot="title">量表管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="/scale/page/list">量表列表</el-menu-item>
+              <!--              <el-menu-item index="/scale/page/add">新增量表页</el-menu-item>-->
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="2">
+            <template slot="title">预警管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="/warn/page/list">预警管理页</el-menu-item>
+              <el-menu-item index="/warn/page/analyze">预警统计和分析</el-menu-item>
+              <el-menu-item index="/warn/page/intervene">预警人员心理干预管理</el-menu-item>
+              <el-menu-item index="/warn/page/test">测试页面</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+
+
+          <el-submenu index="4">
+            <template slot="title"><span>用户管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/member/page/user" >用户信息</el-menu-item>
+              <el-menu-item index="/member/page/cards">会员卡信息</el-menu-item>
+              <el-submenu index="4-1">
+                <template slot="title">会员等级</template>
+                <el-menu-item index="/member/page/freegrade">普通会员等级</el-menu-item>
+                <el-menu-item index="/member/page/paygrade">VIP会员等级</el-menu-item>
+              </el-submenu>
+
+              <el-menu-item index="/member/page/point">会员积分</el-menu-item>
+              <el-menu-item index="/member/page/checkin">会员签到</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="5">
+            <template slot="title"><span>档案管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/archives/page/List">个人档案</el-menu-item>
+              <el-menu-item index="/archives/page/UserList">用户档案</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="6">
+            <template slot="title"><span>测评报告</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/archivesReport/page/List">个体报告</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          <el-submenu index="7">
+            <template slot="title"><span>客服管理</span></template>
+            <el-submenu index="7-1">
+              <template slot="title">客服工作台</template>
+              <el-menu-item index="/imServer" >客服工作台</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-2">
+              <template slot="title">客服管理</template>
+              <el-menu-item index="/agent/list">客服列表</el-menu-item>
+              <el-menu-item index="/agent/add">添加客服</el-menu-item>
+              <el-menu-item index="/agent/edit/:agentId">修改客服</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-3">
+              <template slot="title">快捷回复管理</template>
+              <el-menu-item index="/reply/list">快捷回复列表</el-menu-item>
+              <el-menu-item index="/reply/add">添加快捷回复</el-menu-item>
+              <el-menu-item index="/reply/edit/:replyId">修改快捷回复</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-4">
+              <template slot="title">回复分类管理</template>
+              <el-menu-item index="/category/list">分类列表</el-menu-item>
+              <el-menu-item index="/category/add">添加分类</el-menu-item>
+              <el-menu-item index="/category/edit/:categoryId">修改分类信息</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-5">
+              <template slot="title">会话管理</template>
+              <el-menu-item index="/convers/list">会话列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-6">
+              <template slot="title">留言管理</template>
+              <el-menu-item index="/leave/list">留言列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="7-7">
+              <template slot="title">服务管理</template>
+              <el-menu-item index="/serv/list">服务列表</el-menu-item>
+              <el-menu-item index="/serv/add">新增服务小结</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+          <el-submenu index="8">
+            <template slot="title"><span>心理咨询师管理</span></template>
+            <el-submenu index="8-1">
+              <template slot="title">信息列表</template>
+              <el-menu-item index="/psychologist/profile/list">简介信息列表</el-menu-item>
+              <el-menu-item index="/psychologist/state/list">状态信息列表</el-menu-item>
+              <el-menu-item index="/psychologist/detail/list" >详情信息列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="8-2">
+              <template slot="title">服务列表</template>
+              <el-menu-item index="/psychologist/consultation/list" >咨询记录列表</el-menu-item>
+              <el-menu-item index="/psychologist/suggestion/list" >建议信息列表</el-menu-item>
+              <el-menu-item index="/psychologist/comment/list" >评价信息列表</el-menu-item>
+            </el-submenu>
+            <el-submenu index="8-3">
+              <template slot="title">统计图表</template>
+              <el-menu-item index="/psychologist/total/list" >统计图表</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <el-submenu index="9">
+            <template slot="title"><span>预约订单管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/appointment/order/list">预约订单列表</el-menu-item>
+              <el-menu-item index="/appointment/cltmanage/list">咨询师预约时间列表</el-menu-item>
+              <el-menu-item index="/appointment/cltmanage/add">新增咨询师预约时间</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="10">
+            <template slot="title"><span>营销活动管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/marketing/coupon/page/list">优惠券列表</el-menu-item>
+              <el-menu-item index="/marketing/activity/page/list">优惠活动列表</el-menu-item>
+              <el-menu-item index="/marketing/activity/point/list">积分活动</el-menu-item>
+              <el-menu-item index="/marketing/extension/list">推广列表</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+
+        </el-menu>
+
+        <!--导航菜单-折叠后-->
+
+      </aside>
+
+      <section class="content-container">
+        <div class="grid-content bg-purple-light">
+          <el-col :span="24" class="breadcrumb-container">
+            <strong class="title">{{$route.name}}</strong>
+            <el-breadcrumb separator="/" class="breadcrumb-inner">
+
+            </el-breadcrumb>
+          </el-col>
+          <el-col :span="24" class="content-wrapper">
+            <transition name="fade" mode="out-in">
+              <router-view></router-view>
+            </transition>
+          </el-col>
+        </div>
+      </section>
     </el-col>
-    <el-col :span="24" class="content-wrapper">
-      <transition name="fade" mode="out-in">
-        <router-view></router-view>
-      </transition>
-    </el-col>
-  </div>
-</section>
-</el-col>
-</el-row>
+  </el-row>
 </template>
 
 <script>
@@ -103,21 +209,19 @@
       collapse: function () {
         this.collapsed = !this.collapsed;
       },
-      showMenu(i, status){
+      showMenu(i, status) {
         this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
       }
-
     },
     created() {
       console.log(this.$router.options.routes)
     }
   }
-
 </script>
 
 <style scoped lang="scss">
   @import '~scss_vars';
-
+  /*.a {text-decoration：none}*/
   .container {
     position: absolute;
     top: 0px;
@@ -145,7 +249,7 @@
         }
       }
       .logo {
-        //width:230px;
+        /* width: 230 px;*/
         height: 60px;
         font-size: 22px;
         padding-left: 20px;
@@ -178,7 +282,7 @@
     }
     .main {
       display: flex;
-      // background: #324057;
+      /*background: #324057;*/
       position: absolute;
       top: 60px;
       bottom: 0px;
@@ -186,9 +290,9 @@
       aside {
         flex: 0 0 230px;
         width: 230px;
-        // position: absolute;
-        // top: 0px;
-        // bottom: 0px;
+        /*/ / position: absolute;
+        / / top: 0 px;
+        / / bottom: 0 px;*/
         .el-menu {
           height: 100%;
         }
@@ -205,7 +309,6 @@
             height: auto;
             display: none;
           }
-
         }
       }
       .menu-collapsed {
@@ -219,15 +322,17 @@
       .content-container {
         background: #fff;
         flex: 1;
-        // position: absolute;
-        // right: 0px;
-        // top: 0px;
-        // bottom: 0px;
-        // left: 230px;
+        /*
+          / / position: absolute;
+          / / right: 0 px;
+          / / top: 0 px;
+          / / bottom: 0 px;
+        */
+        /*  / / left: 230 px;*/
         overflow-y: scroll;
         padding: 20px;
         .breadcrumb-container {
-          //margin-bottom: 15px;
+          /*  / / margin-bottom: 15 px;*/
           .title {
             width: 200px;
             float: left;
