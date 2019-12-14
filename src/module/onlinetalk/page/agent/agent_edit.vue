@@ -21,6 +21,9 @@
           <el-radio class="radio" label="0">女</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="密码" prop="agent_password">
+        <el-input v-model="agentForm.agent_password" auto-complete="off" ></el-input>
+      </el-form-item>
       <el-form-item label="创建时间" prop="create_time">
         <el-date-picker type="datetime" placeholder="创建时间" v-model="agentForm.create_time"></el-date-picker>
       </el-form-item>
@@ -48,6 +51,7 @@
           agent_phone:'',
           agent_from:'',
           agent_sex:'',
+          agent_password:''
         },
 
       }

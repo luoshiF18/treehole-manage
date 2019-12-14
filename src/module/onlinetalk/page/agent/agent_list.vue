@@ -59,7 +59,7 @@
     <el-col :span="24" class="toolbar">
 
       <el-pagination background layout="prev, pager, next" @current-change="changePage" :current-size="this.params.size"
-                     :total=this.total*2 :current-page="this.params.page"
+                     :total=this.total :current-page="this.params.page"
                      style="float:right;">
       </el-pagination>
     </el-col>
@@ -76,7 +76,7 @@
         listLoading:false,
         params: {  //这里和上面的查询表单做了双向绑定
           page: 1,
-          size: 5,
+          size: 10,
           agent_name:''
         },
         agent:{

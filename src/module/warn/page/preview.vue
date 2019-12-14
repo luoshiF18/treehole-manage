@@ -120,6 +120,7 @@
 <script>
 
     import * as warnApi from '../api/warn.js'
+    import { Loading } from 'element-ui';
   export default {
     name: 'preview',
     data() {
@@ -140,6 +141,7 @@
               createTime: '',
               wmessage: ''
           },
+          warningId: '',
           htmlTitle: "预警报告PDF",
           nowTime: "",
           fullscreen: true
@@ -154,28 +156,38 @@
         this.$router.push({path:'/warn/page/list'})
       },
         dateFormat:function(time) {
-            var date=new Date(time);
-            var year=date.getFullYear();
+            let date=new Date(time);
+            let year=date.getFullYear();
             /* 在日期格式中，月份是从0开始的，因此要加0
              * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
              * */
-            var month= date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
-            var day=date.getDate()<10 ? "0"+date.getDate() : date.getDate();
+            let month= date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+            let day=date.getDate()<10 ? "0"+date.getDate() : date.getDate();
             // 拼接
             return year+"-"+month+"-"+day;
         },
+        queryOne:function () {
+            //根据主键查询页面信息
+            warnApi.page_get(this.warningId).then((res) => {
+                console.log(res);
+                if(res){
+                    this.pageForm = res;
+                }
+                this.fullscreen = false;
+                let loadingInstance = Loading.service(this.fullscreen);
+                this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+                    loadingInstance.close();
+                });
+            });
+        }
     },
       created: function () {
-          this.warningId=this.$route.params.warningId;  //取出路由中的pageId 这个pageId要和index.js中定义的'/cms/page/edit/:pageId'中pageId保持一致
-          //根据主键查询页面信息
-          warnApi.page_get(this.warningId).then((res) => {
-              console.log(res);
-              if(res){
-                  this.pageForm = res;
-              }
-          });
+          this.warningId=this.$route.params.warningId;  //取出路由中的warnId
       },
+
       mounted() {
+          Loading.service(this.fullscreen);
+          this.queryOne();
       }
   }
 </script>

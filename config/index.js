@@ -2,6 +2,8 @@
 // Template version: 1.2.4
 // see http://vuejs-templates.github.io/webpack for documentation.
 
+/*import * as process from "../.eslintrc";*/
+
 const path = require('path')
 var proxyConfig = require('./proxyConfig')
 let sysConfig = require('./sysConfig')
@@ -24,13 +26,21 @@ module.exports = {
           '^/api': ''  //将/api转换成''空字符串
         }
       },
+      '/getIMServerList': {
+        target: 'http://localhost:3000',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+      },
+
       '/api/scale': {
         target: 'http://localhost:40200',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
         }
       },
-      '/api/uservo': {
+      //会员管理
+      '/api/member': {
         target: 'http://localhost:40300',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
@@ -38,8 +48,9 @@ module.exports = {
         //target: 'http://127.0.0.1:50201'
 
       },
-      '/api/agent': {
-        target: 'http://localhost:40400',
+
+      '/api/online': {
+        target: 'http://localhost:40600',
         changeOrigin:true,
         pathRewrite: {
           '^/api': ''
@@ -47,33 +58,7 @@ module.exports = {
         //target: 'http://127.0.0.1:50201'
 
       },
-      '/api/reply': {
-        target: 'http://localhost:40400',
-        changeOrigin:true,
-        pathRewrite: {
-          '^/api': ''
-        }
-        //target: 'http://127.0.0.1:50201'
 
-      },
-      '/api/category': {
-        target: 'http://localhost:40400',
-        changeOrigin:true,
-        pathRewrite: {
-          '^/api': ''
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
-      '/api/convers': {
-        target: 'http://localhost:40400',
-        changeOrigin:true,
-        pathRewrite: {
-          '^/api': ''
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
       '/api/archives': {
         target: 'http://localhost:40100',
         pathRewrite: {
@@ -105,9 +90,28 @@ module.exports = {
           '^/api': ''  //将/api转换成''空字符串
         }
         //target: 'http://127.0.0.1:50201'
-
       },
-
+      '/api/intervene': {
+        target: 'http://localhost:40200',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+      '/api/appointment': {
+        target: 'http://localhost:40700',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+      '/api/marketing': {
+        target: 'http://localhost:40800',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
       /*,
       '/ucenter': {
         // target: 'http://localhost:3000/mock/11'
@@ -199,7 +203,7 @@ module.exports = {
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false,
+    cssSourceMap: true,
   },
   build: {
     // Template for index.html
