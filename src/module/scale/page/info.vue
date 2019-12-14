@@ -187,11 +187,11 @@
       </el-card>
       <el-card class="box-card" v-loading="loading">
         创建时间： <span class="color" style="margin-right: 220px" v-text="scaleDetail.createTime"></span>
-        创建人姓名： <span class="color" v-text="scaleDetail.createUserId"></span>
+        创建人姓名： <span class="color" v-text="scaleDetail.createUserName"></span>
       </el-card>
       <el-card class="box-card" v-loading="loading">
         更新时间： <span class="color" style="margin-right: 220px" v-text="scaleDetail.updateTime"></span>
-        更新人姓名： <span class="color" v-text="scaleDetail.updateUserId"></span>
+        更新人姓名： <span class="color" v-text="scaleDetail.updateUserName"></span>
       </el-card>
       <el-card class="box-card" v-loading="loading">
         量表备注： <span class="color" v-text="scaleDetail.remark"></span>
