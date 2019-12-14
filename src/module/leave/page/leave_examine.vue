@@ -39,6 +39,8 @@
             <span v-if="+leaveState === 1 ">已消假</span>
             <span v-else-if="+leaveState === 2 ">请假中</span>
             <span v-else-if="+leaveState === 3 ">审核中</span>
+            <span v-else-if="+leaveState === 3 ">审核中</span>
+            <span v-else-if="+leaveState === 4 ">审核未通过</span>
           </template>
         </el-table-column>
 

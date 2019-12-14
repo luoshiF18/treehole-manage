@@ -8,6 +8,7 @@
       </el-table-column>
       <el-table-column  prop="costStudentId" label="Id" width="120">
       </el-table-column>
+
       <el-table-column prop="costStudentName" label="姓名" width="120">
       </el-table-column>
 
@@ -39,6 +40,16 @@
       style="float: right;">
     </el-pagination>
 
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "学生交费信息.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+
+
     <div slot="footer" class="dialog-footer">
       <el-button @click="go_back">返回</el-button>
     </div>
@@ -51,6 +62,25 @@
     export default {
         data() {
             return {
+
+              json_fields: {
+                "id": "costStudentId",    //常规字段
+                "姓名": "costStudentName", //支持嵌套属性
+                "应付金额":"costAmountPayable",
+                "优惠金额":"costPreferentialAmount",
+                "实收金额":"costAmountReceived",
+                "交费时间":{
+                  field: "costTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "备注":"costOther"
+              },
 
                 list: [],
                 total: 0,

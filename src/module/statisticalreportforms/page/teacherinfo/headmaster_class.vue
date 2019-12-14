@@ -57,10 +57,6 @@
       </el-table-column>
       <el-table-column prop="classCreatTime" label="创建日期" width="250" :formatter="dateFormat" >
       </el-table-column>
-
-      <el-table-column prop="teacherName" label="班主任" width="250">
-      </el-table-column>
-
       <el-table-column prop="classGraduation" label="是否毕业" width="250">
         <template slot-scope="{row: {classGraduation}}">
           <span v-if="+classGraduation === 1 ">未毕业</span>
@@ -71,24 +67,7 @@
       </el-table-column>
       <el-table-column prop="classOther" label="备注" width="250">
       </el-table-column>
-      <el-table-column label="操作" width="300">
-        <template slot-scope="page">
-          <el-button
-            size="small"type="text"
-            @click="class_student(page.row.classId)">班级学生统计
-          </el-button>
 
-          <el-button
-            size="small"type="text"
-            @click="class_course(page.row.classId)">班级课程统计
-          </el-button>
-
-          <el-button
-            size="small"type="text"
-            @click="class_teacher(page.row.classId)">班级老师统计
-          </el-button>
-        </template>
-      </el-table-column>
     </el-table>
 
     <!--分页-->
@@ -106,10 +85,14 @@
       class = "export-excel-wrapper"
       :data = "list"
       :fields = "json_fields"
-      name = "班级信息.xls">
+      name = "班主任所带班级信息.xls">
       <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
       <el-button type="primary" size="small">导出EXCEL</el-button>
     </download-excel>
+
+    <div slot="footer" class="dialog-footer" >
+      <el-button @click="go_back" >返回</el-button>
+    </div>
 
   </div>
 </template>
@@ -138,8 +121,6 @@
                     }
                   }
                 },
-
-                "班主任":"teacherName",
                 "是否毕业":{
                   field: "classGraduation",
                   callback: value => {
@@ -195,6 +176,7 @@
                         className:"",
                         classPhase:"",
                        classGraduation:"",
+                      teacherId:"",
                     },
                 },
             }
@@ -206,8 +188,9 @@
            if(par == 1){
                this.params.page = 1;
            }
+         this.params.condition.teacherId=this.$route.params.teacherId;
            //调用服务端的接口
-           trainApi.class_list(this.params.page,this.params.size,this.params.condition).then((res) => {
+           trainApi.headmaster_class(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象
                console.log(this.params.condition);
                this.list = res.queryResult.list;
@@ -220,30 +203,20 @@
            //调用query方法
            this.query();
        },
-       //跳转到班级学生统计页面
-       class_student(classId){
-          this.$router.push({
-              path:'/statisticalreportforms/page/classInfo/class_student/'+classId
-          })
-       },
-       //跳转到班级课程统计页面
-       class_course(classId){
-           this.$router.push({
-               path:'/statisticalreportforms/page/classInfo/class_course/'+classId
-           })
-       },
+     //返回
+     go_back(){
+       this.$router.push({
+         path: '/statisticalreportforms/page/teacherinfo/teacher_information_statistics', query: {
+
+         }
+       })
+     },
      //查询期数
      queryPhase:function(){
        trainApi.student_Phase().then((res)=>{
          this.phaseList = res.queryResult.list;
        })
      },
-       //跳转到班级老师统计页面
-       class_teacher(classId){
-           this.$router.push({
-               path:'/statisticalreportforms/page/classInfo/class_teacher/'+classId
-           })
-       },
        //时间格式化  
        dateFormat:function(row, column) {
            var date = row[column.property];

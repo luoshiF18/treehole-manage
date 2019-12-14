@@ -2,44 +2,79 @@
   <div>
     <!--查询表单-->
     <el-form :model="params">
-      Id:<el-input v-model="params.condition.studentId"  style="width: 100px"></el-input>
-      姓名:<el-input v-model="params.condition.studentName"  style="width: 100px"></el-input>
-      性别:<el-select v-model="params.condition.studentGender" style="width: 130px" placeholder="请选择性别">
+      Id:<el-input v-model="params.condition.studentId"  style="width: 80px"></el-input>
+      姓名:<el-input v-model="params.condition.studentName"  style="width: 80px"></el-input>
+      性别:<el-select v-model="params.condition.studentGender" placeholder="请选择性别" style="width: 70px">
       <el-option value="">请选择性别</el-option>
       <el-option
-          v-for="item in genderList"
-          :key="item.genderId"
-          :label="item.genderName"
-          :value="item.genderId">
-          <!-- value值是用于提交的,label值是用于显示的 -->
-        </el-option>
-      </el-select>
+        v-for="item in genderList"
+        :key="item.genderId"
+        :label="item.genderName"
+        :value="item.genderId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
 
-      班级:<el-select v-model="params.condition.studentClass" placeholder="请选择班级">
+      期数:<el-select v-model="params.condition.studentPhase" placeholder="请选择期数" style="width: 100px">
+      <el-option value="">请选择期数</el-option>
+      <el-option
+        v-for="item in phaseList"
+        :key="item.phaseId"
+        :label="item.phaseName"
+        :value="item.phaseId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
+
+      班级:<el-select v-model="params.condition.studentClass" placeholder="请选择班级" style="width: 100px">
       <el-option value="">请选择班级</el-option>
       <el-option
-          v-for="item in classList"
-          :key="item.classId"
-          :label="item.className"
-          :value="item.classId">
-          <!-- value值是用于提交的,label值是用于显示的 -->
-        </el-option>
-      </el-select>
+        v-for="item in classList"
+        :key="item.classId"
+        :label="item.className"
+        :value="item.classId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
 
-        状态:<el-select v-model="params.condition.studentState" placeholder="请选择状态">
+      状态:<el-select v-model="params.condition.studentState" placeholder="请选择状态" style="width: 100px">
       <el-option value="">请选择状态</el-option>
       <el-option
-            v-for="item in stateList"
-            :key="item.stateId"
-            :label="item.stateName"
-            :value="item.stateId">
-            <!-- value值是用于提交的,label值是用于显示的 -->
-          </el-option>
-        </el-select>
+        v-for="item in stateList"
+        :key="item.stateId"
+        :label="item.stateName"
+        :value="item.stateId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
 
 
-    <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
-      <el-button type="primary" size="small" v-on:click="queryAll">查询所有学生的记录</el-button>
+
+      是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择是否毕业" style="width: 70px">
+      <el-option value="">请选择是否毕业</el-option>
+      <el-option
+        v-for="item in graduationList"
+        :key="item.graduationId"
+        :label="item.graduationName"
+        :value="item.graduationId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
+
+      是否欠费:<el-select v-model="params.condition.studentArrears" placeholder="请选择是否欠费" style="width: 70px">
+      <el-option value="">请选择是否欠费</el-option>
+      <el-option
+        v-for="item in arrearsList"
+        :key="item.arrearsId"
+        :label="item.arrearsName"
+        :value="item.arrearsId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
+
+
+      <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
+      <el-button type="primary" size="small" v-on:click="queryAll">所有记录</el-button>
     </el-form>
 
 
@@ -53,6 +88,10 @@
       </el-table-column>
       <el-table-column  prop="studentName" label="姓名" width="120">
       </el-table-column>
+      <el-table-column  prop="phaseName" label="期数" width="120">
+      </el-table-column>
+      <el-table-column prop="className" label="班级" width="250">
+      </el-table-column>
       <el-table-column prop="studentGender" label="性别" width="120">
         <template slot-scope="{row: {studentGender}}">
           <span v-if="+studentGender === 1 ">男</span>
@@ -65,7 +104,7 @@
           <span v-else-if="+studentState === 2 ">请假中</span>
         </template>
       </el-table-column>
-      <el-table-column prop="studentBirthDate" label="出生日期" width="250" :formatter="dateFormat">
+      <el-table-column prop="studentBirthDate" label="出生日期" width="250"  :formatter="dateFormat">
       </el-table-column>
       <el-table-column prop="studentType" label="职务" width="250">
         <template slot-scope="{row: {studentType}}">
@@ -74,13 +113,28 @@
           <span v-else-if="+studentType === 3 ">班长</span>
         </template>
       </el-table-column>
-      <el-table-column prop="className" label="班级" width="250">
-      </el-table-column>
+
       <el-table-column prop="studentTelephone" label="电话" width="250">
       </el-table-column>
       <el-table-column prop="studentAddress" label="地址" width="250">
       </el-table-column>
       <el-table-column prop="studentEnrollmentTime" label="入学时间" width="250" :formatter="dateFormat">
+      </el-table-column>
+
+      <el-table-column prop="studentArrears" label="是否欠费" width="250">
+        <template slot-scope="{row: {studentArrears}}">
+          <span v-if="+studentArrears === 1 ">是</span>
+          <span v-else-if="+studentArrears === 2 ">否</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="studentGraduation" label="是否毕业" width="250">
+        <template slot-scope="{row: {studentGraduation}}">
+          <span v-if="+studentGraduation === 1 ">未毕业</span>
+          <span v-else-if="+studentGraduation === 2 ">已毕业</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="studentGraduationTime" label="毕业时间" width="250" :formatter="dateFormat">
       </el-table-column>
       <el-table-column prop="studentOther" label="备注" width="250">
       </el-table-column>
@@ -119,33 +173,53 @@
     export default {
         data() {
             return {
-                //班级列表
-                classList: [
+              //是否毕业
+              graduationList:[
+                {
+                  graduationId:"1",
+                  graduationName:"未毕业",
+                },
+                {
+                  graduationId:"2",
+                  graduationName:"已毕业",
+                }
+              ],
+              arrearsList:[
+                {
+                  arrearsId:"1",
+                  arrearsName:"是",
+                },
+                {
+                  arrearsId:"2",
+                  arrearsName:"否",
+                },
 
-                ],
-                genderList:[  //性别
-
-                    {
-                        genderId:"1",
-                        genderName:"男",
-                    },
-                    {
-                        genderId:"2",
-                        genderName:"女",
-                    },
-                ],
-                stateList:[
-
-                    {
-                        stateId:"1",
-                        stateName:"正常",
-                    },
-                    {
-                        stateId:"2",
-                        stateName:"请假中",
-                    },
-                ],//状态
-                list: [],
+              ],
+              //班级列表
+              classList: [],
+              //期数列表
+              phaseList:[],
+              genderList:[  //性别
+                {
+                  genderId:"1",
+                  genderName:"男",
+                },
+                {
+                  genderId:"2",
+                  genderName:"女",
+                },
+              ],
+              stateList:[
+                {
+                  stateId:"1",
+                  stateName:"正常",
+                },
+                {
+                  stateId:"2",
+                  stateName:"请假中",
+                },
+              ],//状态
+              list: [],
                 total: 0,
                 params: {  //这里和上面的查询表单做了双向绑定
                     page: 1,
@@ -185,6 +259,12 @@
            //调用query方法
            this.query();
        },
+     //查询期数
+     queryPhase:function(){
+       trainApi.student_Phase().then((res)=>{
+         this.phaseList = res.queryResult.list;
+       })
+     },
        //查询班级
        queryClass:function(){
            trainApi.class_list(1,0).then((res)=>{
@@ -227,6 +307,8 @@
             this.query();
             //查询班级
             this.queryClass();
+          //查询期数
+          this.queryPhase();
         }
     }
 </script>

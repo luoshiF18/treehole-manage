@@ -4,7 +4,6 @@
     <el-form :model="params">
       请假人ID:<el-input v-model="params.condition.leavePeopleId"  style="width: 100px"></el-input>
       姓名:<el-input v-model="params.condition.leavePeopleName"  style="width: 100px"></el-input>
-
       请假人类型:<el-select v-model="params.condition.leavePeopleType" placeholder="请选择类型">
       <el-option value="">请选择类型</el-option>
       <el-option
@@ -50,6 +49,8 @@
         <template slot-scope="{row: {leaveState}}">
           <span v-if="+leaveState === 1 ">已消假</span>
           <span v-else-if="+leaveState === 2 ">请假中</span>
+          <span v-else-if="+leaveState === 3 ">审核中</span>
+          <span v-else-if="+leaveState === 4 ">审核未通过</span>
         </template>
       </el-table-column>
 
@@ -148,6 +149,7 @@
                })
            })
        },
+
        //时间格式化  
        dateFormat:function(row, column) {
            var date = row[column.property];
@@ -166,6 +168,7 @@
             this.query();
             //时间格式化
             this.formatDate();
+            this.queryPhase();
         }
     }
 </script>

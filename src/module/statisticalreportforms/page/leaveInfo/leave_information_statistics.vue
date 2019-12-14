@@ -4,8 +4,17 @@
     <el-form :model="params">
       请假人ID:<el-input v-model="params.condition.leavePeopleId"  style="width: 100px"></el-input>
       姓名:<el-input v-model="params.condition.leavePeopleName"  style="width: 100px"></el-input>
-
-      请假人类型:<el-select v-model="params.condition.leavePeopleType" placeholder="请选择类型">
+      期数:<el-select v-model="params.condition.phaseId" placeholder="请选择类型" style="width: 150px">
+      <el-option value="">请选择期数</el-option>
+      <el-option
+        v-for="item in phaseList"
+        :key="item.phaseId"
+        :label="item.phaseName"
+        :value="item.phaseId">
+      </el-option>
+    </el-select>
+      班级:<el-input v-model="params.condition.className"  style="width: 100px"></el-input>
+      请假人类型:<el-select v-model="params.condition.leavePeopleType" placeholder="请选择类型" style="width: 100px">
       <el-option value="">请选择类型</el-option>
       <el-option
         v-for="item in leavePeopleTypeList"
@@ -14,14 +23,17 @@
         :value="item.leavePeopleTypeId">
       </el-option>
     </el-select>
-
-
-
-
-
+      请假人状态:<el-select v-model="params.condition.leaveState" placeholder="请选择类型" style="width: 100px">
+      <el-option value="">请选择状态</el-option>
+      <el-option
+        v-for="item in leaveStateList"
+        :key="item.leaveStateId"
+        :label="item.leaveStateName"
+        :value="item.leaveStateId">
+      </el-option>
+    </el-select>
 
       <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
-
     </el-form>
 
 
@@ -55,10 +67,15 @@
         <template slot-scope="{row: {leaveState}}">
           <span v-if="+leaveState === 1 ">已消假</span>
           <span v-else-if="+leaveState === 2 ">请假中</span>
+          <span v-else-if="+leaveState === 3 ">审核中</span>
+          <span v-else-if="+leaveState === 4 ">审核未通过</span>
         </template>
       </el-table-column>
 
       <el-table-column prop="leaveOther" label="理由" width="250">
+      </el-table-column>
+
+      <el-table-column prop="leaveRemoveTime" label="消假时间" width="250" :formatter="dateFormat" >
       </el-table-column>
 
     </el-table>
@@ -73,6 +90,15 @@
       @current-change="changePage"
       style="float: right;">
     </el-pagination>
+
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "请假记录.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
   </div>
 </template>
 <script>
@@ -81,6 +107,78 @@
     export default {
         data() {
             return {
+
+              json_fields: {
+                "请假人Id": "leavePeopleId",    //常规字段
+                "请假人姓名": "leavePeopleName", //支持嵌套属性
+                "请假人类型": {
+                  field: "leavePeopleType",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "学生"
+                    }else if(`${value}` == 2){
+                      return "老师"
+                    };
+                  }
+                },
+                "请假时间":{
+                  field: "leaveTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "开始时间":{
+                  field: "leaveStartTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "结束时间":{
+                  field: "leaveEndTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "状态":{
+                  field: "leaveState",
+                  callback: value => {
+                    if (`${value}` == 1){
+                      return "已消假"
+                    }else if(`${value}` == 2){
+                      return "请假中"
+                    }else if(`${value}` == 3){
+                      return "审核中"
+                    }else if(`${value}` == 4){
+                      return "审核未通过"
+                    };
+                  }
+                },
+                "理由":"leaveOther",
+                "消假时间":{
+                  field: "leaveRemoveTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+              },
+
+
                 leavePeopleTypeList:[
                     {
                         leavePeopleTypeId:1,
@@ -91,6 +189,25 @@
                         leavePeopleTypeName:'老师'
                     },
                 ],
+                leaveStateList:[
+                  {
+                    leaveStateId:1,
+                    leaveStateName:'已消假',
+                  },
+                  {
+                    leaveStateId:2,
+                    leaveStateName:'请假中',
+                  },
+                  {
+                    leaveStateId:3,
+                    leaveStateName:'审核中',
+                  },
+                  {
+                    leaveStateId:4,
+                    leaveStateName:'审核未通过',
+                  },
+                ],
+                phaseList:[],
                 list: [],
                 total: 0,
                 params: {  //这里和上面的查询表单做了双向绑定
@@ -100,6 +217,9 @@
                         leavePeopleType:"",
                         leavePeopleId:"",
                         leavePeopleName:"",
+                        leaveState:"",
+                        className:"",
+                        phaseId:"",
                     },
                 },
             }
@@ -117,6 +237,12 @@
                this.total = res.queryResult.total;
            })
        },
+     //查询期数
+     queryPhase:function(){
+       trainApi.student_Phase().then((res)=>{
+         this.phaseList = res.queryResult.list;
+       })
+     },
        //分页
        changePage: function (currentPage){
            this.params.page = currentPage;
@@ -139,6 +265,7 @@
         mounted(){
             //当dom元素全部渲染完成后,调用query
             this.query();
+            this.queryPhase();
         }
     }
 </script>

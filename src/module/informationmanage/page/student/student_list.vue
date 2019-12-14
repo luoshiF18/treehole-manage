@@ -15,6 +15,17 @@
         </el-option>
       </el-select>
 
+      期数:<el-select v-model="params.condition.studentPhase" placeholder="请选择期数" style="width: 100px">
+      <el-option value="">请选择期数</el-option>
+      <el-option
+        v-for="item in phaseList"
+        :key="item.phaseId"
+        :label="item.phaseName"
+        :value="item.phaseId">
+        <!-- value值是用于提交的,label值是用于显示的 -->
+      </el-option>
+    </el-select>
+
       班级:<el-select v-model="params.condition.studentClass" placeholder="请选择班级" style="width: 100px">
       <el-option value="">请选择班级</el-option>
       <el-option
@@ -37,16 +48,7 @@
           </el-option>
         </el-select>
 
-      期数:<el-select v-model="params.condition.studentPhase" placeholder="请选择期数" style="width: 100px">
-      <el-option value="">请选择期数</el-option>
-      <el-option
-        v-for="item in phaseList"
-        :key="item.phaseId"
-        :label="item.phaseName"
-        :value="item.phaseId">
-        <!-- value值是用于提交的,label值是用于显示的 -->
-      </el-option>
-    </el-select>
+
 
       是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择是否毕业" style="width: 70px">
       <el-option value="">请选择是否毕业</el-option>
@@ -95,6 +97,8 @@
       </el-table-column>
       <el-table-column  prop="phaseName" label="期数" width="120">
       </el-table-column>
+      <el-table-column prop="className" label="班级" width="250">
+      </el-table-column>
       <el-table-column prop="studentGender" label="性别" width="120">
         <template slot-scope="{row: {studentGender}}">
           <span v-if="+studentGender === 1 ">男</span>
@@ -116,8 +120,7 @@
           <span v-else-if="+studentType === 3 ">班长</span>
         </template>
       </el-table-column>
-      <el-table-column prop="className" label="班级" width="250">
-      </el-table-column>
+
       <el-table-column prop="studentTelephone" label="电话" width="250">
       </el-table-column>
       <el-table-column prop="studentAddress" label="地址" width="250">

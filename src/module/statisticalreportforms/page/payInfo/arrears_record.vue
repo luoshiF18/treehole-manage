@@ -35,6 +35,16 @@
       style="float: right;">
     </el-pagination>
 
+    <download-excel
+      class = "export-excel-wrapper"
+      :data = "list"
+      :fields = "json_fields"
+      name = "学生欠费信息.xls">
+      <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
+      <el-button type="primary" size="small">导出EXCEL</el-button>
+    </download-excel>
+
+
     <div slot="footer" class="dialog-footer">
       <el-button @click="go_back">返回</el-button>
     </div>
@@ -48,7 +58,25 @@
         data() {
             return {
 
-                list: [],
+              json_fields: {
+                "id": "costStudentId",    //常规字段
+                "姓名": "costStudentName", //支持嵌套属性
+                "欠费金额":"costArrears",
+                "交费时间":{
+                  field: "costTime",
+                  callback: value => {
+                    if (`${value}` == ''){
+                      return null;
+                    }else {
+                      return moment(`${value}`).format("YYYY-MM-DD");
+                    }
+                  }
+                },
+                "备注":"costOther"
+              },
+
+
+              list: [],
                 total: 0,
                 params: {  //这里和上面的查询表单做了双向绑定
                     page: 1,

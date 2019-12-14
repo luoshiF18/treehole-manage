@@ -27,6 +27,7 @@ export const del_student = studentId => {
 export const student_Phase = (params) => {
   return http.requestPost(apiUrl+'/train/phase/find/1/0',params)
 }
+
 //学生毕业（个人）
 export const student_graduation = (studentId) => {
   return http.requestPut(apiUrl+'/train/student/graduation/'+studentId)

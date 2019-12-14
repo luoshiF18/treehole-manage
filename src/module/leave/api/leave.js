@@ -19,6 +19,11 @@ export const del_leave = (leaveId) =>{
   return http.requestPut(apiUrl+'/train/leave/remove/'+leaveId);
 }
 
+//查询学生期数
+export const student_Phase = (params) => {
+  return http.requestPost(apiUrl+'/train/phase/find/1/0',params)
+}
+
 //根据Id得到请假人信息
 export const findInfo = (id) =>{
   return http.requestGet(apiUrl+'/train/leave/findInfo/'+id);

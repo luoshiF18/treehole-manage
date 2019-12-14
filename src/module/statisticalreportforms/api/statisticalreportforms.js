@@ -56,7 +56,7 @@ export const class_teacher = (page,size,params) =>{
   return http.requestPost(apiUrl+'/train/class/findclassteacher/'+page+'/'+size,params);
 }
 //=====================================请假信息统计====================================================
-//班级老师统计信息
+//请假信息统计
 export const leaveAllInfo = (page,size,params) =>{
   return http.requestPost(apiUrl+'/train/leave/findAll/'+page+'/'+size,params);
 }
@@ -66,4 +66,15 @@ export const leaveAllInfo = (page,size,params) =>{
 //交费记录
 export const payment_record = (page,size,cost) =>{
   return http.requestPost(apiUrl+'/train/student/findPay/'+page+'/'+size,cost);
+}
+
+//==================================老师信息统计===============================================
+//班主任所带的班级
+export const headmaster_class = (page,size,params) =>{
+  return http.requestPost(apiUrl+'/train/teacher/findClassOfHeadTeacher/'+page+'/'+size,params);
+}
+
+//老师所带课程
+export const teacher_course = (page,size,params) =>{
+  return http.requestPost(apiUrl+'/train/teacher/findTeacherCourseOfTeaching/'+page+'/'+size,params);
 }
