@@ -13,6 +13,10 @@
         <router-link tag="span" :to="{path:'/reply/add'}">
           <el-button type="primary">新增回复信息</el-button>
         </router-link>
+        <i style="margin-right: 500px"></i>
+        <router-link tag="span" :to="{path:'/imServer'}">
+          <el-button type="primary">返回至工作台</el-button>
+        </router-link>
       </el-form>
 
       <!--列表-->
@@ -54,7 +58,7 @@
     <el-col :span="24" class="toolbar">
 
       <el-pagination background layout="prev, pager, next" @current-change="changePage" :current-size="this.params.size"
-                     :total=this.total*2 :current-page="this.params.page"
+                     :total=this.total :current-page="this.params.page"
                      style="float:right;">
       </el-pagination>
     </el-col>
@@ -71,7 +75,7 @@
         listLoading:false,
         params: {  //这里和上面的查询表单做了双向绑定
           page: 1,
-          size: 5,
+          size: 10,
           category:'',
         },
         reply:{
