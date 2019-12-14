@@ -5,13 +5,12 @@ export default [{
     component: Home,
     name: '系统管理首页',
     hidden: true,
-    // redirect: '/login',
+    redirect: '/login',
 children: [
   {path: 'home', component: Home}
 ]
 },
   {
-
     path: '/login',
     component: Login,
     name: 'Login',
