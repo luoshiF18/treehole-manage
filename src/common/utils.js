@@ -2,7 +2,6 @@ let SIGN_REGEXP = /([yMdhsm])(\1*)/g;
 let DEFAULT_PATTERN = 'yyyy-MM-dd';
 import jwtDecode from 'jwt-decode'
 import { Message } from 'element-ui';
-
 function padding(s, len) {
   var len = len - (s + '').length;
   for (var i = 0; i < len; i++) {
@@ -25,27 +24,6 @@ export default {
       this.delUserSession("activeUser")
     }
   },
-
-  getUserInfoFromJwt : function(jwt){
-    if(!jwt){
-      return ;
-    }
-    var jwtDecodeVal = jwtDecode(jwt);
-    if (!jwtDecodeVal) {
-      return ;
-    }
-    let activeUser={}
-    //console.log(jwtDecodeVal)
-    activeUser.utype = jwtDecodeVal.utype || '';
-    activeUser.username = jwtDecodeVal.name || '';
-    activeUser.userpic = jwtDecodeVal.userpic || '';
-    activeUser.userid = jwtDecodeVal.userid || '';
-    activeUser.authorities = jwtDecodeVal.authorities || '';
-    activeUser.uid = jwtDecodeVal.jti || '';
-    activeUser.jwt = jwt;
-    return activeUser;
-  },
-
 //获取jwt令牌
   getJwt : function(){
     let activeUser = this.getActiveUser()
@@ -138,11 +116,6 @@ export default {
     exp.setTime(exp.getTime() - 1);
     document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
   },
-
-  setUserSession: function (key, value) {
-    return sessionStorage.setItem(key, value);
-  },
-
   setSession: function (key, value) {
     return sessionStorage.setItem(key, value);
   },

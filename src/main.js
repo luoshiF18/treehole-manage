@@ -2,31 +2,24 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import '../src/statics/iconfont/iconfont.css'
-
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import VueRouter from 'vue-router'
-
+import utilApi from './common/utils';
 import routes from './base/router'
 import store from './vuex/store'
 import Vuex from 'vuex'
-import utilApi from './common/utils';
+import JsonExcel from 'vue-json-excel'
 // import Mock from './mock'
 // Mock.bootstrap();
-import echarts from 'echarts'
 
-import htmlToPdf from "../src/common/htmlToPdf"
-// //导出
-// import Blob from "./excel/Blob.js"
-// import Export2Excel from "./excel/Export2Excel.js"
-//
-// Vue.use(Blob)
-// Vue.use(Export2Excel)
-Vue.use(htmlToPdf)
+//导出表所引入的东西
+
+Vue.component('downloadExcel', JsonExcel)
+
+
+
 Vue.config.productionTip = false
-
-Vue.prototype.$echarts = echarts
 
 // 在Vue中全局使用mintui
 Vue.use(ElementUI)

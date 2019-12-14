@@ -5,7 +5,7 @@
 const path = require('path')
 var proxyConfig = require('./proxyConfig')
 let sysConfig = require('./sysConfig')
-let xcApiUrl = sysConfig.thApiUrlPre
+let xcApiUrl = sysConfig.xcApiUrl
 module.exports = {
   dev: {
 
@@ -17,61 +17,24 @@ module.exports = {
       '/banner': {
         // target: 'http://localhost:3000/mock/11'
         target: 'http://127.0.0.1:7777'
+
       },
       '/api/cms': {
         target: 'http://localhost:31001',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
         }
+        //target: 'http://127.0.0.1:50201'
+
       },
-      '/api/scale': {
-        target: 'http://localhost:40200',
-        pathRewrite: {
-          '^/api': ''  //将/api转换成''空字符串
-        }
-      },
-      '/api/uservo': {
-        target: 'http://localhost:40300',
+      '/api/train': {
+        target: 'http://localhost:40401',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
         }
         //target: 'http://127.0.0.1:50201'
 
       },
-      '/api/archives': {
-        target: 'http://localhost:40100',
-        pathRewrite: {
-          '^/api': ''  //将/api转换成''空字符串
-        }
-
-        //target: 'http://127.0.0.1:50201'
-
-      },
-      '/api/psychologist': {
-        target: 'http://localhost:40500',
-        pathRewrite: {
-          '^/api': ''  //将/api转换成''空字符串
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
-      '/api/auth': {
-        target: 'http://localhost:40400',
-        pathRewrite: {
-          '^/api': ''  //将/api转换成''空字符串
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
-      '/api/warning': {
-        target: 'http://localhost:40200',
-        pathRewrite: {
-          '^/api': ''  //将/api转换成''空字符串
-        }
-        //target: 'http://127.0.0.1:50201'
-
-      },
-
       /*,
       '/ucenter': {
         // target: 'http://localhost:3000/mock/11'
@@ -141,7 +104,7 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: false,
+    useEslint: true,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,

@@ -9,15 +9,24 @@ let concat = (router) => {
 // // 导入路由规则
 import HomeRouter from '@/module/home/router'
 import CmsRouter from '@/module/cms/router'
-import ArchivesRouter from '@/module/archives/router'
-import ScaleRouter from '@/module/scale/router'
-import WarnRouter from '@/module/warn/router'
-// import UserRouter from '@/module/user/router'
+// 导入班级老师
+import classInformation from '@/module/classInformation/router'
+// 导入班级老师
+import teacherInformation from '@/module/teacherinformation/router'
+// 导入班级课程
+import courseInformation from '@/module/courseInformation/router'
+// 导入请假审核
+import leaveAudit from '@/module/leaveaudit/router'
+// 导入班级学生
+import studentInformation from '@/module/studentinformation/router'
 // 合并路由规则
 concat(HomeRouter)  //加入home模块的路由
 concat(CmsRouter)  //加入cms模块的路由
-concat(ScaleRouter)  //加入Scale模块的路由//加入cms模块的路由
-concat(WarnRouter)  //加入cms模块的路由
-concat(ArchivesRouter)  //加入档案模块的路由 //加入gauge模块的路由
-// concat(UserRouter)  //加入用户模块的路由
+concat(classInformation)  //加入班级信息的路由
+concat(studentInformation)  //加入班级学生的路由
+concat(teacherInformation)  //加入班级老师的路由
+concat(courseInformation)  //加入班级课程的路由
+concat(leaveAudit)  //加入请假审核的路由
+
+
 export default routes;
