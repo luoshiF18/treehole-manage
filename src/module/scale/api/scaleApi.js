@@ -134,4 +134,10 @@ export const scale_editOneDesc = (description) => {
   return http.requestPut(apiUrl + '/scale/update/desc/', description)
 }
 
+//更改一个得分描述
+export const scale_getScoreMethod = () => {
+  //请求服务端的页面查询接口
+  return http.requestQuickGet(apiUrl + '/scale/select/score/method')
+}
+
 
