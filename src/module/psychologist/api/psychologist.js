@@ -1,8 +1,7 @@
 import http from './../../../base/api/public'
 import querystring from 'querystring'
-
 let sysConfig = require('@/../config/sysConfig')
-let apiUrl = sysConfig.xcApiUrlPre;
+let apiUrl = sysConfig.thApiUrlPre;
 
 //根据条件分页查询简介信息
 export const profile_list = (page, size, params) => {

@@ -21,14 +21,14 @@
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
       <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="free" label="工作状态" width="80"></el-table-column>
+      <el-table-column prop="free" label="工作状态" width="100"></el-table-column>
       <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
-      <el-table-column prop="certificate" label="所持专业证书" width="230"></el-table-column>
+      <el-table-column prop="certificate" label="所持专业证书" width="240"></el-table-column>
       <el-table-column prop="we_chat" label="微信" width="160"></el-table-column>
       <el-table-column prop="qq" label="QQ" width="160"></el-table-column>
-      <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="address" label="详细地址" width="220"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="160" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="160" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="70">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.id)" icon="el-icon-edit">编辑</el-button>

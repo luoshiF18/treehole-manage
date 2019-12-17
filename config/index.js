@@ -2,10 +2,12 @@
 // Template version: 1.2.4
 // see http://vuejs-templates.github.io/webpack for documentation.
 
+/*import * as process from "../.eslintrc";*/
+
 const path = require('path')
 var proxyConfig = require('./proxyConfig')
 let sysConfig = require('./sysConfig')
-let xcApiUrl = sysConfig.xcApiUrl
+let xcApiUrl = sysConfig.thApiUrlPre
 module.exports = {
   dev: {
 
@@ -17,13 +19,52 @@ module.exports = {
       '/banner': {
         // target: 'http://localhost:3000/mock/11'
         target: 'http://127.0.0.1:7777'
-
       },
       '/api/cms': {
         target: 'http://localhost:31001',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
         }
+      },
+      '/getIMServerList': {
+        target: 'http://localhost:3000',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+      },
+
+      '/api/scale': {
+        target: 'http://localhost:40200',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+      },
+      //会员管理
+      '/api/member': {
+        target: 'http://localhost:40300',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
+
+      '/api/online': {
+        target: 'http://localhost:40600',
+        changeOrigin:true,
+        pathRewrite: {
+          '^/api': ''
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
+
+      '/api/archives': {
+        target: 'http://localhost:40100',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+
         //target: 'http://127.0.0.1:50201'
 
       },
@@ -34,6 +75,42 @@ module.exports = {
         }
         //target: 'http://127.0.0.1:50201'
 
+      },
+      '/api/auth': {
+        target: 'http://localhost:40400',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+
+      },
+      '/api/warning': {
+        target: 'http://localhost:40200',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+      '/api/intervene': {
+        target: 'http://localhost:40200',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+      '/api/appointment': {
+        target: 'http://localhost:40700',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+      '/api/marketing': {
+        target: 'http://localhost:40800',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+        //target: 'http://127.0.0.1:50201'
       },
       /*,
       '/ucenter': {
@@ -104,7 +181,7 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: true,
+    useEslint: false,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,
@@ -126,7 +203,7 @@ module.exports = {
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false,
+    cssSourceMap: true,
   },
   build: {
     // Template for index.html

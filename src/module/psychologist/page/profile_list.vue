@@ -35,15 +35,15 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="name" label="姓名" width="80"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="60"></el-table-column>
-      <el-table-column prop="age" label="年龄" width="80"></el-table-column>
-      <el-table-column prop="region" label="地区" width="100"></el-table-column>
-      <el-table-column prop="qualification" label="专业资质" width="150"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
+      <el-table-column prop="sex" label="性别" width="80"></el-table-column>
+      <el-table-column prop="age" label="年龄" width="100"></el-table-column>
+      <el-table-column prop="region" label="地区" width="160"></el-table-column>
+      <el-table-column prop="qualification" label="专业资质" width="160"></el-table-column>
       <el-table-column prop="introduction" label="自我介绍" width="200"></el-table-column>
-      <el-table-column prop="proficiency" label="擅长领域" width="180"></el-table-column>
+      <el-table-column prop="proficiency" label="擅长领域" width="200"></el-table-column>
       <el-table-column prop="studio" label="工作室" width="140"></el-table-column>
-      <el-table-column prop="phone" label="联系方式" width="115"></el-table-column>
+      <el-table-column prop="phone" label="联系方式" width="140"></el-table-column>
       <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="130">

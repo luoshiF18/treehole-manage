@@ -20,7 +20,7 @@
             <template slot="title">量表管理</template>
             <el-menu-item-group>
               <el-menu-item index="/scale/page/list">量表列表</el-menu-item>
-              <!--              <el-menu-item index="/scale/page/add">新增量表页</el-menu-item>-->
+<!--              <el-menu-item index="/scale/page/add">新增量表页</el-menu-item>-->
             </el-menu-item-group>
           </el-submenu>
 
@@ -70,7 +70,7 @@
           <el-submenu index="7">
             <template slot="title"><span>客服管理</span></template>
             <el-submenu index="7-1">
-              <template slot="title">客服工作台</template>
+             <template slot="title">客服工作台</template>
               <el-menu-item index="/imServer" >客服工作台</el-menu-item>
             </el-submenu>
             <el-submenu index="7-2">
@@ -91,10 +91,10 @@
               <el-menu-item index="/category/add">添加分类</el-menu-item>
               <el-menu-item index="/category/edit/:categoryId">修改分类信息</el-menu-item>
             </el-submenu>
-            <el-submenu index="7-5">
-              <template slot="title">会话管理</template>
-              <el-menu-item index="/convers/list">会话列表</el-menu-item>
-            </el-submenu>
+          <el-submenu index="7-5">
+            <template slot="title">会话管理</template>
+            <el-menu-item index="/convers/list">会话列表</el-menu-item>
+          </el-submenu>
             <el-submenu index="7-6">
               <template slot="title">留言管理</template>
               <el-menu-item index="/leave/list">留言列表</el-menu-item>
@@ -148,7 +148,7 @@
 
         <!--导航菜单-折叠后-->
 
-      </aside>
+</aside>
 
       <section class="content-container">
         <div class="grid-content bg-purple-light">
@@ -172,6 +172,7 @@
 <script>
   import PHead from '@/base/components/head.vue';
   import utilApi from '../../../common/utils';
+
   export default {
     components: {
       PHead
@@ -212,11 +213,13 @@
       showMenu(i, status) {
         this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
       }
+
     },
     created() {
       console.log(this.$router.options.routes)
     }
   }
+
 </script>
 
 <style scoped lang="scss">
@@ -227,126 +230,152 @@
     top: 0px;
     bottom: 0px;
     width: 100%;
-    .header {
-      height: 60px;
-      line-height: 60px;
-      background: $color-primary;
-      color: #fff;
-      .userinfo {
-        text-align: right;
-        padding-right: 35px;
-        float: right;
-        .userinfo-inner {
-          cursor: pointer;
-          color: #fff;
-          img {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            margin: 10px 0px 10px 10px;
-            float: right;
-          }
-        }
-      }
-      .logo {
-        /* width: 230 px;*/
-        height: 60px;
-        font-size: 22px;
-        padding-left: 20px;
-        padding-right: 20px;
-        border-color: rgba(238, 241, 146, 0.3);
-        border-right-width: 1px;
-        border-right-style: solid;
-        img {
-          width: 40px;
-          float: left;
-          margin: 10px 10px 10px 18px;
-        }
-        .txt {
-          color: #fff;
-        }
-      }
-      .logo-width {
-        width: 250px;
-      }
-      .logo-collapse-width {
-        width: 60px
-      }
-      .tools {
-        padding: 0px 23px;
-        width: 14px;
-        height: 60px;
-        line-height: 60px;
-        cursor: pointer;
-      }
-    }
-    .main {
-      display: flex;
-      /*background: #324057;*/
-      position: absolute;
-      top: 60px;
-      bottom: 0px;
-      overflow: hidden;
-      aside {
-        flex: 0 0 230px;
-        width: 230px;
-        /*/ / position: absolute;
-        / / top: 0 px;
-        / / bottom: 0 px;*/
-        .el-menu {
-          height: 100%;
-        }
-        .collapsed {
-          width: 60px;
-          .item {
-            position: relative;
-          }
-          .submenu {
-            position: absolute;
-            top: 0px;
-            left: 60px;
-            z-index: 99999;
-            height: auto;
-            display: none;
-          }
-        }
-      }
-      .menu-collapsed {
-        flex: 0 0 60px;
-        width: 60px;
-      }
-      .menu-expanded {
-        flex: 0 0 230px;
-        width: 230px;
-      }
-      .content-container {
-        background: #fff;
-        flex: 1;
-        /*
-          / / position: absolute;
-          / / right: 0 px;
-          / / top: 0 px;
-          / / bottom: 0 px;
-        */
-        /*  / / left: 230 px;*/
-        overflow-y: scroll;
-        padding: 20px;
-        .breadcrumb-container {
-          /*  / / margin-bottom: 15 px;*/
-          .title {
-            width: 200px;
-            float: left;
-            color: #475669;
-          }
-          .breadcrumb-inner {
-            float: right;
-          }
-        }
-        .content-wrapper {
-          background-color: #fff;
-          box-sizing: border-box;
-        }
-      }
-    }
+
+  .header {
+    height: 60px;
+    line-height: 60px;
+    background: $color-primary;
+    color: #fff;
+
+  .userinfo {
+    text-align: right;
+    padding-right: 35px;
+    float: right;
+
+  .userinfo-inner {
+    cursor: pointer;
+    color: #fff;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin: 10px 0px 10px 10px;
+    float: right;
+  }
+
+  }
+  }
+  .logo {
+    /* width: 230 px;*/
+    height: 60px;
+    font-size: 22px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-color: rgba(238, 241, 146, 0.3);
+    border-right-width: 1px;
+    border-right-style: solid;
+
+  img {
+    width: 40px;
+    float: left;
+    margin: 10px 10px 10px 18px;
+  }
+
+  .txt {
+    color: #fff;
+  }
+
+  }
+  .logo-width {
+    width: 250px;
+  }
+
+  .logo-collapse-width {
+    width: 60px
+  }
+
+  .tools {
+    padding: 0px 23px;
+    width: 14px;
+    height: 60px;
+    line-height: 60px;
+    cursor: pointer;
+  }
+
+  }
+  .main {
+    display: flex;
+    /*background: #324057;*/
+    position: absolute;
+    top: 60px;
+    bottom: 0px;
+    overflow: hidden;
+
+  aside {
+    flex: 0 0 230px;
+    width: 230px;
+
+  /*/ / position: absolute;
+  / / top: 0 px;
+  / / bottom: 0 px;*/
+
+  .el-menu {
+    height: 100%;
+  }
+
+  .collapsed {
+    width: 60px;
+
+  .item {
+    position: relative;
+  }
+
+  .submenu {
+    position: absolute;
+    top: 0px;
+    left: 60px;
+    z-index: 99999;
+    height: auto;
+    display: none;
+  }
+
+  }
+  }
+  .menu-collapsed {
+    flex: 0 0 60px;
+    width: 60px;
+  }
+
+  .menu-expanded {
+    flex: 0 0 230px;
+    width: 230px;
+  }
+
+  .content-container {
+    background: #fff;
+    flex: 1;
+    /*
+      / / position: absolute;
+      / / right: 0 px;
+      / / top: 0 px;
+      / / bottom: 0 px;
+    */
+    /*  / / left: 230 px;*/
+    overflow-y: scroll;
+    padding: 20px;
+
+  .breadcrumb-container {
+
+  /*  / / margin-bottom: 15 px;*/
+
+  .title {
+    width: 200px;
+    float: left;
+    color: #475669;
+  }
+
+  .breadcrumb-inner {
+    float: right;
+  }
+
+  }
+  .content-wrapper {
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+
+  }
+  }
   }
 </style>

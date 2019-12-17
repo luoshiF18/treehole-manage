@@ -10,16 +10,16 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="psychologist_name" label="姓名" width="100"></el-table-column>
+      <el-table-column prop="psychologist_name" label="姓名" width="120"></el-table-column>
       <el-table-column prop="organization_name" label="机构名称" width="240"></el-table-column>
       <el-table-column prop="organization_address" label="机构地址" width="240"></el-table-column>
       <el-table-column prop="praise_number" label="好评量" width="120"></el-table-column>
       <el-table-column prop="praise_grade" label="好评等级" width="120"></el-table-column>
       <el-table-column prop="visit_number" label="访问量" width="120"></el-table-column>
-      <el-table-column prop="platform_year" label="入驻时长" width="110"></el-table-column>
-      <el-table-column prop="message" label="留言数" width="110"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="platform_year" label="入驻时长" width="120"></el-table-column>
+      <el-table-column prop="message" label="留言数" width="120"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="180" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="180" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="70">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.psychologist_id)" icon="el-icon-edit">编辑</el-button>
