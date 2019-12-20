@@ -37,9 +37,11 @@
             <el-radio class="radio" label="1">女</el-radio>
           </el-radio-group>
         </el-form-item>
+
         <el-form-item label="手机号"   prop="user_phone">
           <el-input v-model="pageForm.user_phone" placeholder="请输入用户手机号" auto-complete="off" ></el-input>
         </el-form-item>
+
         <el-form-item v-if="visible" label="用户密码" prop="password">
           <el-input type="password"
                     v-model="pageForm.password"

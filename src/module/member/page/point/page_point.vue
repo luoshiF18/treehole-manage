@@ -168,7 +168,6 @@
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
-
           //points_id:'',
           user_id: '',
           user_nickname: ''
