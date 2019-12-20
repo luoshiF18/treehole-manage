@@ -104,7 +104,7 @@
           <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
           <el-table-column align="center" prop="sex" label="性别">
             <template slot-scope="scope">
-              {{ scope.row.sex === 0 ? '男' : '女' }}
+              {{ scope.row.sex === '0' ? '男' : '女' }}
             </template>
           </el-table-column>
           <el-table-column align="center" prop="phone" label="电话"></el-table-column>

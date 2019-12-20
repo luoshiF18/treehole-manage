@@ -22,17 +22,15 @@ export const page_get= id =>{
 //根据条件查询预警记录
 export const condition_list = (page,size,params) =>{
   let queryString = querystring.stringify(params);
-  //请求服务端的页面查询接口
   return http.requestQuickGet(apiUrl+'/warning/getWarningCondition/'+page+'/'+size+'?'+queryString);
 }
 //获取饼状图数据
 export const pieData = (userNickName) =>{
-  //请求服务端的页面查询接口
   return http.requestQuickGet(apiUrl+'/warning/getPieDate?userNickName='+userNickName);
 }
 
 export const pieScaleData = (scaleName) =>{
-  //请求服务端的页面查询接口
+
   return http.requestQuickGet(apiUrl+'/warning/getPieScaData?scaleName='+scaleName);
 }
 export const pieUser = (userNickName) =>{
@@ -63,7 +61,21 @@ export const getWarnUser = (page,size,userNickName) =>{
 }
 //高危人群详情
 export const warnHresult = (warnHUserid) =>{
-  //请求服务端的页面查询接口
+
   return http.requestQuickGet(apiUrl+'/warning/lookDetailHWarn?warnHUserid='+warnHUserid);
 }
-
+//发送预警信息
+export const sendMessage = (warnMsg) =>{
+  let queryString = querystring.stringify(warnMsg);
+  return http.requestQuickGet(apiUrl+'/warnMsg/sendMeg?'+queryString);
+}
+//查找用户邮箱
+export const emilFormat = (warnMsg) =>{
+  let queryString = querystring.stringify(warnMsg);
+  return http.requestQuickGet(apiUrl+'/warnMsg/emilFormat?'+queryString);
+}
+//发送邮件
+export const sendEmail = (warnMsg) =>{
+  let queryString = querystring.stringify(warnMsg);
+  return http.requestQuickGet(apiUrl+'/warnMsg/sendEamil?'+queryString);
+}

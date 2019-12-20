@@ -93,8 +93,8 @@
       <!--列表底部分页-->
       <el-pagination layout="total, prev, pager, next"
                      :total="total"
-                     :page-size="size"
-                     :current-page="page"
+                     :page-size="params.size"
+                     :current-page="params.page"
                      @current-change="changePage"
                      style="float: right;">
         <!-- current-page:当前页  current-change:当前页改变时会被触发   -->
@@ -114,7 +114,10 @@
         list: [],  // 数据
         page: 1, //  当前页
         size: 6, //  每页显示数据的条数
-        params: {  //  数据对象 这里和上面的查询表单做了双向绑定
+        params: {
+          //  数据对象 这里和上面的查询表单做了双向绑定
+          page: 1, //  当前页
+          size: 6,
           nickname: ''
         },
         total: 0,  //  数据总条数
@@ -124,7 +127,7 @@
       //页面查询
       query: function () {
         //1、调用js方法请求服务端页面查询接口  2、导入user.js
-        userApi.user_checkin(this.page, this.size,this.params).then((res) => { //当前页|每页记录数|查询条件
+        userApi.user_checkin(this.params.page, this.params.size,this.params).then((res) => { //当前页|每页记录数|查询条件
           // 2）将res结果数据赋值给list数据模型对象
           this.list = res.queryResult.list;
           this.total = res.queryResult.total;
@@ -133,9 +136,10 @@
       },
       //当前页码改变时触发的事件 @current-change="changePage"
       changePage: function (currentPage) {  //current--》当前页码
-        this.page = currentPage;
+        this.params.page = currentPage;
         //调用query方法
         this.query();
+        this.loading = false;
       },
 
       //页面删除
@@ -197,7 +201,7 @@
     //钩子函数们！
     created() { // vm实例的data和methods初始化完毕后执行，发ajax要提前
       /*!//取出路由中的参数,赋值给数据对象*/
-      this.page = Number.parseInt(this.$route.query.prepage || 1);
+      this.params.page = Number.parseInt(this.$route.query.prepage || 1);
     },
     mounted() { // 模板和HTML已经渲染出来
       /*当dom元素全部渲染完成后,自动调用query*/
