@@ -82,8 +82,8 @@
                     page: 1,
                     size: 5,
                     condition:{
-                        costStudentId:"",
-                        costStudentName:"",
+                        studentId:"",
+                        studentName:"",
                     },
                 },
             }
@@ -91,7 +91,7 @@
    methods: {
        //查询欠费记录
        query: function () {
-           this.params.condition.costStudentId = this.$route.params.costStudentId;
+           this.params.condition.studentId = this.$route.params.costStudentId;
            trainApi.payment_record(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象
                this.list = res.queryResult.list;

@@ -70,6 +70,8 @@
                     message: '提交成功',
                     type: 'success'
                   });
+                  //返回
+                  this.go_back();
                 }else{
                   this.addLoading = false;
                   this.$message.error('提交失败');

@@ -104,6 +104,14 @@
    methods: {
        //查询课程信息
        query: function (par) {
+
+          //查询课程类型
+         trainApi.courseType_list(1,0,).then((res)=>{
+           //将res结果数据赋值给模型对象
+           this.courseTypeList = res.queryResult.list;
+         })
+
+         //查询课程信息
            //如果是查询的时候 从第一页开始显示
            if(par == 1){
                this.params.page = 1;
@@ -147,13 +155,6 @@
                })
            })
        },
-       //查询课程类型
-       queryCourseType:function(){
-           trainApi.courseType_list(1,0,).then((res)=>{
-               //将res结果数据赋值给模型对象
-               this.courseTypeList = res.queryResult.list;
-           })
-       },
 
        //时间格式化  
        dateFormat:function(row, column) {
@@ -176,8 +177,6 @@
             this.query();
             //查询老师
             this.queryCourseTeacher();
-            //查询课程类型
-            this.queryCourseType();
         }
     }
 </script>

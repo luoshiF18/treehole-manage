@@ -93,7 +93,7 @@
                   {required: true, message: '请选择状态', trigger: 'blur'}
               ],
               teacherTelephone:[
-                  {required: true, message: '请输入电话', trigger: 'blur'}
+                {validator: this.checkPhone,required: true,  trigger: 'blur'}
               ],
               teacherAddress: [
                   {required: true, message: '请输入地址', trigger: 'blur'}
@@ -108,6 +108,20 @@
                 //page: this.$route.params.page,
           }
         })
+      },
+      //校验手机号
+      checkPhone(rule, value, callback) {
+        if (!value) {
+          callback(new Error('请输入手机号'))
+        } else {
+          const reg = /^1[3|4|5|7|8|9][0-9]\d{8}$/
+          console.log(reg.test(value))
+          if (reg.test(value)) {
+            callback()
+          } else {
+            return callback(new Error('请输入正确的手机号'))
+          }
+        }
       },
         //进行修改
       editSubmit(){
