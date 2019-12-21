@@ -32,26 +32,22 @@
                         placeholder="示例：" id="content"></el-input>
             </el-form-item>
           </div>
-          <el-form :model="searchUser" label-width="150px">
-            <el-form-item label="用户创建时间">
+          <el-form v-model="searchUser" ref="searchUser" label-width="150px">
+            <el-form-item label="选择用户创建时间">
               <el-row type="flex" :gutter="20">
-                <el-col :span="10">
-                  <el-date-picker v-model="search.afterTime" type="datetime" placeholder="选择使用开始时间"
-                                  style="width: 100%;">
-                    <span slot="prefix">在</span><span slot="suffix">之前</span>
-                  </el-date-picker>
-                </el-col>
-                <el-col :span="1" style="margin-right: 10px">至</el-col>
-                <el-col :span="12">
-                  <el-date-picker v-model="search.beforeTime" type="datetime" placeholder="选择使用结束时间"
-                                  style="width: 100%;"></el-date-picker>
-                </el-col>
+                  <el-date-picker format="yyyy-MM-dd HH:mm:ss" v-model="searchUser.beforeTime" type="datetime" placeholder="之后" style="width: 100%;"></el-date-picker>
+                  <span>至</span>
+                  <el-date-picker v-model="searchUser.afterTime" type="datetime" placeholder="之前" style="width: 100%;"></el-date-picker>
               </el-row>
             </el-form-item>
             <el-button type="primary" size="medium" @click="search()" plain>查询</el-button>
             <div>
               <el-table :data="user"
                         class="table1" @selection-change="handleSelectionChange" height="250" ref="userTable">
+                <template  slot="empty" >
+                  <div>暂无数据
+                  </div>
+                </template>
                 <el-table-column type="selection" align="center" width="60"></el-table-column>
                 <el-table-column prop="userName" align="center" label="用户名" width="180"></el-table-column>
                 <el-table-column prop="to" align="center" label="联系方式" width="150"></el-table-column>
@@ -76,6 +72,7 @@
 
 <script>
     import * as marketingApi from '../../api/marketing';
+    import moment from 'moment'
     export default {
         name: "extension_info",
         data() {
@@ -99,10 +96,8 @@
                     usedFor: '',
                     usedForId: '',
                 },
-                user: [{
-                    userName: '',
-                    to: '',
-                }],
+                user: [],
+
                 multipleSelection: [],// 选中的项
             }
         },
@@ -117,20 +112,28 @@
 
             },
             //查询用户
-            search(searchUser) {
-                alert("查询出User")
-                if(this.extension.mode == 0){
-                    this.user = [{userName: 'wll',to:'2031866592@qq.com'},
-                        {userName: 'wwll',to:'1261361118@qq.com'}];
-                } else {
-                    this.user = [{userName: 'wll',to:'13721638838'},
-                        {userName: 'wwll',to:'15236268769'}];
-                }
+            search: function () {
+                marketingApi.searchUserInfo(this.searchUser.beforeTime, this.searchUser.afterTime).then((res) => {
+                    let list = [];
+                    if(res.list != null){
+                        for (let i = 0; i < res.list.length; i++){
+                            let u  = {};
+                            let l = res.list[i];    //本次循环的对象
+                            if(this.extension.mode == 0){//邮件  to:联系方式 邮件
+                                [u.userName, u.to] = [l.user_nickname, l.user_email];
+                            } else if(this.extension.mode == 1){ //短信  to:手机号
+                                [u.userName, u.to] = [l.user_nickname, l.user_phone];
+                            }
+                            //console.log(JSON.stringify(u));
+                            list = list.concat(u);    //list加上u之后赋给list
+                        }
+                        this.user = list;
+                        //console.log(JSON.stringify(this.user = list));
+                    } else {
+                        this.user = [];
+                    }
 
-               //this.extension.info = [{userName: 'wangnannan',to:'857202982@qq.com'},{userName: 'wwll',to:'1261361118@qq.com'}];
-               //marketingApi.searchUserInfo(searchUser).then((res) => {
-               //   this.user = res
-               //});
+                });
             },
             submit() {
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
@@ -138,12 +141,13 @@
                         //    解析响应内容
                         if (res.success) {
                             this.$message.success('提交成功！');
-                            //进行下一步，添加问题和选项
+                            this.go_back();
                         } else {
                             this.$message.error(res.message);
                         }
                     });
                 });
+
             },
             addUserName() {
               let con = this.extension.content;
@@ -156,16 +160,26 @@
             handleSelectionChange(val) {
                 //选中项添加到extension
                 this.multipleSelection = val;
-                const values = this.extension.values;
                 let lists = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
                     lists = lists.concat(this.multipleSelection[i]);
 
                 }
-                this.extension.values = values.concat(lists);
+                this.extension.values = lists;
             },
 
         },
+        watch: {
+            'extension.mode'(){
+                this.searchUser = {};
+                this.user = [];
+                this.extension.title = '';
+                this.extension.content = '';
+                this.extension.values = [];
+                this.multipleSelection = [];
+            }
+        }
+
     }
 </script>
 

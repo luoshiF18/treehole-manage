@@ -1,9 +1,8 @@
 <template>
   <div>
-
     <el-card>
       <el-form :model="pagination">
-        <router-link tag="span" :to="{path:'/marketing/activity/point/add'}">
+        <router-link tag="span" :to="{path:'/marketing/activity/add'}">
           <el-button type="primary" size="medium" plain>添加活动</el-button>
         </router-link>
         <!--<el-button type="primary" size="medium" plain>添加活动</el-button>-->
@@ -13,7 +12,15 @@
           </el-input>
           <el-button v-on:click="getDataFromServer" icon="el-icon-search" round>查询</el-button>
         </div>
-
+        <div style="float: right;margin-right: 10px">
+          <span>状态</span>
+          <el-radio-group v-model="pagination.status">
+            <el-radio-button label="">全部</el-radio-button>
+            <el-radio-button label="1">未开始</el-radio-button>
+            <el-radio-button label="2">进行中</el-radio-button>
+            <el-radio-button label="0">已结束</el-radio-button>
+          </el-radio-group>
+        </div>
       </el-form>
       <el-table
         v-loading="loading"
@@ -21,46 +28,40 @@
         height="350"
         v-on:sort-change="sort"
         stripe>
-       <!-- <el-table-column fixed prop="id" label="ID" width="120" align="center">
-        </el-table-column>
-        <el-table-column fixed prop="title" label="名称" width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="beginTime" label="开始时间" sortable="custom" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="endTime" label="结束时间" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="typeName" label="活动类型" width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="statusName" label="状态" width="100" align="center">
-        </el-table-column>
-        <el-table-column prop="created" label="创建时间" sortable="custom" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="updated" label="更新时间" :formatter="formatTime" width="160" align="center">
-        </el-table-column>-->
+        <template  slot="empty" >
+          <div>暂无数据
+          </div>
+        </template>
         <el-table-column fixed prop="id" label="ID" min-width="10%" align="center">
         </el-table-column>
-        <el-table-column fixed prop="title" label="名称" min-width="15%" align="center">
+        <el-table-column fixed prop="title" label="名称" min-width="20%" align="center" show-overflow-tooltip>
+          <template slot-scope="scope">
+             <!-- {{scope.row.title.length > 25 ? scope.row.title.substring(0,25)+"..." : scope.row.title}}-->
+              {{scope.row.title}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="releaseBeginTime" label="发放时间" sortable="custom" :formatter="formatTime" min-width="10%" align="center">
         </el-table-column>
         <el-table-column prop="beginTime" label="开始时间" sortable="custom" :formatter="formatTime" min-width="10%" align="center">
         </el-table-column>
-        <el-table-column prop="endTime" label="结束时间" :formatter="formatTime" min-width="10%" align="center">
+<!--        <el-table-column prop="endTime" label="结束时间" :formatter="formatTime" min-width="10%"align="center">
+        </el-table-column>-->
+        <el-table-column prop="ifOnline" label="线上/线下" min-width="10%" align="center">
         </el-table-column>
-        <el-table-column prop="typeName" label="活动类型" min-width="10%" align="center">
-        </el-table-column>
-        <el-table-column prop="statusName" label="状态" min-width="10%" align="center">
+        <el-table-column prop="statusName" label="状态" min-width="5%" align="center">
         </el-table-column>
         <el-table-column prop="created" label="创建时间" sortable="custom" :formatter="formatTime" min-width="10%" align="center">
         </el-table-column>
         <el-table-column prop="updated" label="更新时间" :formatter="formatTime" min-width="10%" align="center">
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%" align="center">
+        <el-table-column fixed="right" label="操作" min-width="10%" align="center">
           <template slot-scope="scope">
             <router-link tag="span" :to="{path:'/marketing/activity/info',query:{
                          id:scope.row.id,typeId:scope.row.typeId
                          }}">
               <el-button type="text" size="medium">详情</el-button>
             </router-link>
-            <router-link tag="span" :to="{path:'/marketing/activity/point/update',query:{
+            <router-link tag="span" :to="{path:'/marketing/activity/update',query:{
                          id:scope.row.id
                          }}">
               <el-button type="text" size="medium">修改</el-button>
@@ -86,22 +87,22 @@
 </template>
 
 <script>
-    import * as marketingApi from '../../../api/marketing'
+    import * as marketingApi from '../../../api/marketing';
     import moment from 'moment'
     export default {
-        name: "activity_point_list",
+        name: "activity_interactive",
         data() {
-            return{
+            return {
                 loading: true,
                 activities: [],
-                totalActivities: 0, //优惠券总条数
+                totalActivities: 0, //活动总条数
                 pagination: {
                     page: 1,
                     size: 5,
                     desc: "true",// 是否降序
                     sortBy: "created",// 排序字段
                     key: "",
-                    typeId: '_0',
+                    status: '',
                 }, // 分页信息
             }
         },
@@ -109,11 +110,17 @@
             getDataFromServer(){
                 // marketingApi.coupon_list(this.search, this.pagination.page, this.pagination.size,
                 // this.pagination.sortBy, this.pagination.descending).then((res)=>{
-                marketingApi.activity_list(this.pagination).then((res)=>{
+                marketingApi.interactiveactivity_list(this.pagination).then((res)=>{
+                    if(res.success){
+                        this.activities = res.queryResult.list;
+                        this.totalActivities = res.queryResult.total;
+                        this.loading = false;
+                    } else {
+                        this.activities = [];
+                        this.totalActivities = 0;
+                        this.loading = false;
+                    }
 
-                    this.activities = res.queryResult.list;
-                    this.totalActivities = res.queryResult.total;
-                    this.loading = false;
 
                 })
             },
@@ -127,7 +134,7 @@
             del: function (id) {
                 this.$confirm('确认删除吗?', '提示', {}).then(() => {
                     this.$confirm('再次确认，该操作不可撤销？', '提示', {}).then(() => {
-                        marketingApi.activity_del(id).then((res) => {
+                        marketingApi.interactiveactivity_del(id).then((res) => {
                             if (res.success) {
                                 this.$message.success("删除成功！")
                                 this.getDataFromServer();
@@ -144,7 +151,9 @@
                 //如果排序字段等于开始发放时间或量表状态名称换为数据库字段
                 if(sort.prop == 'beginTime'){
                     this.pagination.sortBy = "begin_time";
-                } else {
+                } else if(sort.prop == 'releaseBeginTime'){
+                    this.pagination.sortBy = "release_begin_time";
+                }else {
                     this.pagination.sortBy = sort.prop;
                 }
 
@@ -180,32 +189,11 @@
                     this.getDataFromServer();
                 }
             },
-            /*"pagination.key": { // 监视搜索字段,搜索字段在pagination中，不需要单独写
-                handler() {
-                    this.getDataFromServer();
-                }
-            },*/
-            show: {
 
-            }
         }
     }
 </script>
 
 <style scoped>
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
-  .del{
-    color: #f5354c;
-  }
+
 </style>

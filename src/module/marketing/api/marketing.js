@@ -1,5 +1,11 @@
 import http from './../../../base/api/public'
 import querystring from 'querystring'
+
+import moment from 'moment'
+
+
+
+
 let sysConfig = require('@/../config/sysConfig')
 let apiUrl = sysConfig.thApiUrlPre;
 
@@ -29,6 +35,12 @@ export const coupon_update = (coupon) => {
 export const coupon_updateStatus = (id) => {
   return http.requestPut(apiUrl + "/marketing/coupon/status/" +id);
 }
+
+//查询优惠券类型
+export const couponType_all = () => {
+  return http.requestQuickGet(apiUrl + "/marketing/coupon_type/all")
+}
+
 export const extension_add = (extension) => {
   return http.requestPost(apiUrl + "/marketing/extension", extension);
 }
@@ -59,18 +71,7 @@ export const activity_goods = (id) => {
 export const activity_all = (id) => {
   return http.requestQuickGet(apiUrl + "/marketing/activity/all/" + id);
 }
-//OtherService
-//查询量表
-export const queryScaleType =() => {
-  return http.requestQuickGet(apiUrl + "/marketing/other/scale/type/all");
-}
-export const queryScaleByTypeId =(pagination) => {
-  let queryString = querystring.stringify(pagination);
-  return http.requestQuickGet(apiUrl + "/marketing/other/scale/type?" + queryString)
-}
-export const searchUserInfo =(searchUser) => {
-  return http.requestQuickGet(apiUrl + "",searchUser );
-}
+
 export const activity_add = (activityRequest) => {
   return http.requestPost(apiUrl + "/marketing/activity/", activityRequest);
 }
@@ -89,4 +90,65 @@ export const extension_list = (pagination) => {
 
 export const extension_del = (id) => {
   return http.requestDelete(apiUrl + "/marketing/extension/" + id);
+}
+//OtherService
+//查询量表
+export const queryScaleType =() => {
+  return http.requestQuickGet(apiUrl + "/marketing/other/scale/type/all");
+}
+export const queryScaleByTypeId =(pagination) => {
+  let queryString = querystring.stringify(pagination);
+  return http.requestQuickGet(apiUrl + "/marketing/other/scale/type?" + queryString)
+}
+//查询用户信息
+export const searchUserInfo =(beforeTime,afterTime) => {
+  //let queryString = querystring.stringify(searchUser);
+//  console.log("beforeTime///"+ searchUser.beforeTime);
+//  console.log("queryString: "+ queryString);
+ /* return http.requestQuickGet(apiUrl + "/marketing/other/member/user/getUserByTime?" + queryString);*/
+  beforeTime = moment(beforeTime).format("YYYY-MM-DD HH:mm:ss");
+  afterTime = moment(afterTime).format("YYYY-MM-DD HH:mm:ss");
+ // console.log(beforeTime);
+ // console.log(afterTime);
+
+  return http.requestQuickGet(apiUrl + "/marketing/other/member/user/getUserByTime?beforeTime="+beforeTime+"&afterTime=" + afterTime);
+}
+/*export const activity_add = (activityRequest) => {
+  return http.requestPost(apiUrl + "/marketing/activity/", activityRequest);
+}
+
+export const activity_update = (activityRequest) => {
+  return http.requestPut(apiUrl + "/marketing/activity/", activityRequest);
+}
+
+//推广
+export const extension_list = (pagination) => {
+  //将params对象数据拼装成key/value串
+  let queryString = querystring.stringify(pagination);
+  //请求服务端的页面查询接口
+  return http.requestQuickGet(apiUrl+'/marketing/extension/all?'+queryString);
+}
+
+export const extension_del = (id) => {
+  return http.requestDelete(apiUrl + "/marketing/extension/" + id);
+}*/
+
+//交互活动
+
+export function interactiveactivity_list(pagination) {
+  let queryString = querystring.stringify(pagination);
+  return http.requestQuickGet(apiUrl + "/marketing/interaction/list?"+queryString)
+}
+
+export function interactiveactivity_del(id) {
+  return http.requestDelete(apiUrl + "/marketing/interaction/"+id)
+}
+//门户中需要使用到的方法
+
+export const receive_coupon = (userCouponRequest) => {
+  return http.requestPost(apiUrl + "/coupon/my_coupon" , userCouponRequest);
+}
+
+export const coupon_cdetail = (id) => {
+  return http.requestQuickGet(apiUrl + "/marketing/coupon/cdetail/" + id)
 }

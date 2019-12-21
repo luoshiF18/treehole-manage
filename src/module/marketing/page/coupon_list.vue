@@ -27,7 +27,7 @@
         v-on:sort-change="sort"
         stripe>
         <template  slot="empty" >
-          <div>暂无数据
+          <div style="text-align: left; float: left">暂无数据
           </div>
         </template>
         <el-table-column fixed prop="letter" label="首字母" sortable="custom" width="120" align="center">
@@ -46,8 +46,11 @@
         </el-table-column>
         <el-table-column prop="withSpecial" label="是否用于特价商品" :formatter="formatSpecial" width="140" align="center">
         </el-table-column>
-        <el-table-column prop="typeName" label="优惠类型" width="120" align="center">
+        <el-table-column prop="typeName" label="发放类型" width="120" align="center">
         </el-table-column>
+        <el-table-column prop="usedType" label="优惠类型" width="120" align="center">
+        </el-table-column>
+
         <el-table-column prop="withAmount" label="使用门槛" width="100" align="center">
         </el-table-column>
         <el-table-column prop="usedAmount" label="面额" width="100" align="center">
@@ -155,7 +158,6 @@
                 })
             },
             changePage:function (currentPage) {  //形参就是当前页码
-                //
                 this.pagination.page = currentPage;
                 //调用query方法
                 this.getDataFromServer();
@@ -249,6 +251,7 @@
                 const special = row[column.property]
                 return special ? "可用于":"不可用于";
             },
+
             formatUsedBy(row, column){
                 const usedBy = row[column.property]
                 if(usedBy == 0){
@@ -275,9 +278,7 @@
         components:{
             CouponForm
         },
-        created() {
 
-        },
         mounted() {
             this.getDataFromServer();
         },
