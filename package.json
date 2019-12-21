@@ -14,16 +14,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "karma-chai": "^0.1.0",
     "axios": "^0.16.2",
     "cnpm": "^5.2.0",
     "echarts": "^3.3.2",
-    "element-ui": "^2.0.10",
+    "element-ui": "^2.6.3",
     "file-saver": "^2.0.2",
     "js-base64": "^2.4.3",
     "js-md5": "^0.7.3",
     "jspdf": "^1.5.3",
     "jwt-decode": "^2.2.0",
+    "karma-chai": "^0.1.0",
     "mint-ui": "^2.2.3",
     "moment": "^2.24.0",
     "postcss": "^6.0.21",

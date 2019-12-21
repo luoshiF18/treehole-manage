@@ -55,7 +55,7 @@
           <el-submenu index="5">
             <template slot="title"><span>档案管理</span></template>
             <el-menu-item-group>
-              <el-menu-item index="/archives/page/List">个人档案</el-menu-item>
+              <el-menu-item index="/archives/page/userArchivesList">个人档案</el-menu-item>
               <el-menu-item index="/archives/page/UserList">用户档案</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
