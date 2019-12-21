@@ -84,7 +84,7 @@
         dialogVisible: false,
         dialogFormVisible: false,
         editLoading:false,
-        sysName: '系统管理中心',
+        sysName: '培训管理系统(学生)',
         flag:"true",
         user:{
           userid:'',
