@@ -29,3 +29,8 @@ export const select_course = (teacherId,params) => {
 export const audit_status = (page,size,params) =>{
   return http.requestPost(apiUrl+'/train/teachercourse/findExamineSituation/'+page+'/'+size,params);
 }
+
+//查询老师信息
+export const teacher_list = (page,size,params) =>{
+  return http.requestPost(apiUrl+'/train/teacher/find/'+page+'/'+size,params);
+}

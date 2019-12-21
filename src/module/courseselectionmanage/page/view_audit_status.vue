@@ -1,8 +1,9 @@
 <template>
   <div>
     <!--查询表单-->
-    <el-form :model="params">
-      期数:<el-select v-model="params.condition.phaseId" placeholder="请选择期数" style="width: 100px">
+    <el-form :model="params" style="width: 100%;margin-top: 10px">
+      期数:<el-select v-model="params.condition.phaseId"
+                    placeholder="请选择期数" style="width: 100px">
       <el-option value="">请选择期数</el-option>
       <el-option
         v-for="item in phaseList"
@@ -12,10 +13,8 @@
         <!-- value值是用于提交的,label值是用于显示的 -->
       </el-option>
     </el-select>
-
       班级名:<el-input v-model="params.condition.className"  style="width: 100px"></el-input>
       课程名:<el-input v-model="params.condition.courseName"  style="width: 100px"></el-input>
-
       类型:<el-select v-model="params.condition.courseTypeId" placeholder="请选择类型">
       <el-option value="">请选择类型</el-option>
       <el-option
@@ -26,22 +25,14 @@
         <!-- value值是用于提交的,label值是用于显示的 -->
       </el-option>
     </el-select>
-
-
-      <div class="block">
-        <span class="demonstration">选课时间</span>
-        <el-date-picker
-          v-model="params.condition.selectCourseTime"
-          align="right"
-          type="date"
-          placeholder="选择日期"
-          :picker-options="pickerOptions">
-        </el-date-picker>
-      </div>
-
-
-
-
+      <span class="demonstration">选课时间</span>
+      <el-date-picker
+        v-model="params.condition.selectCourseTime"
+        align="right"
+        type="date"
+        placeholder="选择日期"
+        :picker-options="pickerOptions">
+      </el-date-picker>
       <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     </el-form>
 
@@ -49,7 +40,7 @@
     <el-table
       :data="list"
       stripe
-      style="width: 100%">
+      style="width: 100%;margin-top: 10px">
       <el-table-column type="index" width="60">
       </el-table-column>
       <el-table-column  prop="phaseName" label="期数" width="120">
@@ -196,3 +187,6 @@
         }
     }
 </script>
+<style scoped>
+
+</style>

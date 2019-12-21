@@ -3,8 +3,7 @@
     <!--查询表单-->
     <el-form :model="params">
       文件名:<el-input v-model="params.condition.documentName"  style="width: 100px"></el-input>
-
-      <div class="block">
+      上传人:<el-input v-model="params.condition.studentName"  style="width: 100px"></el-input>
         <span class="demonstration">上传时间</span>
         <el-date-picker
           v-model="params.condition.uploadTime"
@@ -13,7 +12,7 @@
           placeholder="选择日期"
           :picker-options="pickerOptions">
         </el-date-picker>
-      </div>
+
 
       <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     </el-form>

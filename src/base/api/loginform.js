@@ -8,3 +8,4 @@ let apiUrl = sysConfig.xcApiUrlPre;
 export const login= (userName,userPassword,userType) => {
   return http.requestGet(apiUrl+'/train/login/login/'+userName+'/'+userPassword+'/'+userType);
 }
+

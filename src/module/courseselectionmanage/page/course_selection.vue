@@ -126,15 +126,21 @@
             },
             //查询课程信息
             query: function (par) {
-                //如果是查询的时候 从第一页开始显示
-                if(par == 1){
+              //判断如果是班主任的话不显示
+              this.teacher.teacherId = JSON.parse(sessionStorage.getItem("login"));
+              teacherApi.teacher_list(this.params.page,this.params.size,this.teacher).then((res) => {
+                if( res.queryResult.list[0].teacherType == 1){
+                  //如果是查询的时候 从第一页开始显示
+                  if(par == 1){
                     this.params.page = 1;
-                }
-                //调用服务端的接口
-                teacherApi.showCourse(this.params.page,this.params.size,this.params.condition).then((res) => {
+                  }
+                  //调用服务端的接口
+                  teacherApi.showCourse(this.params.page,this.params.size,this.params.condition).then((res) => {
                     this.list = res.queryResult.list;
                     this.total = res.queryResult.total;
-                })
+                  })
+                }
+              })
             },
             //分页
             changePage: function (currentPage){
