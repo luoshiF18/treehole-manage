@@ -84,7 +84,7 @@
         dialogVisible: false,
         dialogFormVisible: false,
         editLoading:false,
-        sysName: '系统管理中心',
+        sysName: '培训管理系统(老师)',
         flag:"true",
         user:{
           userid:'',
@@ -96,7 +96,7 @@
 
         params:{
           condition:{
-            studentId:""
+            teacherId:""
           }
         },
         updatePwd:{
@@ -164,7 +164,7 @@
       updatePassword(){
 
         this.$confirm('确认提交吗？', '提示', {}).then(() => {
-          loginApi.update_password(this.params.condition.studentId,this.updatePwd.oldPassword,this.updatePwd.newPassword2).then((res) => {
+          loginApi.update_password(this.params.condition.teacherId,this.updatePwd.oldPassword,this.updatePwd.newPassword2).then((res) => {
             if(res.success){
 
               this.$message({
@@ -186,7 +186,7 @@
       },
       //查询老师信息
       query: function () {
-        this.params.condition.studentId =JSON.parse(sessionStorage.getItem("login"));
+        this.params.condition.teacherId =JSON.parse(sessionStorage.getItem("login"));
         //调用服务端的接口
         loginApi.teacher_list(1,0,this.params.condition).then((res) => {
           //alert(res.queryResult.list[0].studentName)

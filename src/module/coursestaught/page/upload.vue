@@ -40,22 +40,33 @@
         this.documentExt.classCourseId  = this.$route.params.classCourseId;
       },
 
-      handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
-      },
       // 文件上传成功时的钩子
       handleSuccess(res, file, fileList) {
-        this.$notify.success({
-          title: '成功',
-          message: `文件上传成功`
-        });
+        if(res.code == 10000){
+          this.$notify.success({
+            title: '成功',
+            message: `文件上传成功`
+          });
+        }else {
+          this.$notify.error({
+            title: '错误',
+            message: `文件上传失败`
+          });
+        }
       },
       // 文件上传失败时的钩子
       handleError(err, file, fileList) {
-        this.$notify.error({
-          title: '错误',
-          message: `文件上传失败`
-        });
+        if(res.code == 10000){
+          this.$notify.success({
+            title: '成功',
+            message: `文件上传成功`
+          });
+        }else {
+          this.$notify.error({
+            title: '错误',
+            message: `文件上传失败`
+          });
+        }
       },
       //返回
       go_back(){
