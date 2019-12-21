@@ -1,75 +1,7 @@
 <template>
   <div>
-    <!--查询表单-->
-    <el-form :model="params">
-      Id:<el-input v-model="params.condition.studentId"  style="width: 100px"></el-input>
-      姓名:<el-input v-model="params.condition.studentName"  style="width: 100px"></el-input>
-      性别:<el-select v-model="params.condition.studentGender" placeholder="请选择性别" style="width: 100px">
-      <el-option value="">请选择性别</el-option>
-      <el-option
-          v-for="item in genderList"
-          :key="item.genderId"
-          :label="item.genderName"
-          :value="item.genderId">
-          <!-- value值是用于提交的,label值是用于显示的 -->
-        </el-option>
-      </el-select>
 
-      班级:<el-select v-model="params.condition.studentClass" placeholder="请选择班级">
-      <el-option value="">请选择班级</el-option>
-      <el-option
-          v-for="item in classList"
-          :key="item.classId"
-          :label="item.className"
-          :value="item.classId">
-          <!-- value值是用于提交的,label值是用于显示的 -->
-        </el-option>
-      </el-select>
 
-        状态:<el-select v-model="params.condition.studentState" placeholder="请选择状态" style="width: 100px">
-      <el-option value="">请选择状态</el-option>
-      <el-option
-            v-for="item in stateList"
-            :key="item.stateId"
-            :label="item.stateName"
-            :value="item.stateId">
-            <!-- value值是用于提交的,label值是用于显示的 -->
-          </el-option>
-        </el-select>
-
-      期数:<el-select v-model="params.condition.studentPhase" placeholder="请选择状态" style="width: 100px">
-      <el-option value="">请选择期数</el-option>
-      <el-option
-        v-for="item in phaseList"
-        :key="item.phaseId"
-        :label="item.phaseName"
-        :value="item.phaseId">
-        <!-- value值是用于提交的,label值是用于显示的 -->
-      </el-option>
-    </el-select>
-
-      是否毕业:<el-select v-model="params.condition.studentGraduation" placeholder="请选择状态" style="width: 100px">
-      <el-option value="">请选择是否毕业</el-option>
-      <el-option
-        v-for="item in graduationList"
-        :key="item.graduationId"
-        :label="item.graduationName"
-        :value="item.graduationId">
-        <!-- value值是用于提交的,label值是用于显示的 -->
-      </el-option>
-    </el-select>
-
-    <el-button type="primary" size="small" v-on:click="query(1)" >查询</el-button>
-    <router-link :to="{path:'/informationmanage/page/student/add',query:{
-                 page:this.params.page,
-                 studentName:this.params.condition.studentName,
-                 studentGender:this.params.condition.studentGender,
-                 studentClass:this.params.condition.studentClass,
-                 studentState:this.params.condition.studentState,
-                 }}">
-      <el-button  type="primary" size="small">新增页面</el-button>
-    </router-link>
-    </el-form>
 
 
     <el-table
@@ -208,6 +140,7 @@
            if(par == 1){
                this.params.page = 1;
            }
+         this.params.condition.studentId =JSON.parse(sessionStorage.getItem("login"));
            //调用服务端的接口
            studentApi.student_list(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象

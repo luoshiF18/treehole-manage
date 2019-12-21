@@ -5,13 +5,18 @@ import App from './App'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueRouter from 'vue-router'
-
+import utilApi from './common/utils';
 import routes from './base/router'
 import store from './vuex/store'
 import Vuex from 'vuex'
-import utilApi from './common/utils';
+import JsonExcel from 'vue-json-excel'
 // import Mock from './mock'
 // Mock.bootstrap();
+
+//导出表所引入的东西
+
+Vue.component('downloadExcel', JsonExcel)
+
 
 
 Vue.config.productionTip = false

@@ -9,14 +9,9 @@ export const add_leave = (leave) =>{
   return http.requestPost(apiUrl+'/train/leave/add',leave);
 }
 
-//查询请假信息
-export const leave_list = (page,size,leave) =>{
-  return http.requestPost(apiUrl+'/train/leave/find/'+page+'/'+size,leave);
-}
-
-//消假
-export const del_leave = (leaveId) =>{
-  return http.requestPut(apiUrl+'/train/leave/remove/'+leaveId);
+//统计个人最后一次请假的记录
+export const findLastLeaveExamine = (id) =>{
+  return http.requestGet(apiUrl+'/train/leave/findLastLeaveExamine/'+id);
 }
 
 //根据Id得到请假人信息
