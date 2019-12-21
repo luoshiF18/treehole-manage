@@ -27,24 +27,31 @@
       </el-option>
     </el-select>
 
+
+      <div class="block">
+        <span class="demonstration">选课时间</span>
+        <el-date-picker
+          v-model="params.condition.selectCourseTime"
+          align="right"
+          type="date"
+          placeholder="选择日期"
+          :picker-options="pickerOptions">
+        </el-date-picker>
+      </div>
+
+
+
+
       <el-button type="primary" size="small" v-on:click="query(1)">查询</el-button>
     </el-form>
 
 
     <el-table
-      ref="multipleTable"
       :data="list"
-      tooltip-effect="dark"
-      style="width: 100%"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55">
+      stripe
+      style="width: 100%">
+      <el-table-column type="index" width="60">
       </el-table-column>
-      <el-table-column  v-if="false" prop="classCourseId" label="classCourseId" width="120">
-      </el-table-column >
-      <el-table-column  v-if="false" prop="teacherCourseId" label="teacherCourseId" width="120">
-      </el-table-column >
       <el-table-column  prop="phaseName" label="期数" width="120">
       </el-table-column>
       <el-table-column prop="className" label="班级" width="120">
@@ -63,21 +70,55 @@
       </el-table-column>
       <el-table-column prop="courseTime" label="课时" width="250">
       </el-table-column>
+      <el-table-column prop="state" label="审核情况" width="120">
+        <template slot-scope="{row: {state}}">
+          <span v-if="+state === 1 ">审核成功</span>
+          <span v-else-if="+state === 2 ">审核失败</span>
+          <span v-else-if="+state === 3 ">审核中</span>
+        </template>
+      </el-table-column>
 
+      <el-table-column prop="selectCourseTime" label="选课时间" width="250" :formatter="dateFormat">
+      </el-table-column>
     </el-table>
 
-    <div style="margin-top: 20px">
-      <el-button @click="submission()"  type="primary" size="small">提交课程</el-button>
-    </div>
 
   </div>
 </template>
 
 <script>
     import * as teacherApi from '../api/courseselectionmanage'
+    import moment from 'moment'
     export default {
         data() {
             return {
+
+              pickerOptions: {
+                disabledDate(time) {
+                  return time.getTime() > Date.now();
+                },
+                shortcuts: [{
+                  text: '今天',
+                  onClick(picker) {
+                    picker.$emit('pick', new Date());
+                  }
+                }, {
+                  text: '昨天',
+                  onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                  }
+                }, {
+                  text: '一周前',
+                  onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                  }
+                }]
+              },
+
                 list: [],
                 phaseList:[],
                 courseTypeList: [],
@@ -91,51 +132,36 @@
                         courseTypeId:"",
                         className:"",
                         phaseId:"",
+                        teacherId:"",
+                        selectCourseTime:"",
                     },
                 },
-                //选课的参数
-                par:{
-                    teacherSelectCourseList:[],
-                },
-                //选课的参数
-                teacher:{
-                    teacherId:"",
-                },
+
             }
         },
 
         methods: {
-
-            //提交
-            submission(){
-                 this.par.teacherSelectCourseList = this.$refs.multipleTable.selection;
-              this.teacher.teacherId = JSON.parse(sessionStorage.getItem("login"));
-                this.$confirm('你确认提交吗?', '提示', {}).then(() => {
-                    teacherApi.select_course(this.teacher.teacherId,this.par).then(res=>{
-                             if (res.success) {
-                                    this.$message.success('提交成功')
-                                 //查询一遍
-                                 this.query();
-                            }else{
-                                this.$message.error('提交失败')
-                            }
-
-                         })
-                })
-
-            },
-            //查询课程信息
+            //查询课程审核信息
             query: function (par) {
                 //如果是查询的时候 从第一页开始显示
                 if(par == 1){
                     this.params.page = 1;
                 }
                 //调用服务端的接口
-                teacherApi.showCourse(this.params.page,this.params.size,this.params.condition).then((res) => {
+              this.params.condition.teacherId = JSON.parse(sessionStorage.getItem("login"));
+                teacherApi.audit_status(this.params.page,this.params.size,this.params.condition).then((res) => {
                     this.list = res.queryResult.list;
                     this.total = res.queryResult.total;
                 })
             },
+          //时间格式化  
+          dateFormat:function(row, column) {
+            var date = row[column.property];
+            if (date == undefined) {
+              return "";
+            }
+            return moment(date).format("YYYY-MM-DD");
+          },
             //分页
             changePage: function (currentPage){
                 this.params.page = currentPage;

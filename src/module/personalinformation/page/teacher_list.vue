@@ -94,7 +94,7 @@
                     page: 1,
                     size: 5,
                     condition:{
-                        teacherId:"201911260002",
+                        teacherId:"",
                     },
                 },
             }
@@ -106,6 +106,7 @@
            if(par == 1){
                this.params.page = 1;
            }
+         this.params.condition.teacherId = JSON.parse(sessionStorage.getItem("login"));
            //调用服务端的接口
            teacherApi.teacher_list(this.params.page,this.params.size,this.params.condition).then((res) => {
                //将res结果数据赋值给数据模型对象

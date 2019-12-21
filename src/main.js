@@ -12,7 +12,10 @@ import Vuex from 'vuex'
 import utilApi from './common/utils';
 // import Mock from './mock'
 // Mock.bootstrap();
+//导出excel
+import JsonExcel from 'vue-json-excel'
 
+Vue.component('downloadExcel', JsonExcel)
 
 Vue.config.productionTip = false
 

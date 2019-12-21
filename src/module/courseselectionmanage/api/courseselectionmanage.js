@@ -24,3 +24,8 @@ export const find_Phase = (params) => {
 export const select_course = (teacherId,params) => {
   return http.requestPost(apiUrl+'/train/teachercourse/teacherCourseSelection/'+teacherId,params)
 }
+
+//查看审核情况
+export const audit_status = (page,size,params) =>{
+  return http.requestPost(apiUrl+'/train/teachercourse/findExamineSituation/'+page+'/'+size,params);
+}

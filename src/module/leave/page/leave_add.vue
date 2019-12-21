@@ -89,10 +89,23 @@
                 leaveOther:[
                     {required: true, message: '请输入请假理由', trigger: 'blur'}
                 ],
-            }
+            },
+            //查询老师的姓名
+            par:{
+              teacherId:"",
+            },
         }
     },
     methods:{
+        //赋值
+        assignment(){
+          this.pageForm.leavePeopleId = JSON.parse(sessionStorage.getItem("login"));
+          //调用服务端的接口
+          teacherApi.findInfo( this.pageForm.leavePeopleId).then(res=>{
+            this.pageForm.leavePeopleType  = res.leavePeopleType
+            this.pageForm.leavePeopleName = res.leavePeopleName
+          })
+        },
         //请假
         addSubmit(){
             this.$refs['pageForm'].validate((valid) => {
@@ -127,8 +140,7 @@
 
     },
     mounted(){
-
-
+      this.assignment();
     }
   }
 </script>
