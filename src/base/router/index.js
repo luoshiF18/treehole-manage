@@ -8,7 +8,6 @@ let concat = (router) => {
 }
 // // 导入路由规则
 import HomeRouter from '@/module/home/router'
-import CmsRouter from '@/module/cms/router'
 // 导入班级老师
 import classInformation from '@/module/classInformation/router'
 // 导入班级老师
@@ -21,7 +20,6 @@ import leaveAudit from '@/module/leaveaudit/router'
 import studentInformation from '@/module/studentinformation/router'
 // 合并路由规则
 concat(HomeRouter)  //加入home模块的路由
-concat(CmsRouter)  //加入cms模块的路由
 concat(classInformation)  //加入班级信息的路由
 concat(studentInformation)  //加入班级学生的路由
 concat(teacherInformation)  //加入班级老师的路由

@@ -220,7 +220,7 @@
         if(par == 1){
           this.params.page = 1;
         }
-        this.params.condition.classId=501912110000;
+        this.params.condition.classId=JSON.parse(sessionStorage.getItem("login"));
         //调用服务端的接口
         trainApi.class_teacher(this.params.page,this.params.size,this.params.condition).then((res) => {
           //将res结果数据赋值给数据模型对象

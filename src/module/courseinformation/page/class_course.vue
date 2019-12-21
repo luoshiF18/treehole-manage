@@ -120,7 +120,7 @@
            if(par == 1){
                this.params.page = 1;
            }
-         this.params.condition.classId=501912110000;
+         this.params.condition.classId=JSON.parse(sessionStorage.getItem("login"));
            //调用服务端的接口
          classApi.class_course(this.params.page,this.params.size,this.params.condition).then((res) => {
                if(res.success == true){

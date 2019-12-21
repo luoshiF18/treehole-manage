@@ -59,22 +59,18 @@
                     page: 1,
                     size: 5,
                     condition:{
-                        classId:"501912110000",
+                        classId:"",
                     },
                 },
             }
         },
         methods: {
             //查询班级信息
-            query: function (par) {
-                //如果是查询的时候 从第一页开始显示
-                if(par == 1){
-                    this.params.page = 1;
-                }
+            query: function () {
+                this.params.condition.classId = JSON.parse(sessionStorage.getItem("login"));
                 //调用服务端的接口
                 classApi.class_list(this.params.page,this.params.size,this.params.condition).then((res) => {
                     //将res结果数据赋值给数据模型对象
-                    console.log(this.params.condition);
                     this.list = res.queryResult.list;
                     this.total = res.queryResult.total;
                 })
