@@ -120,6 +120,21 @@ module.exports = {
         }
         //target: 'http://127.0.0.1:50201'
       },
+      '/api/course': {
+        // target: 'http://localhost:3000/mock/11'
+        target: 'http://127.0.0.1:40900',
+        pathRewrite: {
+          '^/api': ''
+        }
+        // target: 'http://127.0.0.1:50201/api'
+      },
+      '/api/media': {//媒资管理
+        target: 'http://127.0.0.1:31400',
+        pathRewrite: {
+          '^/api': ''
+        }
+        // target: 'http://127.0.0.1:50201'
+      },
       /*,
       '/ucenter': {
         // target: 'http://localhost:3000/mock/11'

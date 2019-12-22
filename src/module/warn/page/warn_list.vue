@@ -6,8 +6,7 @@
         <el-date-picker
           v-model="params.date"
           type="daterange"
-          format="yyyy 年 MM 月 dd 日"
-          value-format="yyyy-MM-dd"
+
           align="right"
           unlink-panels
           range-separator="至"

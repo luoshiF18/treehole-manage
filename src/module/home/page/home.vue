@@ -14,8 +14,12 @@
                  router
                  v-show="!collapsed"
                  background-color="#EFEFF4">-->
-        <el-menu router unique-opened default-active="1">
+        <el-scrollbar
+          wrapClass="scrollbar-wrap"
+          style="height: 100%"
+          ref="scrollbarContainer">
 
+        <el-menu router unique-opened default-active="1" >
           <el-submenu index="1">
             <template slot="title">量表管理</template>
             <el-menu-item-group>
@@ -142,10 +146,22 @@
               <el-menu-item index="/marketing/extension/list">推广列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
+          <el-submenu index="11">
+            <template slot="title"><span>媒资管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/upload">上传文件</el-menu-item>
+              <el-menu-item index="/media_list">我的媒资</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="12">
+            <template slot="title"><span>课程管理</span></template>
+            <el-menu-item-group>
+              <el-menu-item index="/course/list">我的课程</el-menu-item>
 
-
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
-
+        </el-scrollbar>
         <!--导航菜单-折叠后-->
 
 </aside>
@@ -181,6 +197,7 @@
       return {
         collapsed: false,
         sysUserName: '',
+          scrollHeight:'0px',
         sysUserAvatar: '/static/images/small.jpg',
         form: {
           name: '',
@@ -198,6 +215,7 @@
       onSubmit() {
         console.log('submit!');
       },
+
       handleopen() {
         //console.log('handleopen');
       },
@@ -217,7 +235,10 @@
     },
     created() {
       console.log(this.$router.options.routes)
-    }
+    },
+      mounted(){
+         // this.scrollHeight = window.innerHeight*0.7 + 'px';
+      }
   }
 
 </script>
