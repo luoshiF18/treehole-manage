@@ -127,8 +127,8 @@
             <el-form-item label="商品类型">
               <el-radio-group v-model="res.resTypes" >
                 <el-radio :label="1">量表</el-radio>
-                <el-radio :label="2">视频</el-radio>
-                <el-radio :label="3">咨询</el-radio>
+               <!-- <el-radio :label="2">视频</el-radio>
+                <el-radio :label="3">咨询</el-radio>-->
               </el-radio-group>
             </el-form-item>
 
@@ -309,7 +309,7 @@
                         //    解析响应内容
                         if (res.success) {
                             this.$message.success('提交成功！');
-                            //进行下一步，添加问题和选项
+                            this.go_back();
                         } else {
                             this.$message.error(res.message);
                         }
@@ -409,6 +409,16 @@
 
                 }
             },*/
+            // 返回
+            go_back:function () {
+                // 获取当前路由
+                this.$router.push({
+                    path:'/marketing/activity/page/list',
+                    query:{
+
+                    }
+                })
+            },
         },
         mounted() {
             this.queryScaleType();

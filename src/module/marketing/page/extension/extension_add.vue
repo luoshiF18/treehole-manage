@@ -8,7 +8,7 @@
          <el-form-item label="推广方式">
            <el-radio-group v-model="extension.mode">
              <el-radio-button :label="0">邮件</el-radio-button>
-             <el-radio-button :label="1">短信</el-radio-button>
+            <!-- <el-radio-button :label="1">短信</el-radio-button>-->
            </el-radio-group>
          </el-form-item>
          <div v-if="extension.mode == 0">
@@ -32,15 +32,36 @@
                         placeholder="示例：" id="content"></el-input>
             </el-form-item>
           </div>
+         <el-form-item label="资源类型">
+           <el-radio-group v-model="extension.usedFor">
+             <el-radio-button label="true">活动</el-radio-button>
+             <el-radio-button label="false">优惠券</el-radio-button>
+           </el-radio-group>
+         </el-form-item>
+       <div v-if="extension.usedFor == true">
+         <el-form-item label="活动类型">
+           <el-radio-group v-model="extension.activityType">
+             <el-radio-button :label="1">线上/线下活动</el-radio-button>
+             <el-radio-button :label="2">优惠活动</el-radio-button>
+             <el-radio-button :label="3">积分活动</el-radio-button>
+           </el-radio-group>
+         </el-form-item>
+       </div>
+         <el-form-item label="资源id">
+           <el-input v-model="extension.usedForId"></el-input>
+         </el-form-item>
           <el-form v-model="searchUser" ref="searchUser" label-width="150px">
             <el-form-item label="选择用户创建时间">
               <el-row type="flex" :gutter="20">
-                  <el-date-picker format="yyyy-MM-dd HH:mm:ss" v-model="searchUser.beforeTime" type="datetime" placeholder="之后" style="width: 100%;"></el-date-picker>
+                  <el-date-picker format="yyyy-MM-dd HH:mm:ss" v-model="searchUser.beforeTime" type="datetime" placeholder="...之后" style="width: 100%;"></el-date-picker>
                   <span>至</span>
-                  <el-date-picker v-model="searchUser.afterTime" type="datetime" placeholder="之前" style="width: 100%;"></el-date-picker>
+                  <el-date-picker v-model="searchUser.afterTime" type="datetime" placeholder="...之前" style="width: 100%;"></el-date-picker>
+
+
               </el-row>
+              <el-button type="primary" size="medium" @click="search()" plain>查询</el-button>
             </el-form-item>
-            <el-button type="primary" size="medium" @click="search()" plain>查询</el-button>
+
             <div>
               <el-table :data="user"
                         class="table1" @selection-change="handleSelectionChange" height="250" ref="userTable">
@@ -65,6 +86,7 @@
          </el-form-item>-->
        <el-form-item style="float: right">
          <el-button type="primary" @click="submit">提交</el-button>
+
        </el-form-item>
      </el-form>
    </div>
@@ -82,8 +104,9 @@
                     title: '',
                     content: '',
                     usedFor: 'false',
+                    activityType: 1,
                     userForId: 'baidu',
-                    url: "wwwbaiducom",
+                    url: "",
                     values: [
                        // {userName: '', to: '',}
                         ],
@@ -137,6 +160,12 @@
             },
             submit() {
                 this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                    if(this.extension.usedFor == 'false'){
+                        //this.extension.url = "http://www.treehole.com/coupon/receive?id=" + this.extension.usedForId;
+                        this.extension.url = "http://localhost:12300/#/coupon/receive?id=" + this.extension.usedForId;
+                    } else if(this.extension.usedFor == 'true'&& this.extension.activityType == 1){
+                        this.extension.url = "http://localhost:12300/#/interactiveactivity/info?id=" + this.extension.usedForId;
+                    }
                     marketingApi.extension_add(this.extension).then((res) => {
                         //    解析响应内容
                         if (res.success) {
@@ -149,6 +178,7 @@
                 });
 
             },
+
             addUserName() {
               let con = this.extension.content;
               this.extension.content = con + "${userName}";
@@ -169,14 +199,29 @@
             },
 
         },
+        computed:{
+            modeVal: function () {
+                return this.extension.mode;
+            }
+        },
         watch: {
-            'extension.mode'(){
+            /*'extension.mode'(){
                 this.searchUser = {};
                 this.user = [];
                 this.extension.title = '';
                 this.extension.content = '';
                 this.extension.values = [];
                 this.multipleSelection = [];
+            }*/
+            modeVal:{
+                handler(){
+                    this.searchUser = {};
+                    this.user = [];
+                    this.extension.title = '';
+                    this.extension.content = '';
+                    this.extension.values = [];
+                    this.multipleSelection = [];
+                }
             }
         }
 

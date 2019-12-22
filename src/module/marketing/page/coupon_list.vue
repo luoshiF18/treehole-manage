@@ -48,7 +48,7 @@
         </el-table-column>
         <el-table-column prop="typeName" label="发放类型" width="120" align="center">
         </el-table-column>
-        <el-table-column prop="usedType" label="优惠类型" width="120" align="center">
+        <el-table-column prop="usedTypeName" label="优惠类型" width="120" align="center">
         </el-table-column>
 
         <el-table-column prop="withAmount" label="使用门槛" width="100" align="center">

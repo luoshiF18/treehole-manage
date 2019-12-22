@@ -5,14 +5,22 @@
         <el-input v-model="form.title"></el-input>
       </el-form-item>
       <el-form-item label="发放类型" prop="typeId">
-       <el-select v-model="form.type" placeholder="请选择优惠券类型">
+       <el-select v-model="form.type" placeholder="请选择发放类型">
         <el-option label="注册赠券" :value="1"></el-option>
         <el-option label="全场赠券" :value="2"></el-option>
         <el-option label="购物赠券" :value="3"></el-option>
        </el-select>
       </el-form-item>
-      <el-form-item label="优惠类型" prop="usedTypeName">
-        <el-select v-model="form.usedTypeName" placeholder="请选择优惠券类型">
+      <el-form-item label="优惠类型" prop="usedType">
+        <!--<el-select v-model="form.usedType" placeholder="请选择优惠类型">
+          <el-option
+            v-for="item in types"
+            :key="item.id"
+            :label="item.usedType"
+            :value="item.id">
+          </el-option>
+        </el-select>-->
+        <el-select v-model="form.usedType" placeholder="请选择优惠类型">
           <el-option
             v-for="item in types"
             :key="item.id"
@@ -20,7 +28,6 @@
             :value="item.id">
           </el-option>
         </el-select>
-
         <!--<el-select v-model="form.typeId" placeholder="请选择优惠券类型">
           <el-option
             v-for="item in types"
@@ -42,12 +49,26 @@
       <el-form-item label="面额" prop="usedAmount">
         <el-input v-model="form.usedAmount"><span slot="suffix">元</span></el-input>
       </el-form-item>
-      <el-form-item label="发放开始时间" prop="startTime">
-        <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择发放开始时间"></el-date-picker>
-      </el-form-item>
-      <el-form-item label="发放结束时间" prop="endTime">
-        <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择发放结束时间"></el-date-picker>
-      </el-form-item>
+      <span v-if="isEdit==false">
+        <el-form-item label="发放开始时间" prop="startTime">
+          <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择发放开始时间"></el-date-picker>
+        </el-form-item>
+      </span>
+      <span v-else>
+        <el-form-item label="发放开始时间" prop="startTime">
+          <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择发放开始时间" disabled></el-date-picker>
+        </el-form-item>
+      </span>
+      <span v-if="isEdit==false">
+        <el-form-item label="发放结束时间" prop="endTime">
+          <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择发放结束时间"></el-date-picker>
+        </el-form-item>
+      </span>
+      <span v-else>
+        <el-form-item label="发放结束时间" prop="endTime">
+          <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择发放结束时间" disabled></el-date-picker>
+        </el-form-item>
+      </span>
       <el-form-item label="有效期" prop="validType">
         <el-radio-group v-model="form.validType" @change="changeValidType">
           <el-radio-button :label="false">固定天数</el-radio-button>
@@ -247,13 +268,13 @@
                             if (res.success) {
                                 this.$emit("close");//关闭dialog --父子组件
                                 this.$message.success('提交成功！');
-                                //进行下一步，添加问题和选项
                             } else {
                                 this.$message.error(res.message);
                             }
                         });
                     });
                 } else {
+                   // this.form.usedTypeId =
                     //确认提示
                     this.$confirm('确认提交吗？', '提示', {}).then(() => {
                         marketingApi.coupon_update(this.form).then((res) => {

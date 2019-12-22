@@ -2,13 +2,13 @@
   <div>
     <el-card>
       <el-form :model="pagination">
-        <router-link tag="span" :to="{path:'/marketing/activity/add'}">
+        <router-link tag="span" :to="{path:'/marketing/activity/interactive/add'}">
           <el-button type="primary" size="medium" plain>添加活动</el-button>
         </router-link>
         <!--<el-button type="primary" size="medium" plain>添加活动</el-button>-->
 
         <div style="float: right; margin-right: 130px;">
-          <el-input clearable v-model="pagination.key" style="width:200px" placeholder="请输入活动名称或简称">
+          <el-input clearable v-model="pagination.key" style="width:200px" placeholder="请输入活动名称">
           </el-input>
           <el-button v-on:click="getDataFromServer" icon="el-icon-search" round>查询</el-button>
         </div>
@@ -47,6 +47,9 @@
 <!--        <el-table-column prop="endTime" label="结束时间" :formatter="formatTime" min-width="10%"align="center">
         </el-table-column>-->
         <el-table-column prop="ifOnline" label="线上/线下" min-width="10%" align="center">
+          <template slot-scope="scope">
+            {{scope.row.ifOnline? "线上":"线下"}}
+          </template>
         </el-table-column>
         <el-table-column prop="statusName" label="状态" min-width="5%" align="center">
         </el-table-column>
@@ -56,17 +59,17 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="10%" align="center">
           <template slot-scope="scope">
-            <router-link tag="span" :to="{path:'/marketing/activity/info',query:{
-                         id:scope.row.id,typeId:scope.row.typeId
+            <router-link tag="span" :to="{path:'/marketing/activity/interactive/info',query:{
+                         id:scope.row.id
                          }}">
               <el-button type="text" size="medium">详情</el-button>
             </router-link>
-            <router-link tag="span" :to="{path:'/marketing/activity/update',query:{
+            <router-link tag="span" :to="{path:'/marketing/activity/interactive/update',query:{
                          id:scope.row.id
                          }}">
               <el-button type="text" size="medium">修改</el-button>
             </router-link>
-            <!-- <el-button @click="updateActivity(scope.row.id)" type="text" size="medium">编辑</el-button>-->
+            <el-button @click="updateStatusToFinish(scope.row.id)" type="text" size="medium">下线</el-button>
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
           </template>
         </el-table-column>
@@ -125,7 +128,6 @@
                 })
             },
             changePage:function (currentPage) {  //形参就是当前页码
-                //
                 this.pagination.page = currentPage;
                 //调用query方法
                 this.getDataFromServer();
@@ -175,6 +177,23 @@
                 const date = new Date(row[column.property]);
                 // return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
                 return moment(date).format("YYYY-MM-DD HH:mm:ss");
+            },
+            //下线活动
+            updateStatusToFinish(id) {
+                this.$confirm('确认下线吗?下线活动结束', '提示', {}).then(() => {
+                    this.$confirm('再次确认，该操作不可撤销？', '提示', {}).then(() => {
+                        marketingApi.interactiveActivity_updateStatus(id).then((res) => {
+                            if (res.success) {
+                                this.$message.success("活动结束！")
+                                this.getDataFromServer();
+                            } else if(res.message){
+                                this.$message.error(res.message);
+
+
+                            }
+                        });
+                    });
+                });
             },
 
         },

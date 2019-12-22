@@ -33,22 +33,6 @@
           <div>暂无数据
           </div>
         </template>
-    <!--    <el-table-column fixed prop="id" label="ID" width="120" align="center">
-        </el-table-column>
-        <el-table-column fixed prop="title" label="名称" width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="beginTime" label="开始时间" sortable="custom" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="endTime" label="结束时间" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="typeName" label="活动类型" width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="statusName" label="状态" width="100" align="center">
-        </el-table-column>
-        <el-table-column prop="created" label="创建时间" sortable="custom" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="updated" label="更新时间" :formatter="formatTime" width="160" align="center">
-        </el-table-column>-->
         <el-table-column fixed prop="id" label="ID" min-width="10%" align="center">
         </el-table-column>
         <el-table-column fixed prop="title" label="名称" min-width="20%" align="center">
@@ -77,7 +61,7 @@
                          }}">
               <el-button type="text" size="medium">修改</el-button>
             </router-link>
-           <!-- <el-button @click="updateActivity(scope.row.id)" type="text" size="medium">编辑</el-button>-->
+            <el-button @click="updateStatusToFinish(scope.row.id)" type="text" size="medium">下线</el-button>
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
           </template>
         </el-table-column>
@@ -137,7 +121,6 @@
                 })
             },
             changePage:function (currentPage) {  //形参就是当前页码
-                //
                 this.pagination.page = currentPage;
                 //调用query方法
                 this.getDataFromServer();
@@ -186,7 +169,23 @@
                 // return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
                 return moment(date).format("YYYY-MM-DD HH:mm:ss");
             },
+            //下线活动
+            updateStatusToFinish(id) {
+                this.$confirm('确认下线吗?下线活动结束', '提示', {}).then(() => {
+                    this.$confirm('再次确认，该操作不可撤销？', '提示', {}).then(() => {
+                        marketingApi.activity_updateStatus(id).then((res) => {
+                            if (res.success) {
+                                this.$message.success("活动结束！")
+                                this.getDataFromServer();
+                            } else if(res.message){
+                                this.$message.error(res.message);
 
+
+                            }
+                        });
+                    });
+                });
+            },
         },
         mounted() {
             this.getDataFromServer();

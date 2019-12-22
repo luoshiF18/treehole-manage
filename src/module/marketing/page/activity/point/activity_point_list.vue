@@ -13,7 +13,15 @@
           </el-input>
           <el-button v-on:click="getDataFromServer" icon="el-icon-search" round>查询</el-button>
         </div>
-
+        <div style="float: right;margin-right: 10px">
+          <span>状态</span>
+          <el-radio-group v-model="pagination.status">
+            <el-radio-button label="">全部</el-radio-button>
+            <el-radio-button label="1">未开始</el-radio-button>
+            <el-radio-button label="2">进行中</el-radio-button>
+            <el-radio-button label="0">已结束</el-radio-button>
+          </el-radio-group>
+        </div>
       </el-form>
       <el-table
         v-loading="loading"
@@ -21,22 +29,10 @@
         height="350"
         v-on:sort-change="sort"
         stripe>
-       <!-- <el-table-column fixed prop="id" label="ID" width="120" align="center">
-        </el-table-column>
-        <el-table-column fixed prop="title" label="名称" width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="beginTime" label="开始时间" sortable="custom" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="endTime" label="结束时间" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="typeName" label="活动类型" width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="statusName" label="状态" width="100" align="center">
-        </el-table-column>
-        <el-table-column prop="created" label="创建时间" sortable="custom" :formatter="formatTime" width="160" align="center">
-        </el-table-column>
-        <el-table-column prop="updated" label="更新时间" :formatter="formatTime" width="160" align="center">
-        </el-table-column>-->
+        <template  slot="empty" >
+          <div style="text-align: left; float: left">暂无数据
+          </div>
+        </template>
         <el-table-column fixed prop="id" label="ID" min-width="10%" align="center">
         </el-table-column>
         <el-table-column fixed prop="title" label="名称" min-width="15%" align="center">
@@ -65,7 +61,7 @@
                          }}">
               <el-button type="text" size="medium">修改</el-button>
             </router-link>
-            <!-- <el-button @click="updateActivity(scope.row.id)" type="text" size="medium">编辑</el-button>-->
+            <el-button @click="updateStatusToFinish(scope.row.id)" type="text" size="medium">下线</el-button>
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
           </template>
         </el-table-column>
@@ -102,6 +98,7 @@
                     sortBy: "created",// 排序字段
                     key: "",
                     typeId: '_0',
+                    status: '',
                 }, // 分页信息
             }
         },
@@ -110,10 +107,17 @@
                 // marketingApi.coupon_list(this.search, this.pagination.page, this.pagination.size,
                 // this.pagination.sortBy, this.pagination.descending).then((res)=>{
                 marketingApi.activity_list(this.pagination).then((res)=>{
+                    if(res.success){
+                        this.activities = res.queryResult.list;
+                        this.totalActivities = res.queryResult.total;
+                        this.loading = false;
+                    } else {
+                        this.activities = [];
+                        this.totalActivities =0;
+                        this.loading = false;
+                    }
 
-                    this.activities = res.queryResult.list;
-                    this.totalActivities = res.queryResult.total;
-                    this.loading = false;
+
 
                 })
             },
@@ -167,7 +171,23 @@
                 // return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
                 return moment(date).format("YYYY-MM-DD HH:mm:ss");
             },
+            //下线活动
+            updateStatusToFinish(id) {
+                this.$confirm('确认下线吗?下线活动结束', '提示', {}).then(() => {
+                    this.$confirm('再次确认，该操作不可撤销？', '提示', {}).then(() => {
+                        marketingApi.activity_updateStatus(id).then((res) => {
+                            if (res.success) {
+                                this.$message.success("活动结束！")
+                                this.getDataFromServer();
+                            } else if(res.message){
+                                this.$message.error(res.message);
 
+
+                            }
+                        });
+                    });
+                });
+            },
         },
         mounted() {
             this.getDataFromServer();

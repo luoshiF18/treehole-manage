@@ -9,11 +9,11 @@ import activity_point_add from "@/module/marketing/page/activity/point/activity_
 import activity_point_update from "@/module/marketing/page/activity/point/activity_point_update";
 import extension_list from "@/module/marketing/page/extension/extension_list";
 import extension_add from "@/module/marketing/page/extension/extension_add";
-import coupon_page from "@/module/marketing/page/coupon_page";
-import coupon_toFindCoupon from "@/module/marketing/page/coupon_toFindCoupon";
 import activity_interactive from "@/module/marketing/page/activity/interactiveActivity/activity_interactive";
-
-import test from "@/module/marketing/test";
+import activity_interactive_add from "@/module/marketing/page/activity/interactiveActivity/activity_interactive_add";
+import activity_interactice_info from "@/module/marketing/page/activity/interactiveActivity/activity_interactice_info";
+import activity_interactive_update from "@/module/marketing/page/activity/interactiveActivity/activity_interactive_update";
+import coupontype from "@/module/marketing/page/coupon/type/coupontype";
 
 export default [{
     path: '/',
@@ -33,10 +33,11 @@ export default [{
       {path:'/marketing/activity/point/update',name:'修改签到活动',component: activity_point_update,hidden:true},
       {path:'/marketing/extension/list',name:'推广列表',component: extension_list,hidden:false},
       {path:'/marketing/extension/add',name:'推广添加',component: extension_add,hidden:true},
-      {path:'/marketing/coupon/page',name:'领取优惠券页面',component: coupon_page,hidden:false},
-      {path:'/marketing/coupon/cdetail',name:'随便写的为了点进领取优惠券页面',component: coupon_toFindCoupon,hidden:false},
       {path:'/marketing/activity/interactive/list',name:'线上/线下活动',component: activity_interactive,hidden:false},
-      {path:'/test',name:'test',component: test,hidden:false},
+      {path:'/marketing/activity/interactive/add',name:'添加线上/线下活动',component: activity_interactive_add,hidden:true},
+      {path:'/marketing/activity/interactive/info',name:'线上/线下活动详情',component: activity_interactice_info,hidden:true},
+      {path:'/marketing/activity/interactive/update',name:'修改线上/线下活动',component: activity_interactive_update,hidden:true},
+      {path:'/marketing/coupon/type',name:'优惠券类型',component: coupontype,hidden:false},
 
     ]
   }/*,
