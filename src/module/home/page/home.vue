@@ -146,20 +146,6 @@
               <el-menu-item index="/marketing/extension/list">推广列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="11">
-            <template slot="title"><span>媒资管理</span></template>
-            <el-menu-item-group>
-              <el-menu-item index="/upload">上传文件</el-menu-item>
-              <el-menu-item index="/media_list">我的媒资</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="12">
-            <template slot="title"><span>课程管理</span></template>
-            <el-menu-item-group>
-              <el-menu-item index="/course/list">我的课程</el-menu-item>
-
-            </el-menu-item-group>
-          </el-submenu>
         </el-menu>
         </el-scrollbar>
         <!--导航菜单-折叠后-->
