@@ -39,7 +39,7 @@ export default {
     activeUser.utype = jwtDecodeVal.utype || '';
     activeUser.username = jwtDecodeVal.name || '';
     activeUser.userpic = jwtDecodeVal.userpic || '';
-    activeUser.userid = jwtDecodeVal.userid || '';
+    activeUser.userid = jwtDecodeVal.id || '';
     activeUser.authorities = jwtDecodeVal.authorities || '';
     activeUser.uid = jwtDecodeVal.jti || '';
     activeUser.jwt = jwt;
@@ -69,7 +69,7 @@ export default {
         activeUser.utype = jwtDecodeVal.utype || '';
         activeUser.username = jwtDecodeVal.user_name || '';
         activeUser.userpic = jwtDecodeVal.userpic || '';
-        activeUser.userid = jwtDecodeVal.userid || '';
+        activeUser.userid = jwtDecodeVal.id || '';
         activeUser.authorities = jwtDecodeVal.authorities || '';
         activeUser.menus = jwtDecodeVal.menus || '';
 

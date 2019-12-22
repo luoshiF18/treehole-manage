@@ -6,10 +6,10 @@ export default [{
     name: '系统管理首页',
     hidden: true,
     redirect: '/login',
-    children: [
-      {path: 'home', component: Home}
-    ]
-  },
+children: [
+  {path: 'home', component: Home}
+]
+},
   {
     path: '/login',
     component: Login,

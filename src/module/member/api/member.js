@@ -107,7 +107,7 @@ export const page_add = params =>{
 
 //根据id查询页面(用户)
 export const user_get= id =>{
-  return http.requestQuickGet(apiUrl+'/member/user/getUserById/'+id);
+  return http.requestQuickGet(apiUrl+'/member/user/find/userId/'+id);
 }
 
 //根据id查询页面(卡)

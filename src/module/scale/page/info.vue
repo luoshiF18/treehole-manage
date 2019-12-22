@@ -91,14 +91,22 @@
                     <el-radio-button label="0">暂不启用</el-radio-button>
                   </el-radio-group>
                 </el-form-item>
-
-
                 <el-form-item prop="typeId" label="分类：">
-                  <el-select v-model="params.typeId" clearable placeholder="请选择分类">
+                  <el-select style="width: 150px;margin-right: 50px" v-model="params.typeId" clearable
+                             placeholder="请选择分类">
                     <el-option
                       v-for="item in type"
                       :key="item.id"
                       :label="item.scaleType"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                  计分方式：
+                  <el-select style="width: 150px" v-model="params.scoreMethodId" clearable placeholder="请选择分类">
+                    <el-option
+                      v-for="item in scoreMethod"
+                      :key="item.id"
+                      :label="item.chinese"
                       :value="item.id">
                     </el-option>
                   </el-select>
@@ -142,8 +150,19 @@
         <!--          量表图片： <span v-text="scaleDetail.images"></span>-->
       </el-card>
       <el-card class="box-card" v-loading="loading">
-        量表名称：<span class="color" style="margin-right: 220px" v-text="scaleDetail.scaleName"></span>
-        量表缩写： <span class="color" v-text="scaleDetail.shortName"></span>
+        <el-row>
+          <el-col :span="8">
+            <div>量表名称：<span class="color" style="margin-right: 120px" v-text="scaleDetail.scaleName"></span></div>
+          </el-col>
+          <el-col :span="8">
+            <div>量表缩写：<span class="color" style="margin-right: 120px" v-text="scaleDetail.shortName"></span></div>
+          </el-col>
+          <el-col :span="8">
+            <div>计分方式：<span class="color" v-text="scaleDetail.scoreMethodName"></span></div>
+          </el-col>
+        </el-row>
+
+
       </el-card>
       <el-card class="box-card" v-loading="loading">
         量表状态： <span class="color" style="margin-right: 120px" v-text="scaleDetail.statusName"></span>
@@ -168,11 +187,11 @@
       </el-card>
       <el-card class="box-card" v-loading="loading">
         创建时间： <span class="color" style="margin-right: 220px" v-text="scaleDetail.createTime"></span>
-        创建人姓名： <span class="color" v-text="scaleDetail.createUserId"></span>
+        创建人姓名： <span class="color" v-text="scaleDetail.createUserName"></span>
       </el-card>
       <el-card class="box-card" v-loading="loading">
         更新时间： <span class="color" style="margin-right: 220px" v-text="scaleDetail.updateTime"></span>
-        更新人姓名： <span class="color" v-text="scaleDetail.updateUserId"></span>
+        更新人姓名： <span class="color" v-text="scaleDetail.updateUserName"></span>
       </el-card>
       <el-card class="box-card" v-loading="loading">
         量表备注： <span class="color" v-text="scaleDetail.remark"></span>
@@ -684,403 +703,413 @@
 </template>
 
 <script>
-    import * as scaleApi from '../api/scaleApi'
+  import * as scaleApi from '../api/scaleApi'
 
-    export default {
-        name: 'editInfo',
-        data() {
-            return {
-                optionSuggestion: [],
-                infoDetail: false,//用于问题和选项里层修改
-                innerDrawer: false,//用于问题和选项里层修改
-                dialog: false,//用于编辑得分描述
-                table: false,//用于问题和选项的展示
-                scaleId: '',
-                scaleDetail: {},
-                loading: true,
-                scaleDesc: [],
-                questions: [],
-                editQuestion1: '',
-                //新增问题使用
-                questions1: {
-                    options: [
-                        {
-                            sort: null,
-                            answer: '',
-                            score: null,
-                            skip: 0,
-                            skipId: '',
-                        }
-                    ],
-                    question: "",
-                    sort: 1,
-                    scaleId: ''
-                },
-                //编辑得分描述使用
-                desc: {
-                    id: '',
-                    scaleId: '',
-                    score1: '',
-                    score2: '',
-                    description: '',
-                    warningLevel: 1,
-                    warningMessage: ''
-                },
-                //新增得分描述使用
-                desc2: {
-                    id: '',
-                    scaleId: '',
-                    score1: '',
-                    score2: '',
-                    description: '',
-                    warningLevel: 1,
-                    warningMessage: ''
-                },
-                //下面都是更改详细信息使用
-                //下面都是更改详细信息使用
-                addLoading: false,//加载效果标记
-                type: [],
-                params: {
-                    scaleName: '',
-                    shortName: '',
-                    topicDescription: '',
-                    topicBackground: '',
-                    topicSuggest: '',
-                    scaleFunction: '',
-                    guide: '',
-                    status: 1,
-                    images: '',
-                    typeId: '',
-                    scaleType: 2,
-                    price: 0,
-                    remark: ''
-                },
-                pageFormRules: {
-                    scaleName: [
-                        {required: true, message: '请输入量表名称', trigger: 'blur'}
-                    ],
-                    shortName: [
-                        {required: true, message: '请输入量表缩写', trigger: 'blur'}
-                    ],
-                    topicDescription: [
-                        {required: true, message: '请输入话题描述', trigger: 'blur'}
-                    ],
-                    topicBackground: [
-                        {required: true, message: '请输入话题背景', trigger: 'blur'}
-                    ],
-                    topicSuggest: [
-                        {required: true, message: '请输入话题建议', trigger: 'blur'}
-                    ],
-                    status: [
-                        {required: true, message: '请选择量表状态', trigger: 'blur'}
-                    ],
-                    scaleFunction: [
-                        {required: true, message: '请输入量表功能', trigger: 'blur'}
-                    ],
-                    typeId: [
-                        {required: true, message: '请选择分类', trigger: 'blur'}
-                    ],
-                    scaleType: [
-                        {required: true, message: '量表类型', trigger: 'blur'}
-                    ],
-                    guide: [
-                        {required: true, message: '请输入测评指导', trigger: 'blur'}
-                    ]
-                },
+  export default {
+    name: 'editInfo',
+    data() {
+      return {
+        optionSuggestion: [],
+        infoDetail: false,//用于问题和选项里层修改
+        innerDrawer: false,//用于问题和选项里层修改
+        dialog: false,//用于编辑得分描述
+        table: false,//用于问题和选项的展示
+        scaleId: '',
+        scaleDetail: {},
+        loading: true,
+        scaleDesc: [],
+        questions: [],
+        editQuestion1: '',
+        //新增问题使用
+        questions1: {
+          options: [
+            {
+              sort: null,
+              answer: '',
+              score: null,
+              skip: 0,
+              skipId: '',
             }
+          ],
+          question: "",
+          sort: 1,
+          scaleId: ''
         },
-        methods: {
-            //更改量表详细信息
-            alterInfo: function () {
-                this.infoDetail = true;
-            },
-            //新增得分描述
-            submit2: function () {
-                this.$confirm('确认保存吗？', '提示', {}).then(() => {
-                    this.desc2.scaleId = this.scaleId;
-                    scaleApi.scale_addDesc(this.desc2).then((res) => {
-                        if (res.success) {
-                            this.queryDesc();
-                            this.$message.success('保存成功！');
-                            this.clear2();
-                        } else {
-                            this.$message.error(res.message);
-                        }
-                    });
-                });
-            },
-            //更改得分描述
-            submit(formName) {
-                this.$confirm('确认更改吗？', '提示', {}).then(() => {
-                    scaleApi.scale_editOneDesc(this.desc).then((res) => {
-                        if (res.success) {
-                            this.queryDesc();
-                            this.dialog = false;
-                            this.$message.success('更改成功！');
-                            this.$refs[formName].resetFields();
-                        } else {
-                            this.$message.error(res.message);
-                        }
-                    });
-                });
-            },
-            //获取一个得分描述
-            editDesc(descId) {
-                scaleApi.scale_oneDesc(descId).then((res) => {
-                    //打开编辑窗口
-                    this.dialog = true;
-                    this.desc = res;
-                });
+        //编辑得分描述使用
+        desc: {
+          id: '',
+          scaleId: '',
+          score1: '',
+          score2: '',
+          description: '',
+          warningLevel: 1,
+          warningMessage: ''
+        },
+        //新增得分描述使用
+        desc2: {
+          id: '',
+          scaleId: '',
+          score1: '',
+          score2: '',
+          description: '',
+          warningLevel: 1,
+          warningMessage: ''
+        },
+        //下面都是更改详细信息使用
+        //下面都是更改详细信息使用
+        addLoading: false,//加载效果标记
+        type: [],
+        scoreMethod: [],
+        params: {
+          scaleName: '',
+          shortName: '',
+          topicDescription: '',
+          topicBackground: '',
+          topicSuggest: '',
+          scaleFunction: '',
+          guide: '',
+          status: 1,
+          images: '',
+          typeId: '',
+          scaleType: 2,
+          price: 0,
+          scoreMethodId: '',
+          remark: ''
+        },
+        pageFormRules: {
+          scaleName: [
+            {required: true, message: '请输入量表名称', trigger: 'blur'}
+          ],
+          shortName: [
+            {required: true, message: '请输入量表缩写', trigger: 'blur'}
+          ],
+          topicDescription: [
+            {required: true, message: '请输入话题描述', trigger: 'blur'}
+          ],
+          topicBackground: [
+            {required: true, message: '请输入话题背景', trigger: 'blur'}
+          ],
+          topicSuggest: [
+            {required: true, message: '请输入话题建议', trigger: 'blur'}
+          ],
+          status: [
+            {required: true, message: '请选择量表状态', trigger: 'blur'}
+          ],
+          scaleFunction: [
+            {required: true, message: '请输入量表功能', trigger: 'blur'}
+          ],
+          typeId: [
+            {required: true, message: '请选择分类', trigger: 'blur'}
+          ],
+          scaleType: [
+            {required: true, message: '量表类型', trigger: 'blur'}
+          ],
+          guide: [
+            {required: true, message: '请输入测评指导', trigger: 'blur'}
+          ]
+        },
+      }
+    },
+    methods: {
+      //查询所有算分方式
+      queryScoreMethod: function () {
+        scaleApi.scale_getScoreMethod().then((res) => {
+          this.scoreMethod = res.queryResult.list;
+        });
+      },
+      //更改量表详细信息
+      alterInfo: function () {
+        this.infoDetail = true;
+      },
+      //新增得分描述
+      submit2: function () {
+        this.$confirm('确认保存吗？', '提示', {}).then(() => {
+          this.desc2.scaleId = this.scaleId;
+          scaleApi.scale_addDesc(this.desc2).then((res) => {
+            if (res.success) {
+              this.queryDesc();
+              this.$message.success('保存成功！');
+              this.clear2();
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        });
+      },
+      //更改得分描述
+      submit(formName) {
+        this.$confirm('确认更改吗？', '提示', {}).then(() => {
+          scaleApi.scale_editOneDesc(this.desc).then((res) => {
+            if (res.success) {
+              this.queryDesc();
+              this.dialog = false;
+              this.$message.success('更改成功！');
+              this.$refs[formName].resetFields();
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        });
+      },
+      //获取一个得分描述
+      editDesc(descId) {
+        scaleApi.scale_oneDesc(descId).then((res) => {
+          //打开编辑窗口
+          this.dialog = true;
+          this.desc = res;
+        });
 
-            },
-            //删除得分描述
-            delDesc(descId) {
-                this.$confirm('确认删除描述吗？该操作不可撤销？', '提示', {}).then(() => {
-                    scaleApi.scale_delDesc(descId).then((res) => {
-                        if (res.success) {
-                            this.queryDesc();
-                            this.$message.success('删除描述成功！');
-                        } else {
-                            this.$message.error('删除描述失败！');
-                        }
-                    });
-                });
-            },
-            //提醒注意序号，新增问题中使用
-            remind: function () {
-                this.$notify({
-                    title: '提醒：',
-                    message: '请注意问题序号设置，不要重复！',
-                    type: 'warning',
-                    position: 'top-left'
-                });
-            },
-            //清空数据，为下一提准备，新增问题中使用
-            clear: function () {
-                this.questions1.question = '',
-                    this.questions1.sort = '',
-                    this.questions1.options = [{
-                        sort: '',
-                        answer: '',
-                        score: null,
-                        skip: 0,
-                        skipId: ''
-                    }]
-            },
-            //清空数据，为下一提准备
-            clear2: function () {
-                this.desc2.id = '',
-                    this.desc2.scaleId = '',
-                    this.desc2.score1 = '',
-                    this.desc2.score2 = '',
-                    this.desc2.description = '',
-                    this.desc2.warningLevel = 1,
-                    this.desc2.warningMessage = ''
-            },
-            //提交新增问题，新增问题中使用
-            insertQuestion1: function () {
-                this.$confirm('确认保存新问题吗？', '提示', {}).then(() => {
-                    this.questions1.scaleId = this.scaleId;
-                    scaleApi.scale_addQuestion(this.questions1).then((res) => {
-                        // console.log(JSON.stringify(this.questions1));
-                        if (res.success) {
-                            scaleApi.scale_handleSkip(this.scaleId).then((res) => {
-                                if (res.success) {
-                                    this.clear();
-                                    this.queryQuestion();
-                                    this.$message.success('保存成功！');
-                                } else {
-                                    this.$message.error(res.message);
-                                }
-                            });
-                        } else {
-                            this.$message.error(res.message);
-                        }
-                    });
-                });
-            },
-            //清除行，新增问题中使用
-            removeOption1(item) {
-                var index = this.questions1.options.indexOf(item);
-                if (index !== -1) {
-                    this.questions1.options.splice(index, 1);
+      },
+      //删除得分描述
+      delDesc(descId) {
+        this.$confirm('确认删除描述吗？该操作不可撤销？', '提示', {}).then(() => {
+          scaleApi.scale_delDesc(descId).then((res) => {
+            if (res.success) {
+              this.queryDesc();
+              this.$message.success('删除描述成功！');
+            } else {
+              this.$message.error('删除描述失败！');
+            }
+          });
+        });
+      },
+      //提醒注意序号，新增问题中使用
+      remind: function () {
+        this.$notify({
+          title: '提醒：',
+          message: '请注意问题序号设置，不要重复！',
+          type: 'warning',
+          position: 'top-left'
+        });
+      },
+      //清空数据，为下一提准备，新增问题中使用
+      clear: function () {
+        this.questions1.question = '',
+          this.questions1.sort = '',
+          this.questions1.options = [{
+            sort: '',
+            answer: '',
+            score: null,
+            skip: 0,
+            skipId: ''
+          }]
+      },
+      //清空数据，为下一提准备
+      clear2: function () {
+        this.desc2.id = '',
+          this.desc2.scaleId = '',
+          this.desc2.score1 = '',
+          this.desc2.score2 = '',
+          this.desc2.description = '',
+          this.desc2.warningLevel = 1,
+          this.desc2.warningMessage = ''
+      },
+      //提交新增问题，新增问题中使用
+      insertQuestion1: function () {
+        this.$confirm('确认保存新问题吗？', '提示', {}).then(() => {
+          this.questions1.scaleId = this.scaleId;
+          scaleApi.scale_addQuestion(this.questions1).then((res) => {
+            // console.log(JSON.stringify(this.questions1));
+            if (res.success) {
+              scaleApi.scale_handleSkip(this.scaleId).then((res) => {
+                if (res.success) {
+                  this.clear();
+                  this.queryQuestion();
+                  this.$message.success('保存成功！');
+                } else {
+                  this.$message.error(res.message);
                 }
-            },
-            //添加选项，新增问题中使用
-            addOption1() {
-                this.questions1.options.push({
-                    sort: '',
-                    answer: '',
-                    score: null,
-                    skip: 0,
-                    skipId: ''
-                });
-            },
-            //删除问题
-            delQuestion(questionId) {
-                // console.log(questionId)
-                this.$confirm('确认删除该问题吗？该操作不可撤销？', '提示', {}).then(() => {
-                    scaleApi.scale_delQuestion(questionId).then((res) => {
-                        if (res.success) {
-                            this.queryQuestion();
-                            this.$message.success('删除问题成功！');
-                        } else {
-                            this.$message.error(res.message);
-                        }
-                    });
-                });
-            },
-            //提交更改
-            updateQuestion: function () {
-                this.$confirm('确认保存修改吗？', '提示', {}).then(() => {
-                    scaleApi.scale_upOneQuestion(this.editQuestion1).then((res) => {
-                        if (res.success) {
-                            scaleApi.scale_handleSkip(this.scaleId).then((res) => {
-                                if (res.success) {
-                                    this.queryQuestion();
-                                    this.$message.success('更改成功！');
-                                    this.innerDrawer = false;
-                                } else {
-                                    this.$message.error(res.message);
-                                }
-                            })
-                        } else {
-                            this.$message.error(res.message);
-                        }
-
-                    });
-                });
-            },
-            //添加选项,更改中使用
-            addOption() {
-                this.editQuestion1.options.push({
-                    sort: '',
-                    answer: '',
-                    score: null,
-                    skip: 0,
-                    skipId: ''
-                });
-            },
-            //删除行,更改中使用
-            removeOption(item) {
-                this.$confirm('确认删除该选项吗？该操作不可撤销？', '提示', {}).then(() => {
-                    // console.log(item.id)
-                    scaleApi.scale_delOption(item.id).then((res) => {
-                        if (res.success) {
-                            this.$message.success('删除选项成功！');
-                            var index = this.editQuestion1.options.indexOf(item);
-                            if (index !== -1) {
-                                this.editQuestion1.options.splice(index, 1);
-                            }
-                            this.queryQuestion();
-                        } else {
-                            this.$message.error('删除选项失败！');
-                        }
-
-                    })
-
-                });
-            },
-            //处理修改，获取一个问题的问题和选项
-            editQuestion(questionId) {
-                // this.table = false;
-                this.innerDrawer = true;
-                // console.log(questionId);
-                scaleApi.scale_editOneQuestion(questionId).then((res) => {
-                    this.editQuestion1 = res.questionVO3;
-                })
-            },
-            //修改详情
-            next1: function () {
-                //打开修改页面
-                this.$router.push({
-                    path: '/scale/page/alterInfo/', query: {
-                        scaleId: this.scaleId
-                    }
-                })
-            },
-            //获取所有问题和选项
-            queryQuestion: function () {
-                scaleApi.scale_question(this.scaleId).then((res) => {
-                    this.questions = res.questionVO3;
-                })
-            },
-            //查看量表分数描述
-            queryDesc: function () {
-                scaleApi.scale_desc(this.scaleId).then((res) => {
-                    this.scaleDesc = res.queryResult.list
-                })
-            },
-            //查询量表详细信息
-            queryDetail: function () {
-                scaleApi.scale_detail(this.scaleId).then((res) => {
-                    this.scaleDetail = res.scaleDetail;
-                    this.loading = false;
-                })
-            },
-            //回到列表
-            go_back() {
-                this.$router.push({
-                    path: '/scale/page/list'
-                });
-            },
-            //    下面全是更改量表详细信息
-            onSubmit: function () {
-                //提交
-                this.$refs.params.validate((valid) => {
-                    if (valid) {
-                        //确认提示
-                        this.$confirm('确认修改吗？', '提示', {}).then(() => {
-                            this.addLoading = true;
-                            setTimeout(this.timeOut, 8000)
-                            scaleApi.scale_alterInfo(this.params).then((res) => {
-                                this.addLoading = false;
-                                //    解析响应内容
-                                if (res.success) {
-                                    this.$message.success('提交成功！');
-                                    //进行下一步，关闭抽屉
-                                    this.infoDetail = false;
-                                    this.queryDetail();
-                                } else {
-                                    this.$message.error(res.message);
-                                }
-                            });
-                        });
-                    } else {
-                        this.$message.error('校验失败，请检查内容！');
-                        return false;
-                    }
-                })
-            },
-            queryTypeName: function () {
-                //查询搜有分类
-                scaleApi.type_list().then((res) => {
-                    this.type = res.queryResult.list;
-                })
-
-            },
-            handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
-            },
-            queryDetail2: function () {
-                scaleApi.scale_detail(this.scaleId).then((res) => {
-                    this.params = res.scaleDetail;
-                })
-            },
-        },
-        mounted() {
-            //查询所有分类
-            this.queryTypeName();
-        },
-        created() {
-            //取出路由中的参数,赋值给数据对象
-            this.scaleId = this.$route.query.scaleId;
-            this.queryDetail();
-            this.queryDetail2();
-            this.queryDesc();
-            this.queryQuestion();
+              });
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        });
+      },
+      //清除行，新增问题中使用
+      removeOption1(item) {
+        var index = this.questions1.options.indexOf(item);
+        if (index !== -1) {
+          this.questions1.options.splice(index, 1);
         }
+      },
+      //添加选项，新增问题中使用
+      addOption1() {
+        this.questions1.options.push({
+          sort: '',
+          answer: '',
+          score: null,
+          skip: 0,
+          skipId: ''
+        });
+      },
+      //删除问题
+      delQuestion(questionId) {
+        // console.log(questionId)
+        this.$confirm('确认删除该问题吗？该操作不可撤销？', '提示', {}).then(() => {
+          scaleApi.scale_delQuestion(questionId).then((res) => {
+            if (res.success) {
+              this.queryQuestion();
+              this.$message.success('删除问题成功！');
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        });
+      },
+      //提交更改
+      updateQuestion: function () {
+        this.$confirm('确认保存修改吗？', '提示', {}).then(() => {
+          scaleApi.scale_upOneQuestion(this.editQuestion1).then((res) => {
+            if (res.success) {
+              scaleApi.scale_handleSkip(this.scaleId).then((res) => {
+                if (res.success) {
+                  this.queryQuestion();
+                  this.$message.success('更改成功！');
+                  this.innerDrawer = false;
+                } else {
+                  this.$message.error(res.message);
+                }
+              })
+            } else {
+              this.$message.error(res.message);
+            }
+
+          });
+        });
+      },
+      //添加选项,更改中使用
+      addOption() {
+        this.editQuestion1.options.push({
+          sort: '',
+          answer: '',
+          score: null,
+          skip: 0,
+          skipId: ''
+        });
+      },
+      //删除行,更改中使用
+      removeOption(item) {
+        this.$confirm('确认删除该选项吗？该操作不可撤销？', '提示', {}).then(() => {
+          // console.log(item.id)
+          scaleApi.scale_delOption(item.id).then((res) => {
+            if (res.success) {
+              this.$message.success('删除选项成功！');
+              var index = this.editQuestion1.options.indexOf(item);
+              if (index !== -1) {
+                this.editQuestion1.options.splice(index, 1);
+              }
+              this.queryQuestion();
+            } else {
+              this.$message.error('删除选项失败！');
+            }
+
+          })
+
+        });
+      },
+      //处理修改，获取一个问题的问题和选项
+      editQuestion(questionId) {
+        // this.table = false;
+        this.innerDrawer = true;
+        // console.log(questionId);
+        scaleApi.scale_editOneQuestion(questionId).then((res) => {
+          this.editQuestion1 = res.questionVO3;
+        })
+      },
+      //修改详情
+      next1: function () {
+        //打开修改页面
+        this.$router.push({
+          path: '/scale/page/alterInfo/', query: {
+            scaleId: this.scaleId
+          }
+        })
+      },
+      //获取所有问题和选项
+      queryQuestion: function () {
+        scaleApi.scale_question(this.scaleId).then((res) => {
+          this.questions = res.questionVO3;
+        })
+      },
+      //查看量表分数描述
+      queryDesc: function () {
+        scaleApi.scale_desc(this.scaleId).then((res) => {
+          this.scaleDesc = res.queryResult.list
+        })
+      },
+      //查询量表详细信息
+      queryDetail: function () {
+        scaleApi.scale_detail(this.scaleId).then((res) => {
+          this.scaleDetail = res.scaleDetail;
+          this.loading = false;
+        })
+      },
+      //回到列表
+      go_back() {
+        this.$router.push({
+          path: '/scale/page/list'
+        });
+      },
+      //    下面全是更改量表详细信息
+      onSubmit: function () {
+        //提交
+        this.$refs.params.validate((valid) => {
+          if (valid) {
+            //确认提示
+            this.$confirm('确认修改吗？', '提示', {}).then(() => {
+              this.addLoading = true;
+              setTimeout(this.timeOut, 8000)
+              scaleApi.scale_alterInfo(this.params).then((res) => {
+                this.addLoading = false;
+                //    解析响应内容
+                if (res.success) {
+                  this.$message.success('提交成功！');
+                  //进行下一步，关闭抽屉
+                  this.infoDetail = false;
+                  this.queryDetail();
+                } else {
+                  this.$message.error(res.message);
+                }
+              });
+            });
+          } else {
+            this.$message.error('校验失败，请检查内容！');
+            return false;
+          }
+        })
+      },
+      queryTypeName: function () {
+        //查询搜有分类
+        scaleApi.type_list().then((res) => {
+          this.type = res.queryResult.list;
+        })
+
+      },
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      queryDetail2: function () {
+        scaleApi.scale_detail(this.scaleId).then((res) => {
+          this.params = res.scaleDetail;
+        })
+      },
+    },
+    mounted() {
+      //查询所有分类
+      this.queryTypeName();
+      //  查询所有算分方式
+      this.queryScoreMethod();
+    },
+    created() {
+      //取出路由中的参数,赋值给数据对象
+      this.scaleId = this.$route.query.scaleId;
+      this.queryDetail();
+      this.queryDetail2();
+      this.queryDesc();
+      this.queryQuestion();
     }
+  }
 </script>
 <!--自己的style，控制描述和预警预览框的宽度-->
 <style>

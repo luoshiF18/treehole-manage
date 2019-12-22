@@ -39,9 +39,9 @@
         </el-table-column>
         <el-table-column prop="scaleName" align="center" label="量表名称" width="150">
         </el-table-column>
-        <el-table-column prop="shortName" align="center" label="简称" width="90">
-        </el-table-column>
-        <el-table-column prop="statusName" align="center" sortable="custom" label="状态" width="80">
+<!--        <el-table-column prop="shortName" align="center" label="简称" width="90">
+        </el-table-column>-->
+        <el-table-column prop="statusName" align="center" sortable="custom" label="状态" width="100">
         </el-table-column>
         <el-table-column prop="createTime" sortable="custom" label="创建时间" width="120">
         </el-table-column>
@@ -51,7 +51,9 @@
         </el-table-column>
         <el-table-column prop="typeName" align="center" label="分类" width="100">
         </el-table-column>
-        <el-table-column prop="scaleTypeName" align="center" sortable="custom" label="量表类型" width="150">
+        <el-table-column prop="scaleTypeName" align="center" sortable="custom" label="量表类型" width="100">
+        </el-table-column>
+        <el-table-column prop="scoreMethodName" align="center" label="记分方式" width="100">
         </el-table-column>
         <el-table-column>
           <template slot-scope="page">
