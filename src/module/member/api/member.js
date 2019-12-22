@@ -79,7 +79,7 @@ export const checkin_del= (id)=>{
 export const card_del= (id)=>{
   return http.requestDelete(apiUrl+'/member/card/delete/userId/'+id);
 }
-
+//*------------------------------------------------------------*/
 //新增页面
 export const user_add = params =>{
   return http.requestPost(apiUrl+'/member/user/insert',params);
@@ -99,17 +99,10 @@ export const checkin_add = params =>{
 export const card_add = id =>{
   return http.requestPost(apiUrl+'/member/card/insert/id/'+ id);
 }
-
-export const page_add = params =>{
-  return http.requestPost(apiUrl+'/member/user/insert',params);
-}
-
-
 //根据id查询页面(用户)
 export const user_get= id =>{
   return http.requestQuickGet(apiUrl+'/member/user/find/userId/'+id);
 }
-
 //根据id查询页面(卡)
 export const card_get= id =>{
   return http.requestQuickGet(apiUrl+'/member/card/getCardById/'+id);
@@ -122,15 +115,6 @@ export const freegrade_get= id =>{
 export const paygrade_get= id =>{
   return http.requestQuickGet(apiUrl+'/member/paygrade/getGradeById/'+id);
 }
-//根据id查询页面(用户)
-export const page_get= id =>{
-  return http.requestQuickGet(apiUrl+'/member/user/getUserById/'+id);
-}
-//修改页面提交
-export const page_edit= (id,params) =>{
-  return http.requestPut(apiUrl+'/member/page/edit/'+id,params);
-}
-
 export const user_edit= (params) =>{
   return http.requestPut(apiUrl+'/member/user/update',params);
 }
