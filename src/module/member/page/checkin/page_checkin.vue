@@ -34,9 +34,13 @@
     <el-card>
       <el-table :data="list"
                 v-loading="loading"
-                style="width: 100%"
+                style="width: 100% ;height:350px"
                 height="400"
                 :default-sort = "{prop: 'checkin_time', order: 'descending'}">
+        <template  slot="empty" >
+          <div>暂无数据
+          </div>
+        </template>
         <!--数据详情列表 (fixed)-->
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -128,10 +132,16 @@
       query: function () {
         //1、调用js方法请求服务端页面查询接口  2、导入user.js
         userApi.user_checkin(this.params.page, this.params.size,this.params).then((res) => { //当前页|每页记录数|查询条件
-          // 2）将res结果数据赋值给list数据模型对象
-          this.list = res.queryResult.list;
-          this.total = res.queryResult.total;
-          this.loading = false;
+          if (res.success) {
+            // 2）将res结果数据赋值给list数据模型对象
+            this.list = res.queryResult.list;
+            this.total = res.queryResult.total;
+            this.loading = false;
+          } else {
+            this.list = [];
+            this.total = 0;
+            this.loading = false;
+          }
         })
       },
       //当前页码改变时触发的事件 @current-change="changePage"
@@ -224,7 +234,8 @@
 
 <style scoped>
   .margin{
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   .demo-table-expand {
     font-size: 0;
