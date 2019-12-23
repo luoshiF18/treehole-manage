@@ -22,7 +22,7 @@
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
       <el-table-column prop="name" label="姓名" width="100"></el-table-column>
       <el-table-column prop="free" label="工作状态" width="100"></el-table-column>
-      <el-table-column prop="price" label="收费标准" width="260"></el-table-column>
+      <el-table-column prop="price" label="收费:元/小时" width="260"></el-table-column>
       <el-table-column prop="certificate" label="所持专业证书" width="240"></el-table-column>
       <el-table-column prop="we_chat" label="微信" width="160"></el-table-column>
       <el-table-column prop="qq" label="QQ" width="160"></el-table-column>
