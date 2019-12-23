@@ -3,7 +3,7 @@
   <div>
     <el-form :model="params" :inline="true">
       <el-form-item label="建议ID">
-        <el-input v-model="params.suggestion_id" placeholder="请输入您要查询的建议ID"></el-input>
+        <el-input v-model="params.suggestion_id" placeholder="请输入您要查询的建议ID" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" v-on:click="query" icon="el-icon-search">查询</el-button>
@@ -20,15 +20,15 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="suggestion_id" label="建议ID" width="155"></el-table-column>
-      <el-table-column prop="description" label="病情描述" width="180"></el-table-column>
+      <el-table-column prop="suggestion_id" label="建议ID" width="180"></el-table-column>
+      <el-table-column prop="description" label="病情描述" width="200"></el-table-column>
       <el-table-column prop="suggestion_info" label="建议信息" width="200"></el-table-column>
       <el-table-column prop="psychotherapy" label="心理治疗" width="200"></el-table-column>
       <el-table-column prop="physicotherapy" label="物理治疗" width="200"></el-table-column>
-      <el-table-column prop="warning" label="预警等级" width="160"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="110" :formatter="dateFormat"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="110" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="操作" width="140">
+      <el-table-column prop="warning" label="预警等级" width="180"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" width="160" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" width="160" :formatter="dateFormat"></el-table-column>
+      <el-table-column label="操作" width="150">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.suggestion_id)" icon="el-icon-edit">编辑</el-button>
           <el-button size="small" type="text" @click="del(page.row.suggestion_id)" icon="el-icon-delete">删除</el-button>

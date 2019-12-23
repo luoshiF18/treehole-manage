@@ -72,7 +72,6 @@
 
 <script>
     import * as marketingApi from '../../api/marketing'
-    import CouponInfoForm from "../../components/CouponInfoForm";
     export default {
         name: "activity_info",
         data() {
@@ -179,9 +178,6 @@
             }
 
         },
-        components:{
-            CouponInfoForm
-        }
     }
 </script>
 <!--自己的style，控制描述和预警预览框的宽度-->

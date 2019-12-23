@@ -11,6 +11,7 @@
         <el-form-item label="活动类型" prop="type">
           <el-select v-model="activityRequest.activity.typeId" placeholder="请选择活动类型">
             <el-option label="签到"     value="4_4_0"></el-option>
+            <el-option label="送积分"     value="5_4_0"></el-option>
           </el-select>
         </el-form-item>
 
@@ -109,6 +110,7 @@
                                     this.$message.success('提交成功')
                                     //将表单清空
                                     this.$refs['pointUpdateForm'].resetFields();
+                                    this.go_back();
                                 }else if(res.message){
                                     this.$message.error(res.message)
                                 }else{

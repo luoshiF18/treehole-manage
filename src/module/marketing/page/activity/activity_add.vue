@@ -3,14 +3,15 @@
     <div>
       <el-steps :active="active" finish-status="success" simple>
         <el-step title="基本信息"></el-step>
+        <el-step title="活动描述"></el-step>
         <el-step title="活动规则"></el-step>
         <el-step title="选择商品"></el-step>
       </el-steps>
       <div v-if="active === 0">
         <el-card>
           <el-form :model="activityRequest.activity" style="margin-top: 20px;" label-width="150px">
-            <el-form-item label="活动类型" prop="type">
-              <el-select v-model="activityRequest.activity.typeId" placeholder="请选择活动类型">
+            <el-form-item label="优惠活动类型" prop="typeId">
+              <el-select v-model="activityRequest.activity.typeId" placeholder="请选择优惠活动类型">
                 <el-option label="满减"     value="1_1_1"></el-option>
                 <el-option label="促销价"   value="2_2_1"></el-option>
                 <el-option label="打折"     value="3_3_1"></el-option>
@@ -22,8 +23,18 @@
             <el-form-item label="活动名称" prop="title" >
               <el-input v-model="activityRequest.activity.title"></el-input>
             </el-form-item>
+            <el-form-item label="活动短名称" prop="shortTitle" >
+              <el-input v-model="activityRequest.activity.shortTitle"></el-input>
+            </el-form-item>
             <el-form-item label="副标题" prop="subTitle">
               <el-input v-model="activityRequest.activity.subTitle"></el-input>
+            </el-form-item>
+            <el-form-item label="活动上线时间">
+              <el-date-picker
+                v-model="activityRequest.activity.releaseTime"
+                type="date"
+                placeholder="选择上线日期">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="活动起止时间">
               <el-col :span="8">
@@ -47,6 +58,22 @@
 
       </div>
       <div v-if="active === 1">
+        <el-form :model="activityRequest.activity">
+          <!--<quill-editor
+            v-model="activityRequest.activity.description"
+            ref="myQuillEditor"
+          >
+          </quill-editor>-->
+          <v-editor v-model="activityRequest.activity.description"/>
+
+           <!-- <quill-editor
+              v-model="activityRequest.activity.description"
+              ref="myQuillEditor"
+            >
+            </quill-editor>-->
+        </el-form>
+      </div>
+      <div v-if="active === 2">
         <el-card>
 
           <el-form :model="activityRequest.activityRule" style="margin-top: 20px;" label-width="150px">
@@ -94,14 +121,14 @@
           </el-form>
         </el-card>
       </div>
-      <div v-if="active === 2">
+      <div v-if="active === 3">
         <el-card>
           <el-form  style="margin-top: 20px;" label-width="150px" :model="res">
             <el-form-item label="商品类型">
               <el-radio-group v-model="res.resTypes" >
                 <el-radio :label="1">量表</el-radio>
-                <el-radio :label="2">视频</el-radio>
-                <el-radio :label="3">咨询</el-radio>
+               <!-- <el-radio :label="2">视频</el-radio>
+                <el-radio :label="3">咨询</el-radio>-->
               </el-radio-group>
             </el-form-item>
 
@@ -176,9 +203,9 @@
 
 
       <div class="deployBtn">
-        <el-button style="margin-top:  12px;" @click="prev" v-if="active==1||active==2">上一步</el-button>
-        <el-button style="margin-top:  12px;" @click="next" v-if="active==0||active==1">下一步</el-button>
-        <el-button v-if="active==2" @click="submit">提交</el-button>
+        <el-button style="margin-top:  12px;" @click="prev" v-if="active==1||active==2 ||active==3">上一步</el-button>
+        <el-button style="margin-top:  12px;" @click="next" v-if="active==0||active==1 || active==2">下一步</el-button>
+        <el-button v-if="active==3" @click="submit">提交</el-button>
       </div>
     </div>
 
@@ -188,6 +215,7 @@
 
 <script>
     import * as marketingApi from '../../api/marketing'
+    import vEditor from '../../components/Editor'
     export default {
         name: "activity_add",
         data() {
@@ -212,9 +240,11 @@
                 activityRequest: {//提交的活动内容
                     activity: {
                         id: '',
+                        shortTitle: '',
                         title: '',
                         subTitle: '',
                         typeId:'',
+                        releaseTime: '',
                         beginTime: '',
                         endTime: '',
                         typeName: '',
@@ -279,7 +309,7 @@
                         //    解析响应内容
                         if (res.success) {
                             this.$message.success('提交成功！');
-                            //进行下一步，添加问题和选项
+                            this.go_back();
                         } else {
                             this.$message.error(res.message);
                         }
@@ -289,7 +319,9 @@
             queryScaleType() {
                 if(this.res.resTypes == 1){
                     marketingApi.queryScaleType().then((res) => {
+                        if(res.success){
 
+                        }
                         this.scaleTypes = res.queryResult.list;
                         //alert(JSON.stringify(this.res.scaleTypes))
                         //alert(this.res.scaleTypes[0].id)
@@ -307,8 +339,8 @@
             turnToGoods() {
               if(this.res.resTypes == "1"){
                   if(this.multipleSelection.length>0){
-                      //const goodsList = this.activityRequest.activityGoodsList.reverse();//为了实现新增加数据的在上面
-                      const goodsList = this.activityRequest.activityGoodsList;//为了实现新增加数据的在上面
+                      const goodsList = this.activityRequest.activityGoodsList.reverse();//为了实现新增加数据的在上面
+                      //const goodsList = this.activityRequest.activityGoodsList;//为了实现新增加数据的在上面
                       let lists = [];
                       for (let i = 0; i < this.multipleSelection.length; i++) {
                           let scale= this.multipleSelection[i];
@@ -334,8 +366,8 @@
                           this.activityRequest.activityGoodsList = goodsList.concat(lists);
 
                       }
-                      //this.activityRequest.activityGoodsList.reverse();//为了实现新增加数据的在上面
-                      this.activityRequest.activityGoodsList;//为了实现新增加数据的在上面
+                      this.activityRequest.activityGoodsList.reverse();//为了实现新增加数据的在上面
+                      //this.activityRequest.activityGoodsList;//为了实现新增加数据的在上面
 
                       this.$refs.multipleTable.clearSelection();//
                   }
@@ -359,7 +391,7 @@
                 if(this.active < 0) this.active = 0;
             },
             next() {
-                if(this.active++ > 2) this.active = 0;
+                if(this.active++ > 3) this.active = 0;
             },
             //商品类型
             formatResType(row, column){
@@ -377,6 +409,16 @@
 
                 }
             },*/
+            // 返回
+            go_back:function () {
+                // 获取当前路由
+                this.$router.push({
+                    path:'/marketing/activity/page/list',
+                    query:{
+
+                    }
+                })
+            },
         },
         mounted() {
             this.queryScaleType();
@@ -393,6 +435,9 @@
 
                 }
             },
+        },
+        components: {
+          vEditor
         }
     }
 </script>
@@ -426,5 +471,15 @@
   .del {
     color: #f5354c;
   }
+
+  .edit_container {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+
 
 </style>

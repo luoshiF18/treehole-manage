@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-card>
+    <el-card >
       <el-form :model="pagination">
         <router-link tag="span" :to="{path:'/marketing/extension/add'}">
           <el-button type="primary" size="medium" plain>添加推广</el-button>
@@ -32,7 +32,24 @@
           <div>暂无数据
           </div>
         </template>
-        <el-table-column fixed prop="modeName" label="推广方式" width="120" align="center"></el-table-column>
+        <el-table-column fixed prop="modeName" label="推广方式"align="center" min-width="6%"></el-table-column>
+        <el-table-column prop="title" label="标题"align="center" min-width="10%"></el-table-column>
+        <el-table-column prop="content" label="文本内容"align="center" min-width="20%" show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.content}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="usedForStr" label="推广内容"align="center" min-width="6%"></el-table-column>
+        <el-table-column prop="usedForId" label="推广资源id" align="center" min-width="22%"></el-table-column>
+        <el-table-column prop="count" label="预计发送"align="center" min-width="6%"></el-table-column>
+      <!--  <el-table-column prop="succCount" label="成功发送"  align="center"></el-table-column>-->
+
+        <el-table-column fixed="right" label="操作" align="center" min-width="9%">
+          <template slot-scope="scope">
+            <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
+          </template>
+        </el-table-column>
+      <!--  <el-table-column fixed prop="modeName" label="推广方式" width="120" align="center"></el-table-column>
         <el-table-column prop="title" label="标题" width="120" align="center"></el-table-column>
         <el-table-column prop="content" label="文本内容" width="160" align="center"></el-table-column>
         <el-table-column prop="usedForStr" label="推广内容"  width="160" align="center"></el-table-column>
@@ -44,7 +61,7 @@
           <template slot-scope="scope">
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
           </template>
-        </el-table-column>
+        </el-table-column>-->
       </el-table>
 
       <el-pagination
@@ -133,7 +150,8 @@
         },
         mounted() {
             this.queryExtensionFromServer();
-        }
+        },
+
     }
 </script>
 

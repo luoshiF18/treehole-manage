@@ -2,7 +2,7 @@
   <div>
     <el-form :model="params" :inline="true">
       <el-form-item label="咨询师ID">
-        <el-input v-model="params.psychologist_id" placeholder="请输入您要查询的咨询师ID"></el-input>
+        <el-input v-model="params.psychologist_id" placeholder="请输入您要查询的咨询师ID" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" v-on:click="query">查询</el-button>
@@ -20,15 +20,15 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="consultation_id" label="咨询记录ID" width="160"></el-table-column>
-      <el-table-column prop="suggestion_id" label="建议ID" width="160"></el-table-column>
-      <el-table-column prop="user_id" label="用户ID" width="146"></el-table-column>
-      <el-table-column prop="user_nickname" label="用户昵称" width="160"></el-table-column>
-      <el-table-column prop="psychologist_id" label="咨询师ID" width="155"></el-table-column>
-      <el-table-column prop="psychologist_name" label="咨询师姓名" width="160"></el-table-column>
-      <el-table-column prop="type" label="咨询类型" width="160"></el-table-column>
+      <el-table-column prop="consultation_id" label="咨询记录ID" width="180"></el-table-column>
+      <el-table-column prop="suggestion_id" label="建议ID" width="180"></el-table-column>
+      <el-table-column prop="user_id" label="用户ID" width="180"></el-table-column>
+      <el-table-column prop="user_nickname" label="用户昵称" width="180"></el-table-column>
+      <el-table-column prop="psychologist_id" label="咨询师ID" width="180"></el-table-column>
+      <el-table-column prop="psychologist_name" label="咨询师姓名" width="180"></el-table-column>
+      <el-table-column prop="type" label="咨询类型" width="180"></el-table-column>
       <el-table-column prop="consultation_time" label="咨询时间" width="200" :formatter="dateFormat"></el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="170">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="opensug(page.row.suggestion_id)" icon="el-icon-search">查看建议
           </el-button>
