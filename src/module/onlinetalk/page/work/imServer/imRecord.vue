@@ -128,8 +128,8 @@ export default {
     },
   created(){
     /*  this.user.username = utilApi.getUserSession("activeUser").username;*/
-if (utilApi.getActiveUser()!=null && utilApi.getActiveUser()!=''){
-  this.user.username =activeUser.username;
+if (utilApi.getActiveUser().username!=null && utilApi.getActiveUser().username!=''){
+  this.user.username =utilApi.getActiveUser().username;
 } else{
   this.user.username ="test";
 }

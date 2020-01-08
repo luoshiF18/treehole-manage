@@ -49,8 +49,25 @@
 
               <el-menu-item index="/member/page/point">会员积分</el-menu-item>
               <el-menu-item index="/member/page/checkin">会员签到</el-menu-item>
+
+            <el-submenu index="4-2">
+              <template slot="title">权限管理</template>
+              <el-menu-item index="/member/page/menu/menuList">权限列表</el-menu-item>
+              <el-menu-item index="/member/page/menu/add">权限新增</el-menu-item>
+              <el-menu-item index="/member/page/menu/menuPortion">权限分配</el-menu-item>
+            </el-submenu>
+              <el-submenu index="4-3">
+                <template slot="title">角色管理</template>
+                <el-menu-item index="/member/page/role/List">角色列表</el-menu-item>
+                <el-menu-item index="/member/page/role/add">角色新增</el-menu-item>
+              </el-submenu>
+
+
             </el-menu-item-group>
           </el-submenu>
+
+
+
 
           <el-submenu index="5">
             <template slot="title"><span>档案管理</span></template>

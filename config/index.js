@@ -26,6 +26,13 @@ module.exports = {
           '^/api': ''  //将/api转换成''空字符串
         }
       },
+      '/api/dbblog': {
+        target: 'http://localhost:8080',
+        pathRewrite: {
+          '^/api': ''  //将/api转换成''空字符串
+        }
+      },
+
       '/getIMServerList': {
         target: 'http://localhost:3000',
         pathRewrite: {
@@ -77,7 +84,7 @@ module.exports = {
 
       },
       '/api/auth': {
-        target: 'http://localhost:40400',
+        target: 'http://127.0.0.1:40400',
         pathRewrite: {
           '^/api': ''  //将/api转换成''空字符串
         }
@@ -212,7 +219,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

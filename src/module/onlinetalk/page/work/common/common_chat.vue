@@ -107,7 +107,7 @@
 <script>
 import common_chat_emoji from './common_chat_emoji.vue';
 import * as agentApi from '../../../api/onlinetalk'
-
+import utilApi from '../../../../../common/utils'
 export default {
     components: {
         commonChatEmoji: common_chat_emoji
@@ -115,7 +115,8 @@ export default {
     props: {
       serverChatEn1: {
         serverChatName: '',
-        avatarUrl: ''
+        avatarUrl: '',
+        serverChatId: ''
       }, // 服务端chat信息
       clientChatEn1: {
         clientChatId: '',
@@ -573,15 +574,12 @@ export default {
                   if(res.success){
                     //this.addLoading = false;
                     //NProgress.done();
-                   /* this.$message({
+                    this.$message({
                       message: '提交成功',
                       type: 'success'
-                    });*/
+                    });
                     //this.$refs['agentForm'].resetFields();
 
-                  }else if(res.message){
-                    this.addLoading = false;
-                    this.$message.error(res.message);
                   }else{
                     this.addLoading = false;
                     this.$message.error('提交失败');
@@ -635,8 +633,13 @@ export default {
           }else{
             //this.convers.convers_agentname = this.storeServerChatEn().serverChatEn1.serverChatName
             //this.message1.message_type = 'server'
-            this.message1.convers_id =      this.convers2.convers_userid
-            this.convers.convers_id =       this.convers2.convers_id
+            this.message1.agent_id = utilApi.getActiveUser().userid
+            this.message1.agent_name = utilApi.getActiveUser().username
+            this.message1.convers_id =     this.clientChatEn1.clientChatId// this.convers2.convers_userid
+            this.message1.touser_name = this.clientChatEn1.clientChatName
+            this.message1.touser_id = this.clientChatEn1.clientChatId
+            this.convers.convers_id = this.clientChatEn1.clientChatId
+            //this.convers.convers_id =       this.convers2.convers_id
             this.convers.convers_agentid =  this.convers2.convers_agentid
             this.convers.convers_userid =   this.convers2.convers_userid
             this.convers.convers_username =  this.convers2.convers_username
@@ -653,7 +656,8 @@ export default {
          // alert(this.message1.message_content)
          // alert(this.message1.calltype)
           //alert(this.message1.calltype)
-          this.convers_add()
+          this.convers_add();
+          //alert("保存信息")
           this.addMessage();
 
 

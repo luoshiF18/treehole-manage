@@ -21,6 +21,17 @@ import freegrade_edit from '@/module/member/page/freegrade/freegrade_edit.vue';
 
 import page_add from '@/module/member/page/page_add.vue';
 import page_edit from '@/module/member/page/page_edit.vue';
+import menu from '@/module/member/page/menu/menu.vue';
+import menuAdd from '@/module/member/page/menu/menu_add.vue';
+import menuEdit from '@/module/member/page/menu/menu_edit.vue';
+import menuPortion from '@/module/member/page/menu/menu_portion.vue';
+
+
+import role from '@/module/member/page/role/role.vue';
+import roleAdd from '@/module/member/page/role/role_add.vue';
+import roleEdit from '@/module/member/page/role/role_edit.vue';
+
+import permiss from '@/module/member/page/permission/permission.vue';
 
 export default [{
     path: '/',
@@ -49,8 +60,18 @@ export default [{
       {path:'/member/page/add',name:'会员卡新增页面',component: card_add,hidden:true},
       {path:'/member/page/point/point_add',name:'积分新增页面',component: point_add,hidden:true},
       {path:'/member/page/checkin/checkin_add',name:'签到新增页面',component: checkin_add,hidden:true},
-      {path:'/member/page/add',name:'新增页面',component: page_add,hidden:true}
+      {path:'/member/page/add',name:'新增页面',component: page_add,hidden:true},
 
+      {path:'/member/page/menu/menuList',name:'权限列表',component: menu,hidden:false},
+      {path:'/member/page/menu/add',name:'新增权限',component:menuAdd,hidden:false},
+      {path:'/member/page/menu/edit/:id',name:'修改权限',component:menuEdit,hidden:false},
+      {path:'/member/page/menu/menuPortion',name:'权限分配',component:menuPortion,hidden:false},
+
+      {path:'/member/page/role/List',name:'角色列表',component: role,hidden:false},
+      {path:'/member/page/role/add',name:'新增角色',component:roleAdd,hidden:false},
+      {path:'/member/page/role/edit/:id',name:'修改角色',component:roleEdit,hidden:false},
+
+      {path:'/member/page/permiss/list/:id',name:'角色权限列表',component: permiss,hidden:false},
     ]
   }
 ]

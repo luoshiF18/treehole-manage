@@ -87,9 +87,10 @@
         }else{
 
           if(!uid){
-            this.$message('请登录');
+            this.logined = true
+            /*this.$message('请登录');
             this.$router.push({ path: '/'})
-            return ;
+            return ;*/
           }
           //请求查询jwt
           logoutApi.getjwt().then((res) => {

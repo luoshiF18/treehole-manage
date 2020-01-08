@@ -105,7 +105,7 @@
       <el-table-column align="center" type="selection" width="55"></el-table-column>
       <el-table-column label="序号"
                        width="50" align="center">
-        <template scope="scope"><span v-text="getIndex(scope.$index)"></span></template>
+        <template slot-scope="scope"><span v-text="getIndex(scope.$index)"></span></template>
       </el-table-column>
       <el-table-column align="center" prop="userName" label="用户名"></el-table-column>
       <el-table-column align="center" prop="user_name" label="姓名"></el-table-column>

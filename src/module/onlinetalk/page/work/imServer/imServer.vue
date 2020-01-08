@@ -3,7 +3,7 @@
   <div class="imServer-wrapper">
     <main class="imServer-main">
       <im-record class="item im-record" @selectedChat="selectedChat()"></im-record>
-      <im-chat v-if="storeSelectedChatEn!=null":serverChatEn1="serverChatEn" :clientChatEn1="clientChatEn" :oprRoleName="server" ref="im_chat" class="item im-chat"></im-chat>
+      <im-chat v-if="storeSelectedChatEn!=null":serverChatEn1="serverChatEn"  :oprRoleName="server" ref="im_chat" class="item im-chat"></im-chat>
 
       <!--  <im-record class="item im-record1" @selectedChat="selectedChat()"></im-record>-->
     </main>
@@ -13,7 +13,7 @@
 <script >
   import imRecord from './imRecord.vue';
   import imChat from './imChat.vue';
-
+  import utilApi from '../../../../../common/utils'
   export default {
     components: {
       imRecord: imRecord,
@@ -79,7 +79,19 @@
       selectedChat: function() {}
     },
     mounted() {
+      //alert("22222")
+     // this.$store.serverChatEn.serverChatName = utilApi.getActiveUser().username;
+      //this.$store.serverChatEn.serverChatId = utilApi.getActiveUser().userid;
+      //this.$store.imServerStore.initServer;
+      //alert("12345")
       this.$store.imServerStore.dispatch('SERVER_ON');
+
+      //this.$store.imServerStore.dispatch('SERVER_ON');
+
+    },
+    created(){
+      //this.$store.imServerStore.serverChatEn.serverChatName = utilApi.getActiveUser().username;
+      //this.$store.imServerStore.serverChatEn.serverChatId = utilApi.getActiveUser().userid;
     },
     destroyed() {
       this.$store.imServerStore.dispatch('SERVER_OFF');

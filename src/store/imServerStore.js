@@ -11,12 +11,13 @@ Vue.use(Vuex);
 export const imServerStore = new Vuex.Store({
     state: {
         serverChatEn: {
-            serverChatId: Number.parseInt(Date.now() + Math.random()),
+            //serverChatId: Number.parseInt(Date.now() + Math.random()),
             //serverChatId: utilApi.getActiveUser().userid,
            /* serverChatId: Number.parseInt(159753),*/
-            //serverChatName: this.finduser,
-            serverChatName: '小P',
-           // serverChatName: utilApi.getActiveUser().username,
+            //serverChatName: this.findUserName,
+            serverChatName:'未知',//(utilApi.getActiveUser()) ? '未知':utilApi.getActiveUser().username,
+             serverChatId: '未知',//(utilApi.getActiveUser().userid==null) ? '未知':utilApi.getActiveUser().userid,
+            //serverChatName: utilApi.getActiveUser().username,
             avatarUrl: '/static/images/im_server_avatar.png'
         },
         selectedChatEn: null, // 选取的会话对象
@@ -27,16 +28,6 @@ export const imServerStore = new Vuex.Store({
     },
     mutations: {
 
-
-      finduser: function() {
-        if( utilApi.getActiveUser() !=null ){
-          return utilApi.getActiveUser().username;
-        }else{
-          return '小P'
-        }
-
-
-      },
 
 
         /**
@@ -403,11 +394,13 @@ export const imServerStore = new Vuex.Store({
         SERVER_ON: function(context, payload) {
             context.state.socket = require('socket.io-client')('http://localhost:3001');
             context.state.socket.on('connect', function() {
+              //serverChatName='未知',//(utilApi.getActiveUser()) ? '未知':utilApi.getActiveUser().username,
+                //serverChatId: '未知',//(utilApi.getActiveUser().userid==null) ? '未知':utilApi.getActiveUser().userid,
                 // 服务端上线
                 context.state.socket.emit('SERVER_ON', {
                     serverChatEn: {
-                        serverChatId: context.state.serverChatEn.serverChatId,
-                        serverChatName: context.state.serverChatEn.serverChatName,
+                        serverChatId:utilApi.getActiveUser().userid,// context.state.serverChatEn.serverChatId,
+                        serverChatName: utilApi.getActiveUser().username,//context.state.serverChatEn.serverChatName,
                         avatarUrl:context.state.serverChatEn.avatarUrl
                     }
                 });
@@ -472,6 +465,10 @@ export const imServerStore = new Vuex.Store({
             context.state.socket.close();
             context.state.socket = null;
         },
+      /*initServer: function() {
+        this.state.serverChatEn.serverChatName=utilApi.getActiveUser().username,
+          this.state.serverChatEn.serverChatId=utilApi.getActiveUser().userid
+          },*/
 
         /**
          * 发送消息
@@ -511,7 +508,13 @@ export const imServerStore = new Vuex.Store({
          */
         serverChatEn: function(state) {
 
-
+          /*if(utilApi.getActiveUser().username!=null){
+            this.state.serverChatEn.serverChatId = utilApi.getActiveUser().username;
+          }
+          if(utilApi.getActiveUser().userid!=null){
+            this.state.serverChatEn.serverChatName = utilApi.getActiveUser().userid;
+          }*/
+          //utilApi.getActiveUser().username===null ? '未知':
 
             /*this.state.serverChatEn.serverChatId = activeUser.userid;
           this.state.serverChatEn.serverChatName = activeUser.username;*/

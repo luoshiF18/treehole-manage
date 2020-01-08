@@ -154,5 +154,87 @@ export const page_template =() =>{
 }
 
 
+/**
+ * 权限模块
+ */
+export const menu_list = (params) =>{
+  // 将params对象数据拼装成key/value串
+  let queryString = querystring.stringify(params);
+  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据
+  //alert(queryString)
+  return http.requestQuickGet(apiUrl+'/member/ThMenu/find/all'+'?'+queryString);
+}
 
+export const findMenuById = (id) =>{
 
+  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据
+  return http.requestQuickGet(apiUrl+'/member/ThMenu/find/menu/'+id);
+}
+
+export const menu_add = params =>{
+  return http.requestPost(apiUrl+'/member/ThMenu/insert',params);
+}
+
+//删除页面（）
+export const menu_del= (id)=>{
+  return http.requestDelete(apiUrl+'/member/ThMenu/delete/'+id);
+}
+
+export const menu_edit= (params) =>{
+  return http.requestPut(apiUrl+'/member/ThMenu/update',params);
+}
+
+/**
+ * 角色模块
+ */
+export const role_list = (page,size,params) =>{
+  // 将params对象数据拼装成key/value串
+  let queryString = querystring.stringify(params);
+  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据
+  //alert(queryString)
+  return http.requestQuickGet(apiUrl+'/member/role/find/all/'+page+'/'+size+'?'+queryString);
+}
+
+export const findRoleById = (id) =>{
+
+  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据
+  return http.requestQuickGet(apiUrl+'/member/role/find/id/'+id);
+}
+
+export const role_add = params =>{
+  return http.requestPost(apiUrl+'/member/role/insert',params);
+}
+
+//删除页面（）
+export const role_del= (id)=>{
+  return http.requestDelete(apiUrl+'/member/role/delete/'+id);
+}
+
+export const role_edit= (params) =>{
+  return http.requestPut(apiUrl+'/member/role/update',params);
+}
+
+export const permission_list = (role_id) =>{
+  // 将params对象数据拼装成key/value串
+  //let queryString = querystring.stringify(params);
+  // 请求服务端的页面查询接口 通过ajax调用接口来请求数据
+  //alert(queryString)
+  return http.requestQuickGet(apiUrl+'/member/permission/find/'+role_id);
+}
+//删除perss（）
+export const perss_del= (id)=>{
+  return http.requestDelete(apiUrl+'/member/permission/delete/'+id);
+}
+export const user_rolelist = () =>{
+  return http.requestQuickGet(apiUrl+ '/member/role/findAll');
+}
+//查询所有父菜单
+export const user_menulistf = () =>{
+  return http.requestQuickGet(apiUrl+ '/member/ThMenu/findAllf');
+}
+export const user_menulist = (id) =>{
+  return http.requestQuickGet(apiUrl+ '/member/ThMenu/findAll/'+id);
+}
+export const permission_add = params =>{
+  return http.requestPost(apiUrl+'/member/permission/insert',params);
+}

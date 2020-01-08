@@ -147,10 +147,10 @@ export default {
          * 注册账号信息
          */
         regClientChatEn: function() {
-            this.$data.clientChatEn.clientChatId = Number.parseInt(Date.now() + Math.random());
+            //this.$data.clientChatEn.clientChatId = Number.parseInt(Date.now() + Math.random());
             // 名称格式：姓+6位数字
-            var userName = '';
-            switch (this.$data.clientChatEn.clientChatId % 5) {
+           // var userName = '';
+           /* switch (this.$data.clientChatEn.clientChatId % 5) {
                 case 0:
                     userName = '张';
                     break;
@@ -166,15 +166,47 @@ export default {
                 case 4:
                     userName = '孙';
                     break;
-            }
+            }*/
 
-          if(utilApi.getActiveUser() !=null&&utilApi.getActiveUser()!=''){
-            this.$data.clientChatEn.clientChatName = utilApi.getActiveUser().username;//userName;
-          }else{
-            var tmpId = this.$data.clientChatEn.clientChatId.toString();
-            userName += tmpId.substr(tmpId.length - 6, 6);
-            this.$data.clientChatEn.clientChatName = userName;
-          }
+          //if (window.opener != null && !window.opener.closed) {
+           // this.$data.clientChatEn.clientChatName = window.opener.document.getElementById("txtName");
+           // this.$data.clientChatEn.clientChatId = window.opener.document.getElementById("txtName");
+
+
+            //var txtName = window.opener.document.getElementById("txtName");//获取父窗口中元素，也可以获取父窗体中的值
+            //txtName.value = document.getElementById("ddlNames").value;//将子窗体中的值传递到父窗体中去
+        //  }
+
+         /* var url = location.search; //获取url中"?"符后的字串
+          if (url.indexOf("?") != -1) {    //判断是否有参数
+            var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+            strs = str.split("=");   //用等号进行分隔 （因为知道只有一个参数 所以直接用等号进分隔 如果有多个参数 要用&号分隔 再用等号进行分隔）
+            alert(strs[1]);          //直接弹出第一个参数 （如果有多个参数 还要进行循环的）
+          }*/
+
+
+         // var afterUrl =  window.location.search.substring(1);
+
+         // var afterEqual = afterUrl.substring(afterUrl.indexof('=')+1).toUpperCase();
+        //alert(afterEqual)
+
+          //if(utilApi.getActiveUser()!=null){
+           /* var afterUrl =  window.location.search.substring(1);
+
+            var name = afterUrl.substring(afterUrl.indexof('=')+2).toUpperCase();
+            var id = afterUrl.substring(afterUrl.indexof('=')+1).toUpperCase();
+            alert(afterEqual)*/
+
+           // this.$data.clientChatEn.clientChatName = name;//userName;
+           // this.$data.clientChatEn.clientChatId = id;//userName;
+
+           /* this.$data.clientChatEn.clientChatName = utilApi.getActiveUser().username;//userName;
+            this.$data.clientChatEn.clientChatId = utilApi.getActiveUser().userid;//userName;*/
+         // }else{
+            //var tmpId = this.$data.clientChatEn.clientChatId.toString();
+           // userName += tmpId.substr(tmpId.length - 6, 6);
+            //this.$data.clientChatEn.clientChatName = userName;
+         // }
 
 
             // 模拟消息
@@ -380,7 +412,26 @@ export default {
             });
         }
     },
-    mounted() {
+
+
+  created(){
+    //var url = location.hash; //获取url中"?"符后的字串
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+      function (m, key, value) {
+        vars[key] = value;
+      }
+    );
+   // return vars;
+   // alert(vars['id'])
+    this.$data.clientChatEn.clientChatId = vars['id'];
+    this.$data.clientChatEn.clientChatName = vars['name'];
+
+  },
+
+
+
+mounted() {
         this.regClientChatEn();
     }
 };
