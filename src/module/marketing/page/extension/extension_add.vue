@@ -9,6 +9,8 @@
            <el-radio-group v-model="extension.mode">
              <el-radio-button :label="0">邮件</el-radio-button>
             <!-- <el-radio-button :label="1">短信</el-radio-button>-->
+             <el-radio-button :label="2">站内信</el-radio-button>
+
            </el-radio-group>
          </el-form-item>
          <div v-if="extension.mode == 0">
@@ -25,13 +27,20 @@
                        placeholder="示例：" id="content"></el-input>
            </el-form-item>
          </div>
-          <div v-if="extension.mode == 1">
-            <el-form-item label="短信内容">
-              <el-input type="textarea"
-                        v-model="extension.content"
-                        placeholder="示例：" id="content"></el-input>
-            </el-form-item>
-          </div>
+         <div v-if="extension.mode == 1">
+           <el-form-item label="短信内容">
+             <el-input type="textarea"
+                       v-model="extension.content"
+                       placeholder="示例：" id="content"></el-input>
+           </el-form-item>
+         </div>
+         <div v-if="extension.mode == 2">
+           <el-form-item label="站内信内容">
+             <el-input type="textarea"
+                       v-model="extension.content"
+                        id="content"></el-input>
+           </el-form-item>
+         </div>
          <el-form-item label="资源类型">
            <el-radio-group v-model="extension.usedFor">
              <el-radio-button label="true">活动</el-radio-button>
@@ -71,7 +80,7 @@
                 </template>
                 <el-table-column type="selection" align="center" width="60"></el-table-column>
                 <el-table-column prop="userName" align="center" label="用户名" width="180"></el-table-column>
-                <el-table-column prop="to" align="center" label="联系方式" width="150"></el-table-column>
+                <el-table-column prop="to" align="center" label="联系方式/ID" width="150"></el-table-column>
               </el-table>
             </div>
           </el-form>
@@ -146,6 +155,8 @@
                                 [u.userName, u.to] = [l.user_nickname, l.user_email];
                             } else if(this.extension.mode == 1){ //短信  to:手机号
                                 [u.userName, u.to] = [l.user_nickname, l.user_phone];
+                            } else if(this.extension.mode == 2){ //站内信  to：用户id
+                                [u.userName, u.to] = [l.user_nickname, l.user_id];
                             }
                             //console.log(JSON.stringify(u));
                             list = list.concat(u);    //list加上u之后赋给list

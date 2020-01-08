@@ -81,7 +81,7 @@ export const activity_update = (activityRequest) => {
 }
 
 //活动下线
-export function activity_updateStatus(id) {
+export const activity_updateStatus = (id) =>{
   return http.requestPut(apiUrl + "/marketing/activity/status/" +id);
 }
 
@@ -140,50 +140,50 @@ export const extension_del = (id) => {
 
 //交互活动
 
-export function interactiveactivity_list(pagination) {
+export const interactiveactivity_list =  (pagination) => {
   let queryString = querystring.stringify(pagination);
   return http.requestQuickGet(apiUrl + "/marketing/interaction/list?"+queryString)
 }
 
-export function interactiveactivity_del(id) {
+export const interactiveactivity_del = (id) => {
   return http.requestDelete(apiUrl + "/marketing/interaction/"+id)
 }
 
-export function interactiveActivity_updateStatus(id) {
+export const interactiveActivity_updateStatus = (id) => {
   return http.requestPut(apiUrl + "/marketing/interaction/status/" +id);
 }
 
-export function interactiveActivity_add(interactiveActivity) {
+export const interactiveActivity_add = (interactiveActivity) => {
  return http.requestPost(apiUrl + "/marketing/interaction" , interactiveActivity)
 }
 
-export function interactiveActivity_update(interactiveActivity) {
+export const interactiveActivity_update = (interactiveActivity) => {
   return http.requestPut(apiUrl + "/marketing/interaction" , interactiveActivity)
 }
 
-export function interactiveActivity_info(id) {
+export const interactiveActivity_info = (id) => {
   return http.requestQuickGet(apiUrl + "/marketing/interaction/info/" + id)
 }
 
 //优惠券类型管理
 
-export function coupontype_all() {
+export const coupontype_all = () => {
   return http.requestQuickGet(apiUrl + "/marketing/coupon_type/all")
 }
 
-export function coupontype_del(id) {
+export const coupontype_del = (id) => {
   return http.requestDelete(apiUrl +"/marketing/coupon_type/" +id);
 }
 
-export function coupontype_add(type) {
+export const coupontype_add = (type) => {
   return http.requestPost(apiUrl +"/marketing/coupon_type", type);
 }
 
-export function coupontype_update(type) {
+export const coupontype_update = (type) => {
   return http.requestPut(apiUrl +"/marketing/coupon_type", type);
 }
 
-export function coupontype_info(id) {
+export const coupontype_info = (id) => {
   return http.requestQuickGet(apiUrl + "/marketing/coupon_type/" +id)
 }
 //门户中需要使用到的方法
@@ -195,4 +195,14 @@ export const receive_coupon = (userCouponRequest) => {
 
 export const coupon_cdetail = (id) => {
   return http.requestQuickGet(apiUrl + "/marketing/coupon/cdetail/" + id)
+}
+
+//统计数据
+
+export const coupon_statistics = (id) => {
+  return http.requestQuickGet(apiUrl + "/marketing/coupon/statistics/" +id)
+}
+
+export const coupon_used_statistics = (id) =>{
+  return http.requestQuickGet( apiUrl + "/marketing/coupon/user/used/statistics/" + id)
 }

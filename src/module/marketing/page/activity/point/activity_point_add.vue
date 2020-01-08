@@ -8,18 +8,21 @@
     </el-button>
     <el-card class="card">
       <el-form :model="activityRequest" style="margin-top: 20px;" label-width="150px" ref="pointAddForm">
-        <el-form-item label="活动类型" prop="type">
+        <el-form-item label="活动类型" prop="activity.typeId">
           <el-select v-model="activityRequest.activity.typeId" placeholder="请选择活动类型">
             <el-option label="签到"     value="4_4_0"></el-option>
             <el-option label="送积分"     value="5_4_0"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="活动名称" prop="title" >
+        <el-form-item label="活动名称" prop="activity.title" >
           <el-input v-model="activityRequest.activity.title"></el-input>
         </el-form-item>
-        <el-form-item label="副标题" prop="subTitle">
+        <el-form-item label="副标题" prop="activity.subTitle">
           <el-input v-model="activityRequest.activity.subTitle"></el-input>
+        </el-form-item>
+        <el-form-item label="发放开始时间" prop="activity.releaseBeginTime">
+          <el-input v-model="activityRequest.activity.releaseBeginTime"></el-input>
         </el-form-item>
         <el-form-item label="活动起止时间">
           <el-col :span="8">
@@ -32,18 +35,18 @@
                             style="width: 100%;"></el-date-picker>
           </el-col>
         </el-form-item>
-        <el-form-item label="活动规则">
+        <el-form-item label="活动规则" prop="rule">
           <el-input type="textarea" :rows="2" v-model="activityRequest.activity.rule" placeholder="请填写活动规则"></el-input>
         </el-form-item>
-        <el-form-item label="优惠类型">
+        <el-form-item label="优惠类型" prop="type">
           <el-radio-group v-model="activityRequest.activityRule.type">
             <el-radio label="4">积分</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="积分设置">
+        <el-form-item label="积分设置" prop="point">
           <el-input v-model="activityRequest.activityRule.point" placeholder="为活动设置固定积分值"></el-input>
         </el-form-item>
-        <el-form-item label="积分描述">
+        <el-form-item label="积分描述" prop="pointDesc">
           <el-input v-model="activityRequest.activityRule.pointDesc"></el-input>
         </el-form-item>
       </el-form>

@@ -40,7 +40,7 @@
               {{scope.row.title}}
           </template>
         </el-table-column>
-        <el-table-column prop="releaseBeginTime" label="发放时间" sortable="custom" :formatter="formatTime" min-width="10%" align="center">
+        <el-table-column prop="releaseBeginTime" label="上线时间" sortable="custom" :formatter="formatTime" min-width="10%" align="center">
         </el-table-column>
         <el-table-column prop="beginTime" label="开始时间" sortable="custom" :formatter="formatTime" min-width="10%" align="center">
         </el-table-column>
@@ -214,5 +214,7 @@
 </script>
 
 <style scoped>
-
+  .del{
+    color: #f5354c;
+  }
 </style>

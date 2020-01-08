@@ -37,7 +37,7 @@
         </el-form-item>
         <el-form-item label="优惠类型">
           <el-radio-group v-model="activityRequest.activityRule.type">
-            <el-radio label="4">积分</el-radio>
+            <el-radio :label="4">积分</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="积分设置">
@@ -49,7 +49,7 @@
       </el-form>
       <div style="text-align: center">
         <el-button type="primary" @click="submit" style="margin-left: 20px">提交</el-button>
-        <el-button type="primary" @click="resetForm('pointUpdateForm')">重置</el-button>
+        <el-button type="primary" @click="resetForm">重置</el-button>
       </div>
     </el-card>
   </div>
@@ -62,6 +62,8 @@
         data() {
             return {
                 activityId: '',
+                oldActivity: {},
+                oldActivityRule: {},
                 activityRequest: {
                     activity: {
                         id: '',
@@ -77,11 +79,10 @@
                         description: ''
                     },
                     activityRule: {
-                        type: '4',
+                        type: 4,
                         point: '',
                         pointDesc: '',
                     },
-                    activityGoodsList: []
 
                 },
 
@@ -92,11 +93,15 @@
                 marketingApi.activity_all(this.activityId).then((res) => {
                     this.activityRequest.activity = res.activity;
                     this.activityRequest.activityRule = res.activityRule;
+                    this.oldActivity = res.activity;
+                    this.oldActivityRule = res.activityRule;
                 })
             },
             // 重置
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm() {
+                Object.assign(this.activityRequest.activity, this.oldActivity);
+                Object.assign(this.activityRequest.activityRule, this.oldActivityRule);
+                //this.$refs.[formName].resetFields();
             },
             //提交
             submit() {

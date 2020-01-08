@@ -1,37 +1,30 @@
 <template>
-    <div>
-      <el-button type="primary" size="medium" @click="addCouponType()" plain>添加优惠类型</el-button>
-      <el-card class="main_container">
+    <div class="wwlcantainer">
+      <!--1-->
+      <el-button type="primary" size="medium"  @click="addCouponType()" plain>添加优惠类型</el-button>
+      <el-card class="llwcard">
         <!--<ul class="infinite-list" :data="types">
           <li v-for="(type, index) in types" :key="type.id"  @click="toSeeDetail(activity.id)">
             {{type.usedType}}
           </li>
         </ul>-->
-        <el-collapse v-model="types">
-
-            <el-collapse-item  v-for="(type, index) in types" :key="index" :title="type.usedType">
+        <el-collapse v-model="types" >
+            <el-collapse-item  v-for="(type, index) in types" v-if="type != null" :key="index" :title="type.usedType">
               <span>
                 <div :data="type">
-                <span>规则:</span>
-               <!-- <el-divider></el-divider>-->
-                <div>
-                  {{type.rule}}
-                </div>
-
+                <div>规则:</div>
+                <div v-html="type.rule"></div>
               </div>
               </span>
               <span>
-
                 <el-button @click="del(type.id)" type="text" size="medium" class="del">删除</el-button>
                 <el-button @click="updateCouponType(type.id)" type="text" size="medium">修改</el-button>
-
               </span>
-
             </el-collapse-item>
-
         </el-collapse>
       </el-card>
-      <el-card v-if="show" >
+      <!--2-->
+      <el-card v-if="show">
         <el-form  :model="typeToDo" ref="typeForm">
             <el-form-item label="类型名称">
               <el-input v-model="typeToDo.usedType"></el-input>
@@ -49,11 +42,13 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="规则">
-            <el-input v-model="typeToDo.rule"></el-input>
+            <!--<el-input v-model="typeToDo.rule"></el-input>-->
+            <el-input type="textarea" v-model="typeToDo.rule"></el-input>
           </el-form-item>
           <el-form-item style="float: right">
-            <el-button type="primary" @click="submit">提交</el-button>
             <el-button type="primary" @click="cancel">取消</el-button>
+            <el-button type="primary" @click="submit">提交</el-button>
+
           </el-form-item>
         </el-form>
       </el-card>
@@ -101,7 +96,7 @@
             addCouponType(){
                 this.show = true;
                 this.isEdit = false;
-
+                this.typeToDo = {};
             },
             updateCouponType(id){
                 this.show = true;
@@ -157,6 +152,14 @@
 </script>
 
 <style scoped>
+  .wwlcantainer {
+    display: inline;
+  }
+  .llwcard {
+    width: 50%;
+    margin-top: 40px;
+    float: left;
+  }
   .del{
     color: #f5354c;
   }

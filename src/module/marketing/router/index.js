@@ -14,6 +14,8 @@ import activity_interactive_add from "@/module/marketing/page/activity/interacti
 import activity_interactice_info from "@/module/marketing/page/activity/interactiveActivity/activity_interactice_info";
 import activity_interactive_update from "@/module/marketing/page/activity/interactiveActivity/activity_interactive_update";
 import coupontype from "@/module/marketing/page/coupon/type/coupontype";
+import coupon_statistics from "@/module/marketing/page/coupon/statistics/coupon_statistics";
+import coupon_to_view from "@/module/marketing/page/coupon/statistics/coupon_to_view";
 
 export default [{
     path: '/',
@@ -38,6 +40,8 @@ export default [{
       {path:'/marketing/activity/interactive/info',name:'线上/线下活动详情',component: activity_interactice_info,hidden:true},
       {path:'/marketing/activity/interactive/update',name:'修改线上/线下活动',component: activity_interactive_update,hidden:true},
       {path:'/marketing/coupon/type',name:'优惠券类型',component: coupontype,hidden:false},
+      {path:'/marketing/coupon/statistics',name:'统计数据',component: coupon_statistics,hidden:true},
+      {path:'/marketing/coupon/user/used/statistics',name:'统计数据列表',component: coupon_to_view,hidden:false},
 
     ]
   }/*,

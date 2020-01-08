@@ -62,7 +62,7 @@
             </el-radio-group>
           </el-col>
           <el-col :span="18">
-            <span v-if="interactiveActivity.ifOnline === 'false'">
+            <span v-if="interactiveActivity.ifOnline === false">
               <el-input v-model="interactiveActivity.place"  style="margin-top: 10px"></el-input>
             </span>
           </el-col>

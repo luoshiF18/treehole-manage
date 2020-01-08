@@ -20,7 +20,8 @@
             :value="item.id">
           </el-option>
         </el-select>-->
-        <el-select v-model="form.usedType" placeholder="请选择优惠类型">
+
+        <el-select v-model="form.usedTypeId" placeholder="请选择优惠类型">
           <el-option
             v-for="item in types"
             :key="item.id"
@@ -51,7 +52,7 @@
       </el-form-item>
       <span v-if="isEdit==false">
         <el-form-item label="发放开始时间" prop="startTime">
-          <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择发放开始时间"></el-date-picker>
+          <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择发放开始时间" :picker-options="expireTimeOption"></el-date-picker>
         </el-form-item>
       </span>
       <span v-else>
@@ -61,7 +62,7 @@
       </span>
       <span v-if="isEdit==false">
         <el-form-item label="发放结束时间" prop="endTime">
-          <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择发放结束时间"></el-date-picker>
+          <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择发放结束时间" :picker-options="expireTimeOption"></el-date-picker>
         </el-form-item>
       </span>
       <span v-else>
@@ -107,7 +108,7 @@
           <el-col :span="1">至</el-col>
           <el-col :span="11">
             <el-date-picker v-model="form.validEndTime" type="datetime" placeholder="选择使用结束时间"
-                            style="width: 100%;"></el-date-picker>
+                            style="width: 100%;" :picker-options="expireTimeOption"></el-date-picker>
           </el-col>
         </el-form-item>
       </div>
@@ -211,12 +212,13 @@
             };
             return {
                 types: [],  //优惠券类型-所有
+                //typeAll: [],
                 form: {
                     title: '',
                     icon: '',
                     type: '',
                     typeName: '',
-                    usedType: '',
+                    usedTypeId: '',
                     usedTypeName: '',
                     withSpecial: '',
                     withAmount: '',
@@ -252,7 +254,12 @@
                     /*limitNum: [{validator: checkWithAmount, required: true, trigger: 'blur'}],*/
 
 
-                }
+                },
+                expireTimeOption: {
+                    disabledDate(date) { //disabledDate 文档上：设置禁用状态，参数为当前日期，要求返回 Boolean
+                        return date.getTime() < Date.now();
+                    }
+                },
             }
 
         },
@@ -296,7 +303,7 @@
                 if (!this.isEdit) {
                     // 重置表单
                     this.$refs.couponForm.resetFields();
-                } else {
+                } else {  //修改     展示被修改的coupon的数据
                     Object.assign(this.form, this.oldCoupon);
                 }
 
@@ -313,7 +320,7 @@
                         icon: '',
                         type: '',
                         typeName: '',
-                        usedType: '',
+                        usedTypeId: '',
                         usedTypeName: '',
                         withSpecial: false,
                         withAmount: '',
@@ -333,14 +340,14 @@
             //时效的改变，
             changeValidType(val) {//修改了时效类型，则修改对应的时间
 
-                if (this.isEdit) {  //修改请求， 切换时效类型，显示的时间是以前的时间
+                if (this.isEdit) {  //修改请求， 切换时效类型，
                     let oldVal = this.oldCoupon.validType;
                     //alert("val="+val +"oldVal="+oldVal+"typeofval"+typeof(val)+"another"+typeof(oldVal));
-                    if (val == oldVal) {
+                    if (val == oldVal) {//和被修改的coupon的类型一样，显示的时间数据是被修改的优惠券的时间数据
                         this.form.validEndTime = this.oldCoupon.validEndTime;
                         this.form.validStartTime = this.oldCoupon.validStartTime;
                         this.form.validDays = this.oldCoupon.validDays;
-                    } else {
+                    } else {   //和被修改的coupon的类型不一样，需为null，让用户输入
                         //alert("val="+val +"oldVal="+oldVal+"typeofval"+typeof(val)+"another"+typeof(oldVal));
                         if (val == true) {
                             this.form.validDays = null;
@@ -349,7 +356,7 @@
                             this.form.validEndTime = null;
                         }
                     }
-                } else {//新增优惠券，只要切换为某种类型，另一种类型对应的数据设为null，
+                } else {//新增优惠券，只要时效切换为某种类型，另一种类型对应的数据设为null，
                     //alert("val="+val +"typeofval"+typeof(val));
                     if (val == true) {
                         this.form.validDays = null;
@@ -360,10 +367,12 @@
                 }
 
             },
+            //得到优惠类型
             getUsedTypeFromServer() {
                 marketingApi.couponType_all().then((res) => {
                     if(res.success){
                         this.types = res.queryResult.list;
+
                     }
                 })
             }

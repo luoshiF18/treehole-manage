@@ -3,6 +3,7 @@
     <div>
       <el-steps :active="active" finish-status="success" simple>
         <el-step title="基本信息"></el-step>
+        <el-step title="活动描述"></el-step>
         <el-step title="活动规则"></el-step>
         <el-step title="选择商品"></el-step>
       </el-steps>
@@ -47,6 +48,11 @@
 
       </div>
       <div v-if="active === 1">
+        <el-form :model="activityRequest.activity">
+          <v-editor v-model="activityRequest.activity.description"/>
+        </el-form>
+      </div>
+      <div v-if="active === 2">
         <el-card>
 
           <el-form :model="activityRequest.activityRule" style="margin-top: 20px;" label-width="150px">
@@ -94,7 +100,7 @@
           </el-form>
         </el-card>
       </div>
-      <div v-if="active === 2">
+      <div v-if="active === 3">
         <el-card>
           <el-form  style="margin-top: 20px;" label-width="150px" :model="res">
             <el-form-item label="商品类型">
@@ -176,9 +182,9 @@
 
 
       <div class="deployBtn">
-        <el-button style="margin-top:  12px;" @click="prev" v-if="active==1||active==2">上一步</el-button>
-        <el-button style="margin-top:  12px;" @click="next" v-if="active==0||active==1">下一步</el-button>
-        <el-button v-if="active==2" @click="submit">提交</el-button>
+        <el-button style="margin-top:  12px;" @click="prev" v-if="active==1||active==2 ||active==3">上一步</el-button>
+        <el-button style="margin-top:  12px;" @click="next" v-if="active==0||active==1 || active==2">下一步</el-button>
+        <el-button v-if="active==3" @click="submit">提交</el-button>
       </div>
     </div>
 
@@ -188,6 +194,7 @@
 
 <script>
     import * as marketingApi from '../../api/marketing'
+    import vEditor from '../../components/Editor'
     export default {
         name: "activity_update",
         data() {
@@ -256,6 +263,7 @@
                         //    解析响应内容
                         if (res.success) {
                             this.$message.success('提交成功！');
+                            this.go_back();
                             //进行下一步，添加问题和选项
                         } else {
                             this.$message.error(res.message);
@@ -268,11 +276,14 @@
                   this.activityRequest.activity = res.activity;
                   this.activityRequest.activityRule = res.activityRule;
                   this.activityRequest.activityGoodsList = res.activityGoodsList;
-                  for (let i = 0; i < this.activityRequest.activityGoodsList.length; i++) {
-                      let goods= this.activityRequest.activityGoodsList[i];
-                      delete goods.id;
-                      delete goods.activityId;
+                  if(res.activityGoodsList != null){
+                      for (let i = 0; i < this.activityRequest.activityGoodsList.length; i++) {
+                          let goods= this.activityRequest.activityGoodsList[i];
+                          delete goods.id;
+                          delete goods.activityId;
+                      }
                   }
+
 
               })
             },
@@ -297,8 +308,13 @@
             turnToGoods() {
                 if(this.res.resTypes == "1"){
                     if(this.multipleSelection.length>0){
+                        let goodsList = [];
+                        if(this.activityRequest.activityGoodsList != null){
+                            goodsList = this.activityRequest.activityGoodsList.reverse();//为了实现新增加数据的在上面
+                        } else {
+                            goodsList = [];
+                        }
 
-                        const goodsList = this.activityRequest.activityGoodsList.reverse();//为了实现新增加数据的在上面
                         let lists = [];
                         for (let i = 0; i < this.multipleSelection.length; i++) {
                             let scale= this.multipleSelection[i];
@@ -351,7 +367,7 @@
                 if(this.active < 0) this.active = 0;
             },
             next() {
-                if(this.active++ > 2) this.active = 0;
+                if(this.active++ > 3) this.active = 0;
             },
             //商品类型
             formatResType(row, column){
@@ -363,6 +379,16 @@
                 } else if(resType == "3"){
                     return "咨询";
                 }
+            },
+            // 返回
+            go_back:function () {
+                // 获取当前路由
+                this.$router.push({
+                    path:'/marketing/activity/page/list',
+                    query:{
+
+                    }
+                })
             },
         },
         created() {
@@ -384,6 +410,9 @@
 
                 }
             },
+        },
+        components: {
+            vEditor
         }
 
     }
