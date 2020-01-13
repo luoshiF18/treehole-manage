@@ -14,8 +14,12 @@
                  router
                  v-show="!collapsed"
                  background-color="#EFEFF4">-->
-        <el-menu router unique-opened default-active="1">
+        <el-scrollbar
+          wrapClass="scrollbar-wrap"
+          style="height: 100%"
+          ref="scrollbarContainer">
 
+        <el-menu router unique-opened default-active="1" >
           <el-submenu index="1">
             <template slot="title">量表管理</template>
             <el-menu-item-group>
@@ -55,7 +59,7 @@
           <el-submenu index="5">
             <template slot="title"><span>档案管理</span></template>
             <el-menu-item-group>
-              <el-menu-item index="/archives/page/List">个人档案</el-menu-item>
+              <el-menu-item index="/archives/page/userArchivesList">个人档案</el-menu-item>
               <el-menu-item index="/archives/page/UserList">用户档案</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -107,7 +111,7 @@
           </el-submenu>
 
           <el-submenu index="8">
-            <template slot="title"><span>心理咨询师管理</span></template>
+            <template slot="title"><span>心理咨询师信息管理</span></template>
             <el-submenu index="8-1">
               <template slot="title">信息列表</template>
               <el-menu-item index="/psychologist/profile/list">简介信息列表</el-menu-item>
@@ -142,10 +146,8 @@
               <el-menu-item index="/marketing/extension/list">推广列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
-
         </el-menu>
-
+        </el-scrollbar>
         <!--导航菜单-折叠后-->
 
 </aside>
@@ -181,6 +183,7 @@
       return {
         collapsed: false,
         sysUserName: '',
+          scrollHeight:'0px',
         sysUserAvatar: '/static/images/small.jpg',
         form: {
           name: '',
@@ -198,6 +201,7 @@
       onSubmit() {
         console.log('submit!');
       },
+
       handleopen() {
         //console.log('handleopen');
       },
@@ -217,7 +221,10 @@
     },
     created() {
       console.log(this.$router.options.routes)
-    }
+    },
+      mounted(){
+         // this.scrollHeight = window.innerHeight*0.7 + 'px';
+      }
   }
 
 </script>

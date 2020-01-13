@@ -71,18 +71,16 @@
                     if(res.success){
                       this.$message('登陆成功');
                       //刷新 当前页面
-                      // alert(this.returnUrl)
-                      // console.log(this.returnUrl)
-                      // if(this.returnUrl!='undefined' && this.returnUrl!=''
-                      //   && !this.returnUrl.includes("/userlogout")
-                      //   && !this.returnUrl.includes("/userlogin")){
-                      //
-                      //   window.location.href = this.returnUrl;
-                      // }else{
-                      //   //跳转到首页
-                      //   window.location.href = 'http://www.xuecheng.com/'
-                      // }
-                      this.$router.push('/scale/page/list');
+                       console.log(this.returnUrl)
+                       if(this.returnUrl!='undefined' && this.returnUrl!=''
+                         && !this.returnUrl.includes("/userlogout")
+                         && !this.returnUrl.includes("/userlogin")){
+                         window.location.href = this.returnUrl;
+                       }
+                    else {
+                           this.$router.push('/scale/page/list');
+                       }
+
 
                     }else{
                       if(res.message){

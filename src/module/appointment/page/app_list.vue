@@ -26,25 +26,21 @@
       </el-table-column>
       <el-table-column prop="id" label="订单ID" width="120" align="center">
       </el-table-column>
-      <el-table-column prop="userId" label="用户ID" width="80" align="center">
+      <el-table-column prop="userId" label="用户ID" width="120" align="center">
       </el-table-column>
-      <el-table-column prop="cltId" label="咨询师ID" width="80" align="center">
+      <el-table-column prop="cltId" label="咨询师ID" width="120" align="center">
       </el-table-column>
-      <el-table-column prop="appDate" label="预约日期" width="120" align="center" :formatter="formatAppDate">
-      </el-table-column>
-      <el-table-column prop="appStartTime" label="开始时间" width="80" align="center">
-      </el-table-column>
-      <el-table-column prop="appEndTime" label="结束时间" width="80" align="center">
+      <el-table-column prop="appDate" label="预约时间" width="110" align="center" :formatter="dateFormat">
       </el-table-column>
       <el-table-column prop="appMode" label="咨询方式" width="80" align="center">
       </el-table-column>
       <el-table-column prop="appPrice" label="价格" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="appNote" label="备注" width="80" align="center">
+      <el-table-column prop="appNote" label="备注" width="120" align="center">
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="110" align="center" :formatter="formatCreatetime">
+      <el-table-column prop="createTime" label="创建时间" width="110" align="center" :formatter="dateFormat">
       </el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" width="110" align="center" :formatter="formatUpdateTime">
+      <el-table-column prop="updateTime" label="更新时间" width="110" align="center" :formatter="dateFormat">
       </el-table-column>
       <el-table-column prop="appStatus" label="状态" width="80" align="center">
       </el-table-column>
@@ -82,8 +78,7 @@
 </template>
 <script>
   import * as cmsApi from '../api/appointment';
-  import utilApi from '@/common/utils';
-
+  import moment from 'moment'
   export default {
     data() {
       return {
@@ -110,26 +105,17 @@
       }
     },
     methods:{
-      // 预约日期格式化
-      formatAppDate(row, column){
-        var date = new Date(row.appDate);
-        if (date) {
-          return utilApi.formatDate(date, 'yyyy-MM-dd');
+      //编写日期格式化的方法
+      dateFormat:function (row,column) {
+
+        const date=row[column.property]
+        if(date == null){
+          return null
         }
-      },
-      // 创建时间格式化
-      formatCreatetime(row, column){
-        var date = new Date(row.createTime);
-        if (date) {
-          return utilApi.formatDate(date, 'yyyy-MM-dd hh:mm:ss');
+        if(date==undefined){
+          return''
         }
-      },
-      // 更新时间格式化
-      formatUpdateTime(row, column){
-        var date = new Date(row.updateTime);
-        if (date) {
-          return utilApi.formatDate(date, 'yyyy-MM-dd hh:mm:ss');
-        }
+        return moment(date).format("YYYY-MM-DD  HH:mm:ss")
       },
       //查询预约订单列表
       queryList:function () {

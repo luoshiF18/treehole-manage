@@ -44,11 +44,15 @@
       </el-button>
     </el-form>
     <!--数据列表 | 底部分页-->
-    <el-card  class="margin">
+    <el-card  class="margin" >
       <el-table :data="list"
-                style="width: 100%; margin-top: 20px;margin-left: 20px;height:50%"
+                height="420"
                 v-loading="loading"
                 :default-sort = "{prop: 'user_createtime', order: 'descending'}">
+        <template  slot="empty" >
+          <div>暂无数据
+          </div>
+        </template>
         <!--数据详情列表 fixed-->
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -98,7 +102,7 @@
                          fixed
                          align="center"
                          label="卡ID"
-                         width="150">
+                         width="200">
         </el-table-column>
         <el-table-column prop="user_nickname"
                          fixed
@@ -106,11 +110,6 @@
                          label="昵称"
                          width="150">
         </el-table-column>
-        <!--<el-table-column prop="user_id"
-                         align="center"
-                         label="用户ID"
-                         width="200">
-        </el-table-column>-->
         <el-table-column prop="paygrade"
                          align="center"
                          label="VIP等级"
@@ -188,10 +187,8 @@
     data() {
       return {
         loading: true,
-
         list: [],  // 数据
         total: 0,  //  数据总条数
-
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
@@ -208,13 +205,17 @@
         //1、调用js方法请求服务端页面查询接口  2、导入user.js
         userApi.page_cardslist(this.params.page, this.params.size, this.params).then((res) => {
           if (res.success) {
+            // 2）将res结果数据赋值给list数据模型对象
+            this.list = res.queryResult.list;
+            this.total = res.queryResult.total;
+            this.loading = false;
           } else {
-            this.$message.error(res.message)
+            this.list =[];
+            this.total =0;
+            this.loading = false;
+            //this.$message.error(res.message)
           }
-          // 2）将res结果数据赋值给list数据模型对象
-          this.list = res.queryResult.list;
-          this.total = res.queryResult.total;
-          this.loading = false;
+
         })
       },
 
@@ -308,7 +309,7 @@
       this.query();
     },
     // 监听查询信息
-   /* watch: {
+    watch: {
       params: { // 监视pagination属性的变化
         deep: true, // deep为true，会监视pagination的属性及属性中的对象属性变化
         handler() {// 变化后的回调函数，这里我们再次调用query即可
@@ -317,7 +318,7 @@
       },
       show: {
       }
-    }*/
+    }
   }
 </script>
 
@@ -334,8 +335,9 @@
     margin-bottom: 0;
     width: 23%;
   }
+
   .margin{
-    margin-top: 20px
+    margin-top: 10px
   }
   .del{
     color: #f5354c;

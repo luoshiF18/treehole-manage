@@ -6,49 +6,19 @@
       </el-form-item>
       <el-form-item label="用户ID :" prop="userId" >
         <el-input v-model="appointmentForm.userId" auto-complete="off" disabled></el-input>
-        <!--{{appointmentForm.userId}}-->
       </el-form-item>
       <el-form-item label="咨询师ID" prop="cltId">
         <el-input v-model="appointmentForm.cltId" auto-complete="off" disabled></el-input>
       </el-form-item>
-      <el-form-item label="预约日期" prop="appDate">
+      <el-form-item label="预约时间" prop="appDate">
         <el-date-picker
           v-model="appointmentForm.appDate"
           align="right"
-          type="date"
+          type="datetime"
           placeholder="请选择"
           :picker-options="checkDate">
         </el-date-picker>
       </el-form-item>
-      <el-row>
-        <el-col :span="4">
-          <el-form-item label="预约时间" prop="appStartTime">
-            <el-time-select
-              placeholder="开始时间"
-              v-model="appointmentForm.appStartTime"
-              :picker-options="{
-                start: '00:00',
-                step: '01:00',
-                end: '23:59',
-              }">
-            </el-time-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item label="----" prop="appEndTime">
-            <el-time-select
-              placeholder="结束时间"
-              v-model="appointmentForm.appEndTime"
-              :picker-options="{
-                start: '00:00',
-                step: '01:00',
-                end: '24:00',
-                minTime: appointmentForm.appStartTime
-              }">
-            </el-time-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
       </el-form-item>
       <el-form-item label="咨询方式" prop="appMode">
         <el-radio-group v-model="appointmentForm.appMode">
@@ -64,10 +34,10 @@
         <el-input type="textarea" v-model="appointmentForm.appNote"></el-input>
       </el-form-item>
       <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker type="datetime" v-model="appointmentForm.createTime"></el-date-picker>
+        <el-date-picker type="datetime" v-model="appointmentForm.createTime" disabled></el-date-picker>
       </el-form-item>
       <el-form-item label="更新时间" prop="updateTime">
-        <el-date-picker type="datetime" v-model="appointmentForm.updateTime"></el-date-picker>
+        <el-date-picker type="datetime" v-model="appointmentForm.updateTime" disabled></el-date-picker>
       </el-form-item>
       <el-form-item label="状态" prop="appStatus">
         <el-input v-model="appointmentForm.appStatus" auto-complete="off"></el-input>
@@ -102,7 +72,11 @@
           updateTime:'',
           appStatus:''
         },
-        checkDate: {}
+        checkDate: {
+          disabledDate(time) {
+            return time.getTime() < Date.now()- 8.64e7
+          }
+        }
       }
     },
     methods:{

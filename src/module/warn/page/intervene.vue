@@ -110,9 +110,6 @@
       <el-table-column align="center" prop="userName" label="用户名"></el-table-column>
       <el-table-column align="center" prop="user_name" label="姓名"></el-table-column>
       <el-table-column align="center" prop="gender" label="性别">
-        <template slot-scope="scope">
-          {{ scope.row.sex === 0 ? '男' : '女' }}
-        </template>
       </el-table-column>
       <el-table-column align="center" prop="user_phone" label="电话"  >
       </el-table-column>

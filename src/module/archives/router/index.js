@@ -1,7 +1,7 @@
 import Home from '@/module/home/page/home.vue';
 import archives_detail from '@/module/archives/page/archives_detail.vue';
-import alluser_list from '@/module/archives/page/alluser_list.vue';
 import userArchivesList from '@/module/archives/page/userArchivesList.vue';
+import alluser_list from '@/module/archives/page/alluser_list.vue';
 
 
 export default [{

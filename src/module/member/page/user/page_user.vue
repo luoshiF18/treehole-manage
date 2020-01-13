@@ -2,8 +2,7 @@
 <template>
   <div>
     <!--查询表单+新增-->
-    <h2></h2>
-    <el-form  :model="params">
+    <el-form  :model="params" class="margin">
       <el-select v-model="params.role_id"
                  clearable placeholder="角色"
                  filterable
@@ -59,10 +58,15 @@
     <!--数据列表 stripe 条纹  v-loading="loading" -->
     <el-card class="margin">
       <el-table :data="list"
-                style="width: 100%;height:50%"
+
+                height="420"
                 v-loading="loading"
                 v-on:sort-change="sort"
                 :default-sort = "{prop: 'user_createtime', order: 'descending'}">
+        <template  slot="empty" >
+          <div>暂无数据
+          </div>
+        </template>
         <!--数据详情列表 (fixed)-->
         <el-table-column type="expand">
           <template slot-scope="props" >
@@ -252,6 +256,7 @@
               label: '客服人员'
           }
         ],
+
         params: {  //  数据对象 这里和上面的查询表单做了双向绑定
           page: 1, //  当前页
           size: 6, //  每页显示数据的条数
@@ -275,12 +280,19 @@
       //页面查询(nickName|phone|user_id)
       query: function () {
         //1、调用js方法请求服务端页面查询接口  2、导入user.js  当前页|每页记录数|查询条件
-        userApi.user_list(this.params.page,this.params.size,this.params).then((res) => {
+        userApi.user_list(this.params.page, this.params.size, this.params).then((res) => {
           // 2）将res结果数据赋值给list数据模型对象
-          this.list = res.queryResult.list;
-          this.total = res.queryResult.total;
-          this.loading = false;
-        })
+          if (res.success) {
+            this.list = res.queryResult.list;
+            this.total = res.queryResult.total;
+            this.loading = false;
+          } else {
+            this.list =[];
+            this.total =0;
+            this.loading = false;
+          }
+
+        });
       },
 
       //页面删除
@@ -422,10 +434,11 @@
     margin-bottom: 0;
     width: 23%;
   }
+
   .del {
     color: #f5354c;
   }
   .margin{
-    margin-top: 20px
+    margin-top: 10px
   }
 </style>

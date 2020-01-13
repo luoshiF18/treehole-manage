@@ -51,9 +51,13 @@
     <el-card class="margin">
       <el-table :data="list"
                  v-loading="loading"
-                 style="width: 100%; margin-top: 20px;margin-left: 20px;height:50%"
+                 style="width: 100%;height:350px"
                  height="420"
                  :default-sort="{prop: 'user_createtime', order: 'descending'}">
+        <template  slot="empty" >
+          <div>暂无数据
+          </div>
+        </template>
         <!--数据详情列表-->
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -163,10 +167,17 @@
         /*this表示当前vue实例；res 整个response
          1）服务端返回成功就调用then方法*/
         userApi.user_grade(this.params.page, this.params.size,this.params).then((res) => { //当前页|每页记录数|查询条件
-          // 2）将res结果数据赋值给list数据模型对象
-          this.list = res.queryResult.list;
-          this.total = res.queryResult.total;
-          this.loading = false;
+          if (res.success) {
+            // 2）将res结果数据赋值给list数据模型对象
+            this.list = res.queryResult.list;
+            this.total = res.queryResult.total;
+            this.loading = false;
+          } else {
+            this.list =[];
+            this.total =0;
+            this.loading = false;
+            //this.$message.error(res.message)
+          }
         })
       },
       //当前页码改变时触发的事件 @current-change="changePage"
@@ -262,7 +273,7 @@
     width: 40%;
   }
   .margin{
-    margin-top: 20px;
+    margin-top: 10px;
   }
   .del{
     color: #f5354c;

@@ -38,7 +38,7 @@
               @click="edit(scope.row.serv_id)">编辑
             </el-button>&ndash;&gt;
           </template>-->
-        </el-table-column>
+       <!-- </el-table-column>-->
         <el-table-column label="删除" width="80">
           <template slot-scope="scope">
 
@@ -83,9 +83,6 @@
           reply_creater:'',
           category:''
         }
-
-
-
 
 
       }

@@ -230,6 +230,7 @@
             },
             // 进行下一步，得分描述添加
             saveAndNext: function () {
+                console.log(this.scaleId)
                 this.$confirm('确认选项已添加完成，进行得分描述添加吗？', '提示', {}).then(() => {
                     scaleApi.scale_handleSkip(this.scaleId).then((res) => {
                         //    解析响应内容

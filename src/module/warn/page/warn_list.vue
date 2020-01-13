@@ -6,8 +6,7 @@
         <el-date-picker
           v-model="params.date"
           type="daterange"
-          format="yyyy 年 MM 月 dd 日"
-          value-format="yyyy-MM-dd"
+
           align="right"
           unlink-panels
           range-separator="至"
@@ -40,6 +39,7 @@
       v-loading="loading"
       :data="list"
       border
+      ref="list"
       style="width: 100%"
       class="el-row"
       @selection-change="handleSelectionChange"
@@ -53,7 +53,7 @@
       <el-table-column align="center" prop="userName" label="姓名"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别">
         <template slot-scope="scope">
-          {{ scope.row.sex === 0 ? '男' : '女' }}
+          {{ scope.row.sex === '0' ? '男' : '女' }}
         </template>
       </el-table-column>
       <el-table-column align="center" prop="scaleName" label="量表名称"></el-table-column>
@@ -92,6 +92,25 @@
       size="danger" type="mini"
       @click="delMore()">批量删除
     </el-button>
+      <el-button type="primary" size="mini" @click="outerVisible = true">发送预警信息</el-button>
+    <el-button type="primary" size="mini" @click="toggleSelection">取消选择</el-button>
+    <el-dialog title="请选择发送方式" :visible.sync="outerVisible">
+      <el-dialog
+        width="30%"
+        :visible.sync="innerVisible"
+        append-to-body>
+        <el-form  :model="warnMsg" ref="warnMsg" :rules="rules" >
+          <el-form-item label="邮箱地址：" prop="email" :label-width="formLabelWidth" >
+            <el-input v-model="warnMsg.to" @blur="forEmail" placeholder="请输入正确的邮箱地址"></el-input>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" @click="sendEmail" round>发送</el-button>
+      </el-dialog>
+      <div >
+        <el-button type="primary" @click="sendMessage">站内消息通知</el-button>
+        <el-button type="primary" @click="emailFormat">邮件通知（不支持批量发送）</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -114,6 +133,10 @@
                     recordTime:'',
                     status:''
                 },
+                dialogFormVisible: false,
+                formLabelWidth: '130px',
+                outerVisible: false,
+                innerVisible: false,
                 params: {
                     page: 1,
                     size: 10,
@@ -124,6 +147,19 @@
                     endTime: '',
                     date: '',
                 },
+                warnMsg:{
+                    warningId:[],
+                    to:'',
+                    userId:'',
+                    message:''
+                },
+                rules: {
+                    email: {
+                        required: true,//是否必填
+                        message: '请填写电子邮箱', trigger: 'blur'
+                    }
+                },
+                innerVisible: false,
                 loading: true,
                 delarr: [], //存放删除的数据
                 multipleSelection: [], //多选的数据
@@ -154,11 +190,23 @@
                         }
                     }]
                 },
+
             };
 
 
         },
         methods: {
+            //前台校验邮箱格式
+            forEmail:function() {
+                var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+                if (this.warnMsg.to != '' && !regEmail.test(this.warnMsg.to)) {
+                    this.$message({
+                        message: '邮箱格式不正确',
+                        type: 'error'
+                    })
+                    this.warnMsg.to = ''
+                }
+            },
             query: function () {
                 //查询页面列表
                 warnApi.page_list(this.params.page, this.params.size).then((res) => {
@@ -217,6 +265,87 @@
                     this.total = res.queryResult.total;
                 })
             },
+            //站内发送预警信息
+            sendMessage:function(){
+                //判断有没有行号传入
+                const length = this.multipleSelection.length;
+                for (let i = 0; i < length; i++) {
+                    this.warnMsg.warningId.push(this.multipleSelection[i].id);
+                }
+                if(this.warnMsg.warningId==null||this.warnMsg.warningId=='')
+                    alert("请选择您要发送的用户！")
+                else {
+                    //将所选的用户的id传到后台
+                    this.$confirm('您确定发送吗?', '提示', {}).then(() => {
+                        //调用服务端接口
+                        warnApi.sendMessage(this.warnMsg).then((res) => {
+                            if (res.success) {
+                                this.$message.success('发送成功，用户登录后可查看')
+                                //刷新页面
+                                this.query();
+                            } else {
+                                this.$message.error('发送失败！')
+                            }
+                        })
+                    })
+                }
+            },
+            //选择框，取消多选
+            toggleSelection() {
+                    this.$refs.list.clearSelection();
+                    this.multipleSelection=[]
+            },
+            //校验用户邮箱
+            emailFormat:function(){
+                //得到userId
+                this.warnMsg.userId=this.multipleSelection[0].userId
+                this.warnMsg.to='' //清空dom
+                if(this.warnMsg.userId==null||this.warnMsg.userId=='')
+                    alert("请选择一个要发送的用户")
+                else if(this.multipleSelection.length>1){
+                    alert("邮件发送只能选择一个用户！")
+                }
+                else {
+                    this.innerVisible = true;
+                    warnApi.emilFormat(this.warnMsg).then((res) => {
+                        if (res == null || res == '') {
+                            this.$message.error('该用户邮箱格式错误，请重新填写！')
+                        } else {
+                            this.$message.success('请确认邮箱地址是否正确！')
+                            this.warnMsg.to = res
+                          //  this.toggleSelection() //清除所有的勾选项
+                        }
+                    })
+                }
+            },
+            //发送邮件
+            sendEmail:function(){
+                //得到WarningId
+                const length = this.multipleSelection.length;
+                for (let i = 0; i < length; i++) {
+                    this.warnMsg.warningId.push(this.multipleSelection[i].id);
+                }
+                this.$confirm('您确定发送吗?', '提示', {}).then(() => {
+                    //调用服务端接口
+                    warnApi.sendEmail(this.warnMsg).then((res) => {
+                        if (res.success) {
+                            this.$message.success('已成功发送到用户邮箱！')
+                            //刷新页面
+                            this.query();
+                        }
+                        else {
+                            this.$message.error('发送失败，请重试！')
+                            //刷新页面
+                            this.query();
+                        }
+                    }).catch((e) =>{this.$message.success('已成功发送到用户邮箱！')
+                        //刷新页面
+                        this.query();
+                        this.innerVisible = false;
+                        this.outerVisible=false;
+                    });
+                })
+            },
             //批量删除
             delMore: function () {
                 const length = this.multipleSelection.length;
@@ -237,7 +366,7 @@
                     })
                 })
             },
-            //批量删除得到行号
+            //批量删除得到行数据
             handleSelectionChange(val) {
                 this.multipleSelection = val;
             },
@@ -250,6 +379,8 @@
                 }
                 return moment(date).format("YYYY-MM-DD")
             },
+
+
         },
 
         mounted() {

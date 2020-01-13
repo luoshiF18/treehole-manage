@@ -41,7 +41,7 @@
         sysName: '系统管理中心',
         user:{
           userid:'',
-          username: '小任',
+          username: '',
           userimg: ''
         },
         logined:true,
