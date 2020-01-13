@@ -111,7 +111,7 @@
           </el-submenu>
 
           <el-submenu index="8">
-            <template slot="title"><span>心理咨询师信息管理</span></template>
+            <template slot="title"><span>心理咨询师管理</span></template>
             <el-submenu index="8-1">
               <template slot="title">信息列表</template>
               <el-menu-item index="/psychologist/profile/list">简介信息列表</el-menu-item>
