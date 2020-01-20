@@ -20,14 +20,14 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="suggestion_id" label="建议ID" width="180"></el-table-column>
-      <el-table-column prop="description" label="病情描述" width="200"></el-table-column>
-      <el-table-column prop="suggestion_info" label="建议信息" width="200"></el-table-column>
-      <el-table-column prop="psychotherapy" label="心理治疗" width="200"></el-table-column>
-      <el-table-column prop="physicotherapy" label="物理治疗" width="200"></el-table-column>
-      <el-table-column prop="warning" label="预警等级" width="180"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="160" :formatter="dateFormat"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="160" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="suggestion_id" label="建议ID" align="center"></el-table-column>
+      <el-table-column prop="description" label="病情描述" align="center"></el-table-column>
+      <el-table-column prop="suggestion_info" label="建议信息" align="center"></el-table-column>
+      <el-table-column prop="psychotherapy" label="心理治疗" align="center"></el-table-column>
+      <el-table-column prop="physicotherapy" label="物理治疗" align="center"></el-table-column>
+      <el-table-column prop="warning" label="预警等级" align="center"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" align="center" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.suggestion_id)" icon="el-icon-edit">编辑</el-button>

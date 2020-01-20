@@ -20,16 +20,16 @@
     </el-form>
     <!--数据列表-->
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column prop="order_id" label="订单ID" width="160"></el-table-column>
-      <el-table-column prop="consultation_id" label="咨询记录ID" width="160"></el-table-column>
-      <el-table-column prop="user_id" label="用户ID" width="160"></el-table-column>
-      <el-table-column prop="user_nickname" label="用户昵称" width="100"></el-table-column>
-      <el-table-column prop="psychologist_id" label="咨询师ID" width="160"></el-table-column>
-      <el-table-column prop="psychologist_name" label="咨询师姓名" width="100"></el-table-column>
-      <el-table-column prop="comment_type" label="评价类型" width="110"></el-table-column>
-      <el-table-column prop="comment_content" label="评价内容" width="220"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="160" :formatter="dateFormat"></el-table-column>
-      <el-table-column prop="update_time" label="更新时间" width="160" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="order_id" label="订单ID" align="center"></el-table-column>
+      <el-table-column prop="consultation_id" label="咨询记录ID" align="center"></el-table-column>
+      <el-table-column prop="user_id" label="用户ID" align="center"></el-table-column>
+      <el-table-column prop="user_nickname" label="用户昵称" align="center"></el-table-column>
+      <el-table-column prop="psychologist_id" label="咨询师ID" align="center"></el-table-column>
+      <el-table-column prop="psychologist_name" label="咨询师姓名" align="center"></el-table-column>
+      <el-table-column prop="comment_type" label="评价类型" align="center"></el-table-column>
+      <el-table-column prop="comment_content" label="评价内容" align="center"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间" align="center" :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="update_time" label="更新时间" align="center" :formatter="dateFormat"></el-table-column>
       <el-table-column label="操作" width="140">
         <template slot-scope="page">
           <el-button size="small" type="text" @click="edit(page.row.comment_id)" icon="el-icon-edit">编辑</el-button>
