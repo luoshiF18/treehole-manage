@@ -126,7 +126,8 @@
             </el-submenu>
             <el-submenu index="8-3">
               <template slot="title">统计图表</template>
-              <el-menu-item index="/psychologist/total/list" >统计图表</el-menu-item>
+              <el-menu-item index="/psychologist/total/list" >累计好评量</el-menu-item>
+              <el-menu-item index="/psychologist/report/psychologist" >咨询师数量</el-menu-item>
             </el-submenu>
           </el-submenu>
           <el-submenu index="9">

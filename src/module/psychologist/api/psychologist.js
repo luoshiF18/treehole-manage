@@ -153,6 +153,16 @@ export const praises_get = () => {
   return http.requestQuickGet(apiUrl + '/psychologist/detail/get/praises')
 }
 
+//获取当前日期开始过去一年的每个月份
+export const month_get = () => {
+  return http.requestQuickGet(apiUrl + '/psychologist/detail/get/month')
+}
+
+//获取当前月份的咨询师人数
+export const number_get = () => {
+  return http.requestQuickGet(apiUrl + '/psychologist/detail/get/number')
+}
+
 
 
 

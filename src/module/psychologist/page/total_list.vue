@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h4>累计好评量</h4>
-    <!--为ECharts准备一个具备大（宽高）的DOM-->
+    <!--为ECharts准备一个具备大小（宽高）的DOM-->
     <div id="main" style="width: 100%;height:500px"></div>
   </div>
 </template>

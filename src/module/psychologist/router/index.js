@@ -16,6 +16,7 @@ import comment_list from '@/module/psychologist/page/comment_list.vue';
 import comment_edit from '@/module/psychologist/page/comment_edit.vue';
 import comment_add from '@/module/psychologist/page/comment_add.vue';
 import total_list from '@/module/psychologist/page/total_list.vue';
+import report_psychologist from '@/module/psychologist/page/report_psychologist.vue';
 
 
 export default [{
@@ -40,7 +41,8 @@ export default [{
     {path: '/psychologist/comment/list', name: '评价信息列表', component: comment_list, hidden: false},
     {path: '/psychologist/comment/edit/:comment_id', name: '修改评价信息', component: comment_edit, hidden: true},
     {path: '/psychologist/comment/add', name: '新增评价信息', component: comment_add, hidden: true},
-    {path: '/psychologist/total/list', name: '统计图表', component: total_list, hidden: false},
+    {path: '/psychologist/total/list', name: '咨询师所获好评数柱状图', component: total_list, hidden: false},
+    {path: '/psychologist/report/psychologist', name: '咨询师数量折线图', component: report_psychologist, hidden: false},
   ]
 }
 ]
