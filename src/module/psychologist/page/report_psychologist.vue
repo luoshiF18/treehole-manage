@@ -60,7 +60,7 @@
          //填入数据
          myChart.setOption({
            series: [{
-             name: '心理咨询师人数',
+             name: '咨询师数量',
              data: res
            }]
          })
