@@ -163,6 +163,16 @@ export const number_get = () => {
   return http.requestQuickGet(apiUrl + '/psychologist/detail/get/number')
 }
 
+//获取咨询师资质名
+export const qualificationNames_get = () => {
+  return http.requestQuickGet(apiUrl + '/psychologist/profile/get/qualificationNames')
+}
+
+//获取咨询师资质占比情况
+export const qualificationCount_get = () => {
+  return http.requestQuickGet(apiUrl + '/psychologist/profile/get/qualificationCount')
+}
+
 
 
 

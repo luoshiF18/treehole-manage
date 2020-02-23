@@ -9,14 +9,6 @@
   import * as psychologistApi from '../api/psychologist'
 
   export default {
-    data() {
-      return {
-        list: {
-          name: [],
-          data: []
-        }
-      }
-    },
     mounted() {
       //基于准备好的dom，初始化echarts实例
       var myChart = echarts.init(document.getElementById('main'));

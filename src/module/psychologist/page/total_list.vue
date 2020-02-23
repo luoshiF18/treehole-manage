@@ -6,23 +6,10 @@
 </template>
 
 <script>
+  import echarts from 'echarts'
   import * as psychologistApi from '../api/psychologist'
-  //引入 ECharts 主模块
-  var echarts = require('echarts/lib/echarts');
-  // 引入柱状图
-  require('echarts/lib/chart/bar');
-  // 引入提示框组件
-  require('echarts/lib/component/tooltip');
 
   export default {
-    data() {
-      return {
-        list: {
-          name: [],
-          data: []
-        }
-      }
-    },
     mounted() {
       //基于准备好的dom，初始化echarts实例
       var myChart = echarts.init(document.getElementById('main'));

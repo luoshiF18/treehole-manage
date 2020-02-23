@@ -17,6 +17,7 @@ import comment_edit from '@/module/psychologist/page/comment_edit.vue';
 import comment_add from '@/module/psychologist/page/comment_add.vue';
 import total_list from '@/module/psychologist/page/total_list.vue';
 import report_psychologist from '@/module/psychologist/page/report_psychologist.vue';
+import report_qualification from '@/module/psychologist/page/report_qualification.vue';
 
 
 export default [{
@@ -43,6 +44,7 @@ export default [{
     {path: '/psychologist/comment/add', name: '新增评价信息', component: comment_add, hidden: true},
     {path: '/psychologist/total/list', name: '咨询师所获好评数柱状图', component: total_list, hidden: false},
     {path: '/psychologist/report/psychologist', name: '咨询师数量折线图', component: report_psychologist, hidden: false},
+    {path: '/psychologist/report/qualification', name: '咨询师资质占比情况饼状图', component: report_qualification, hidden: false},
   ]
 }
 ]
