@@ -2,17 +2,11 @@
   <div>
     <el-card>
       <el-form :model="pagination">
-        <router-link tag="span" :to="{path:'/marketing/activity/interactive/add'}">
+       <!-- <router-link tag="span" :to="{path:'/marketing/activity/interactive/add'}">
           <el-button type="primary" size="medium" plain>添加活动</el-button>
-        </router-link>
+        </router-link>-->
         <!--<el-button type="primary" size="medium" plain>添加活动</el-button>-->
-
-        <div style="float: right; margin-right: 130px;">
-          <el-input clearable v-model="pagination.key" style="width:200px" placeholder="请输入活动名称">
-          </el-input>
-          <el-button v-on:click="getDataFromServer" icon="el-icon-search" round>查询</el-button>
-        </div>
-        <div style="float: right;margin-right: 10px">
+        <span style="float: left">
           <span>状态</span>
           <el-radio-group v-model="pagination.status">
             <el-radio-button label="">全部</el-radio-button>
@@ -20,7 +14,13 @@
             <el-radio-button label="2">进行中</el-radio-button>
             <el-radio-button label="0">已结束</el-radio-button>
           </el-radio-group>
-        </div>
+        </span>
+        <span style="float: left; margin-left: 10px;">
+          <el-input clearable v-model="pagination.key" style="width:200px" placeholder="请输入活动名称">
+          </el-input>
+          <el-button v-on:click="getDataFromServer" icon="el-icon-search" round>查询</el-button>
+        </span>
+
       </el-form>
       <el-table
         v-loading="loading"

@@ -13,10 +13,11 @@
 
             <span>活动标题：</span><span class="color" v-text="activity.title"></span><br>
             <span>活动副标题： </span><span class="color" v-text="activity.subTitle"></span><br>
-            <span>活动开始时间：</span><span class="color" v-text="activity.beginTime"></span><br>
+    <!--        <span>活动开始时间：</span><span class="color" v-text="activity.beginTime"></span><br>
 
-            <span>活动结束时间： </span><span class="color" v-text="activity.endTime"></span><br>
-
+            <span>活动结束时间： </span><span class="color" v-text="activity.endTime"></span><br>-->
+            <span>活动开始时间：</span><span class="color">{{activity.beginTime | dateFilter}}</span><br>
+            <span>活动结束时间： </span><span class="color">{{activity.endTime | dateFilter}}</span><br>
             <span>活动类型： </span><span class="color" v-text="activity.typeName"></span><br>
 
             <span>活动规则： </span><span class="color" v-text="activity.rule"></span><br>
@@ -46,8 +47,34 @@
           <!--  <div v-if="activityGoods.goodsMap['scaleId']">
               {{activityGoods.goodsMap['sacleId']}}
             </div>-->
+            <el-scrollbar style="height:100%">
+              <div style="height:400px;" >
+                 <div>
+              <el-table :data="activityGoodsList"
+                        style="width: 100%">
 
+                <el-table-column  prop="resType" label="资源类型" min-width="10%" align="center">
+                  <template scope="scope">
+                    <p v-if="scope.row.resType == '1'">量表
+                    </p>
 
+                  </template>
+                </el-table-column>
+                <el-table-column  prop="resName" label="资源名称" min-width="20%" align="center">
+                </el-table-column>
+                <el-table-column prop="price" label="原价格" min-width="10%" align="center">
+                </el-table-column>
+                <el-table-column prop="actualPrice" label="活动价格" min-width="10%" align="center">
+                  <template scope="scope">
+                    <p v-if="scope.row.actualPrice == null">以活动页面为准
+                    </p>
+                    <p e-else>{{scope.row.actualPrice}}</p>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+              </div>
+            </el-scrollbar>
           </el-tab-pane>
 
         </el-tabs>
@@ -87,6 +114,7 @@
                     beginTime: '',
                     endTime: '',
                     typeName: '',
+                    typeId: '',
                     images: '',
                     rule: '',
                     status: '',
@@ -103,21 +131,11 @@
                 },
                 activityGoodsList: [
                     {
-                        /*
-                          private String id;
-        private String activityId;
-        private Integer resType;
-        private String resId;
-        private String resName;
-        private String image;
-        private BigDecimal price;
-        private BigDecimal actualPrice;
-                        */
-                      /*  resType: '',
+                        resType: '',
                         resName: '',
                         image: '',
                         price: '',
-                        actualPrice: '',*/
+                        actualPrice: '',
                     }
                 ],
             }
@@ -143,9 +161,6 @@
                 marketingApi.activity_goods(this.activityId).then((res) => {
 
                     this.activityGoodsList = res;
-                    //alert(this.activityGoods);
-                    //alert(this.activityGoods.goodsMap)
-                    //alert(typeof(res.goods)+ JSON.stringify(res.goods))
                    // alert(res.goods)
                 })
             },
@@ -155,12 +170,41 @@
                         path: '/marketing/activity/point/list'
                     });
                 } else {
-                    this.$router.push({
-                        path: '/marketing/activity/page/list'
-                    });
+                    let typeId = this.activity.typeId;
+                    if(typeId == '1_1_1' ){
+                        this.$router.push({
+                            path:'/marketing/activity/page/list/1_1_1',
+                        });
+                    } else if(typeId == '2_2_1'){
+                        this.$router.push({
+                            path:'/marketing/activity/page/list/2_2_1',
+                        });
+                    }else if(typeId == '3_3_1'){
+                        this.$router.push({
+                            path:'/marketing/activity/page/list/3_3_1',
+                        });
+                    }
+
                 }
 
             },
+        },
+        filters: { //自定义私有过滤器 过滤器有两个条件 过滤器名称:处理函数
+            dateFilter: function (dateStr, pattern = "") {
+                var dt = new Date(dateStr)
+                //yyyy-mm-dd
+                var y = dt.getFullYear()
+                var m = dt.getMonth() + 1
+                var d = dt.getDate()
+                if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+                    return `${y}-${m}-${d}`
+                } else { // hh:mm:ss
+                    var hh = dt.getHours()
+                    var mm = dt.getMinutes()
+                    var ss = dt.getSeconds()
+                    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+                }
+            }
         },
         created() {
             //取出路由中的参数,赋值给数据对象

@@ -3,9 +3,9 @@
 
     <el-card >
       <el-form :model="pagination">
-        <router-link tag="span" :to="{path:'/marketing/extension/add'}">
+      <!--  <router-link tag="span" :to="{path:'/marketing/extension/add'}">
           <el-button type="primary" size="medium" plain>添加推广</el-button>
-        </router-link>
+        </router-link>-->
 <!--
         <div style="float: right;">
           <el-input clearable v-model="pagination.key" style="width:200px" placeholder="请输入">
@@ -32,15 +32,15 @@
           <div>暂无数据
           </div>
         </template>
-        <el-table-column fixed prop="modeName" label="推广方式"align="center" min-width="6%"></el-table-column>
+        <el-table-column prop="modeName" label="推广方式"align="center" min-width="6%"></el-table-column>
         <el-table-column prop="title" label="标题"align="center" min-width="10%"></el-table-column>
         <el-table-column prop="content" label="文本内容"align="center" min-width="20%" show-overflow-tooltip>
           <template slot-scope="scope">
             {{scope.row.content}}
           </template>
         </el-table-column>
-        <el-table-column prop="usedForStr" label="推广内容"align="center" min-width="6%"></el-table-column>
-        <el-table-column prop="usedForId" label="推广资源id" align="center" min-width="22%"></el-table-column>
+        <el-table-column prop="usedForStr" label="推广内容"align="center" min-width="7%"></el-table-column>
+        <el-table-column prop="usedForId" label="推广资源id" align="center" min-width="21%"></el-table-column>
         <el-table-column prop="count" label="预计发送"align="center" min-width="6%"></el-table-column>
       <!--  <el-table-column prop="succCount" label="成功发送"  align="center"></el-table-column>-->
 

@@ -1,9 +1,17 @@
 <template>
   <div>
     <el-button type="primary" icon="el-icon-back" @click="go_back">返回列表</el-button>
-    <span id="echarts_bar" style="width: 300px;height:400px;"></span>
+    <el-row>
+      <el-col :span="12">
+        <span id="echarts_bar" style="width: 300px;height:400px;"></span>
+      </el-col>
+      <el-col  :span="12">
+        <span id="echarts_pie" style="width: 500px;height:400px;"></span>
+      </el-col>
+    </el-row>
+
     <!-- 饼状图pie-->
-    <span id="echarts_pie" style="width: 500px;height:400px;"></span>
+
   </div>
 </template>
 
@@ -125,7 +133,7 @@
           },
           go_back() {
                this.$router.push({
-                   path: '/marketing/coupon/user/used/statistics'
+                   path: '/marketing/coupon/page/list'
                });
           }
 

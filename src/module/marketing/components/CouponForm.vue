@@ -414,13 +414,15 @@
             show: {  //没有提交，直接关闭dialog，则用户手动输入的数据恢复成原来的数据（新增：""，修改:
                 deep: false,
                 handler() {
-                    if (!this.show) {
+                    this.clear();
+                    this.init();
+                   /* if (!this.show) {
                         this.clear();
                     }
                     if(!this.show){
                         //如果不加这一段在编辑页面删掉了必填项（与表单验证不符，当打开同一个条信息的编辑，验证失败信息会出现，因为监听oldCoupon没有改变
                         this.init();
-                    }
+                    }*/
                 }
             }
         }

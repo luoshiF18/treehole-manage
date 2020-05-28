@@ -82,6 +82,8 @@
             <el-button @click="updateCoupon(scope.row)" type="text" size="medium">编辑</el-button>
             <el-button @click="updateStatusToFinished(scope.row.id)" type="text" size="medium">下架</el-button>
             <el-button @click="del(scope.row.id)" type="text" size="medium" class="del">删除</el-button>
+            <br>
+            <el-button @click="seeCouponData(scope.row.id)" type="text" size="medium">查看领取信息</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -213,6 +215,12 @@
                         });
                     });
                 });
+            },
+            //查看统计数据
+            seeCouponData(id){
+                this.$router.push({
+                    path: '/marketing/coupon/statistics?id='+id,
+                })
             },
             //排序
             sort: function (sort) {
